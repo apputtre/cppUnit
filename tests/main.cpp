@@ -5,28 +5,22 @@
 class WasRun
 {
 private:
-    std::string name;
+    void (WasRun::* func)();
     bool wasRun;
 
 public:
-
-    WasRun(const std::string& name)
-        : name{name}, wasRun{false}
+    WasRun(void (WasRun::* func)())
+        : func{func}, wasRun{false}
     {}
 
     void run()
     {
-        testMethod();
+        ((*this).*func)();
     }
 
     void testMethod()
     {
         wasRun = true;
-    }
-
-    std::string getName()
-    {
-        return name;
     }
 
     bool getWasRun()
@@ -35,9 +29,14 @@ public:
     }
 };
 
+void t()
+{
+
+}
+
 int main()
 {
-    WasRun test("testMethod");
+    WasRun test(&WasRun::testMethod);
     assert(test.getWasRun() == 0, "Class reports being run before it has been run");
     test.run();
     assert(test.getWasRun() == 1, "Class reports not being after it has been run");

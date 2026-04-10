@@ -43,17 +43,26 @@ public:
     }
 };
 
-void t()
+class TestCaseTest
 {
+public:
+    TestCaseTest()
+    {
+        testRunning();
+    }
 
-}
+    void testRunning()
+    {
+        WasRun test = WasRun(WasRun::testMethod);
+        assert(test.getWasRun() == 0, "Class reports being run before it has been run");
+        test.run();
+        assert(test.getWasRun() == 1, "Class reports not being after it has been run");
+    }
+};
 
 int main()
 {
-    WasRun test(&WasRun::testMethod);
-    assert(test.getWasRun() == 0, "Class reports being run before it has been run");
-    test.run();
-    assert(test.getWasRun() == 1, "Class reports not being after it has been run");
+    TestCaseTest testCaseTest;
 
     return 0;
 }

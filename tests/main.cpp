@@ -43,17 +43,17 @@ public:
     }
 };
 
-class TestCaseTest
+class TestCaseTest : public TestCase
 {
 public:
-    TestCaseTest()
+    TestCaseTest(void (WasRun::* func)()) : TestCase(func)
     {
         testRunning();
     }
 
     void testRunning()
     {
-        WasRun test = WasRun(WasRun::testMethod);
+        WasRun test = WasRun(func);
         assert(test.getWasRun() == 0, "Class reports being run before it has been run");
         test.run();
         assert(test.getWasRun() == 1, "Class reports not being after it has been run");
@@ -62,7 +62,7 @@ public:
 
 int main()
 {
-    TestCaseTest testCaseTest;
+    TestCaseTest test(WasRun::testMethod);
 
     return 0;
 }

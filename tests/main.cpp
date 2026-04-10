@@ -14,6 +14,11 @@ public:
         : name{name}, wasRun{false}
     {}
 
+    void run()
+    {
+        testMethod();
+    }
+
     void testMethod()
     {
         wasRun = true;
@@ -34,7 +39,7 @@ int main()
 {
     WasRun test("testMethod");
     assert(test.getWasRun() == 0, "Class reports being run before it has been run");
-    test.testMethod();
+    test.run();
     assert(test.getWasRun() == 1, "Class reports not being after it has been run");
 
     return 0;

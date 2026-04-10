@@ -2,21 +2,30 @@
 
 #include "test.h"
 
+class WasRun;
+
 class TestCase
 {
+protected:
+    void (WasRun::* func)();
 
+public:
+    TestCase(void (WasRun::* func)())
+        : func{func}
+    {}
 };
 
 class WasRun : public TestCase
 {
 private:
-    void (WasRun::* func)();
     bool wasRun;
 
 public:
-    WasRun(void (WasRun::* func)())
-        : func{func}, wasRun{false}
-    {}
+    WasRun(void (WasRun::* func)()) : TestCase(func),
+        wasRun{false}
+    {
+
+    }
 
     void run()
     {

@@ -2,7 +2,12 @@
 
 #include "test.h"
 
-class WasRun
+class TestCase
+{
+
+};
+
+class WasRun : public TestCase
 {
 private:
     void (WasRun::* func)();

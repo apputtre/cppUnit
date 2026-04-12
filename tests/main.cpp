@@ -4,12 +4,20 @@
 
 class TestCase
 {
-    public:
-        virtual void setUp();
-        virtual void tearDown();
+public:
+    bool run()
+    {
+        setUp();
+        bool result = test();
+        tearDown();
+        return result;
+    }
 
-        virtual bool test() = 0;
-    private:
+    virtual void setUp();
+    virtual void tearDown();
+
+    virtual bool test() = 0;
+private:
 };
 
 class TwoPlusTwoEqualsFive : public TestCase

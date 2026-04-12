@@ -12,6 +12,15 @@ class TestCase
     private:
 };
 
+class TestTestCase : TestCase
+{
+public:
+    bool run() override
+    {
+        return true;
+    }
+};
+
 int main()
 {
     std::cout << "Hello world\n";

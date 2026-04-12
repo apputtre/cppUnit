@@ -13,8 +13,8 @@ public:
         return result;
     }
 
-    virtual void setUp();
-    virtual void tearDown();
+    virtual void setUp() {}
+    virtual void tearDown() {}
 
     virtual bool test() = 0;
 private:
@@ -45,7 +45,7 @@ int main()
         TwoPlusTwoEqualsFive test;
 
         std::cout << "Running test 2+2=5?\n";
-        if (!test.test())
+        if (!test.run())
             std::cout << "Test failed\n";
         else
             std::cout << "Test passed\n";
@@ -55,7 +55,7 @@ int main()
         TwoPlusTwoEqualsFour test;
 
         std::cout << "Running test 2+2=4?\n";
-        if (!test.test())
+        if (!test.run())
             std::cout << "Test failed\n";
         else
             std::cout << "Test passed\n";    

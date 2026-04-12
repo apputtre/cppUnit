@@ -5,8 +5,8 @@
 class TestCase
 {
     public:
-        void setUp();
-        void tearDown();
+        virtual void setUp();
+        virtual void tearDown();
 
         virtual bool test() = 0;
     private:

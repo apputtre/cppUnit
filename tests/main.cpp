@@ -20,6 +20,20 @@ public:
 private:
 };
 
+class TestTestCase : public TestCase
+{
+public:
+    void setUp()
+    {
+        std::cout << "setUp called\n";
+    }
+
+    void tearDown()
+    {
+        std::cout << "tearDown called\n";
+    }
+};
+
 class TwoPlusTwoEqualsFive : public TestCase
 {
 public:

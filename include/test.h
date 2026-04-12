@@ -7,7 +7,6 @@
 #include <stdexcept>
 
 #define assert(statement, msg) test::assert_impl(__FILE__, __LINE__, statement, msg);
-#define assert_eq(x, y, msg) test::assert_impl(__FILE__, __LINE__, statement);
 
 namespace test
 {
@@ -20,13 +19,6 @@ namespace test
 	{
         if (!statement)
             report(file + ", line " + std::to_string(line) + ": " + msg);
-	}
-
-	template<typename X, typename Y>
-	void assert_eq_impl(std::string file, int line, X x, Y y)
-	{
-		if (x != y)
-			report(file + ", line " + std::to_string(line) + ": " + std::format("Equality assertion failed ({} != {})", x, y));
 	}
 }
 

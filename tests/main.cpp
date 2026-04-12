@@ -6,8 +6,9 @@ class TestCase
 {
     public:
         void setUp();
-        bool run();
         void tearDown();
+
+        virtual bool run() = 0;
     private:
 };
 

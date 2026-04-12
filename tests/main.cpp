@@ -23,7 +23,12 @@ public:
 
 int main()
 {
-    std::cout << "Hello world\n";
+    TestTestCase test;
+
+    if (test.run())
+        std::cout << "Test passed\n";
+    else
+        std::cout << "Test failed\n";
 
     return 0;
 }

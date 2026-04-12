@@ -34,7 +34,7 @@ public:
     }
 };
 
-class TwoPlusTwoEqualsFive : public TestCase
+class TwoPlusTwoEqualsFive : public TestTestCase
 {
 public:
     bool test() override
@@ -43,7 +43,7 @@ public:
     }
 };
 
-class TwoPlusTwoEqualsFour : public TestCase
+class TwoPlusTwoEqualsFour : public TestTestCase
 {
 public:
     bool test() override

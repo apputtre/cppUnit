@@ -72,6 +72,20 @@ public:
             passed = false;
     }
 
+    std::string getSummary()
+    {
+        std::stringstream summary;
+
+        summary << "Test suite " << suiteName << std::endl;
+
+        for (TestReport report : reports)
+            summary << report.getSummary() << std::endl;
+
+        summary.flush();
+
+        return summary.str();
+    }
+
     bool allTestsPassed()
     {
         return passed;

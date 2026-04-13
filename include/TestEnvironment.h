@@ -18,6 +18,11 @@ public:
         : suite_report{"Default"}
     {}
 
+    void beginSuite(const std::string& suite_name)
+    {
+        suite_reports.emplace_back(std::make_shared<TestSuiteReport>(suite_name));
+    }
+
     void beginTest(const std::string& test_name)
     {
         if (curr_test_report)

@@ -156,7 +156,7 @@ public:
 class TestSuite
 {
 private:
-    std::vector<TestCase*> tests;
+    std::vector<std::shared_ptr<TestCase>> tests;
 
 public:
     TestSuite() {};
@@ -164,16 +164,15 @@ public:
     template <typename T>
     void add(const T& test)
     {
-        T* t = new T(test);
-        this->tests.push_back(t);
+        this->tests.emplace_back(std::make_shared<T>(test));
     }
 
     bool run()
     {
         bool all_tests_passed = true;
 
-        for (TestCase* test_case_ptr : tests)
-            if (!test_case_ptr->run().testPassed())
+        for (std::shared_ptr<TestCase> test : tests)
+            if (!test->run().testPassed())
                 all_tests_passed = false;
         
         return all_tests_passed;

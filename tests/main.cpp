@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <format>
 
 struct TestReport
 {
@@ -31,8 +32,9 @@ public:
         else
             summary << "Test " << testName << " failed" << std::endl;
 
+        
         for (const std::string& entry : log)
-            summary << entry << std::endl;
+            summary << '\t' << entry << std::endl;
 
         summary.flush();
 
@@ -55,13 +57,14 @@ public:
 struct TestSuiteReport
 {
 private:
-    std::string suiteName;
+    std::string suite_name;
     bool passed = true;
     std::vector<TestReport> reports;
+    size_t num_failing_reports = 0;
 
 public:
     TestSuiteReport(const std::string& suiteName)
-        : suiteName{suiteName}
+        : suite_name{suiteName}
     {}
 
     void log(TestReport report)
@@ -69,17 +72,25 @@ public:
         reports.push_back(report);
 
         if (!report.testPassed())
+        {
             passed = false;
+            ++num_failing_reports;
+        }
     }
 
     std::string getSummary()
     {
         std::stringstream summary;
 
-        summary << "Test suite " << suiteName << std::endl;
+        summary << std::format("Test suite \"{}\" ({}/{} passing tests)", suite_name, reports.size() - num_failing_reports, reports.size()) << std::endl;
 
         for (TestReport report : reports)
-            summary << report.getSummary() << std::endl;
+        {
+            std::stringstream reportSummary(report.getSummary());
+
+            for (std::string line; !reportSummary.eof(); std::getline(reportSummary, line))
+                summary << '\t' << line << std::endl;
+        }
 
         summary.flush();
 
@@ -232,14 +243,11 @@ int main()
         suite.add(test1);
         suite.add(test2);
 
-        if (suite.run().allTestsPassed())
-            std::cout << "Test suite passed" << std::endl;
-        else
-            std::cout << "Test suite failed" << std::endl;
+        TestSuiteReport report = suite.run();
+
+        std::cout << report.getSummary() << std::endl;
 
         /*
-        std::cout << suite.getSummary() std::endl;
-
         suite.add("2+2=5?", []{assert(2 + 2 == 5, "Two plus two does not equal 5!";)});
         */
     }

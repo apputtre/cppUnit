@@ -158,10 +158,11 @@ class TestSuite
 private:
     std::vector<std::shared_ptr<TestCase>> tests;
     std::string name;
+    TestSuiteReport report;
 
 public:
     TestSuite(const std::string name)
-        : name{name}
+        : name{name}, report{name}
     {};
 
     template <typename T>

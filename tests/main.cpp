@@ -249,6 +249,9 @@ public:
 
     void beginTest(const std::string& test_name)
     {
+        if (current_test)
+            report.log(*current_test);
+
         current_test = std::make_unique<TestReport>(test_name);
     }
 

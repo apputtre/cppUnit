@@ -164,6 +164,8 @@ public:
     template <typename T>
     void add(const T& test)
     {
+        static_assert(std::is_base_of<TestCase, T>::value, "T must derive from TestCase");
+
         this->tests.emplace_back(std::make_shared<T>(test));
     }
 

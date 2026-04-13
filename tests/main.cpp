@@ -27,6 +27,12 @@ public:
 
 protected:
     TestReport report;
+
+    void assert(bool statement)
+    {
+        if (!statement)
+            report.passed = false;
+    }
 };
 
 class TestTestCase : public TestCase
@@ -48,7 +54,7 @@ class TwoPlusTwoEqualsFive : public TestTestCase
 public:
     void test() override
     {
-        this->report.passed = 2 + 2 == 5;
+        assert(2 + 2 == 5);
     }
 };
 
@@ -57,7 +63,7 @@ class TwoPlusTwoEqualsFour : public TestTestCase
 public:
     void test() override
     {
-        this->report.passed = 2 + 2 == 4;
+        assert(2 + 2 == 4);
     }
 };
 

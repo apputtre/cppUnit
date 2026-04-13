@@ -31,10 +31,7 @@ public:
         
         for (auto it = log.begin(); it != log.end(); ++it)
         {
-            summary << '\t' << *it;
-
-            if (it != log.end())
-                summary << std::endl;
+            summary << '\t' << *it << std::endl;
         }
 
         summary.flush();

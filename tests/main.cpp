@@ -83,6 +83,12 @@ protected:
         if (!statement)
             report.logFailedAssertion();
     }
+
+    void assert(bool statement, const std::string& msg)
+    {
+        if (!statement)
+            report.logFailedAssertion(msg);
+    }
 };
 
 class TestTestCase : public TestCase

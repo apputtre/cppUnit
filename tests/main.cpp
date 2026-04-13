@@ -236,6 +236,12 @@ public:
     }
 };
 
+class TestEnvironment
+{
+private:
+public:
+};
+
 int main()
 {
     {
@@ -264,6 +270,23 @@ int main()
         TestSuiteReport report = suite.run();
 
         std::cout << report.getSummary() << std::endl;
+    }
+
+    {
+        /*
+        TestEnvironment tenv;
+
+        tenv.beginTest("2+2=5?");
+        tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
+
+        tenv.beginTest("2+2=4?");
+        tenv.assert(2 + 2 == 4, "Two plus two does not equal 4!");
+
+        tenv.beginTest("2+2=7?");
+        tenv.assert(2 + 2 == 7, "Two plus two does not equal 7!");
+
+        std::cout << report.getSummary() << std::endl;
+        */
     }
 
     return 0;

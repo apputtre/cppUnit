@@ -82,7 +82,12 @@ public:
     {
         std::stringstream summary;
 
-        summary << std::format("Test suite \"{}\" ({}/{} passing tests)", suite_name, reports.size() - num_failing_reports, reports.size()) << std::endl;
+        summary << std::format(
+            "Test suite \"{}\" ({}/{} passing tests)",
+            suite_name,
+            reports.size() - num_failing_reports,
+            reports.size()
+        ) << std::endl;
 
         for (TestReport report : reports)
         {

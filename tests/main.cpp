@@ -200,6 +200,18 @@ public:
     }
 };
 
+class TwoPlusTwoEqualsSeven : public TestTestCase
+{
+public:
+    TwoPlusTwoEqualsSeven(const std::string& name) : TestTestCase(name)
+    {}
+
+    void test() override
+    {
+        assert(2 + 2 == 7, "Two plus two does not equal seven!");
+    }
+};
+
 class TestSuite
 {
 private:
@@ -246,11 +258,13 @@ int main()
     {
         TwoPlusTwoEqualsFive test1("2+2=5?");
         TwoPlusTwoEqualsFour test2("2+2=4?");
+        TwoPlusTwoEqualsSeven test3("2+2=7?");
 
         TestSuite suite("Test test suite");
 
         suite.add(test1);
         suite.add(test2);
+        suite.add(test3);
 
         TestSuiteReport report = suite.run();
 

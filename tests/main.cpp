@@ -8,6 +8,7 @@
 #include "TestSuiteReport.h"
 #include "TestCase.h"
 #include "TestSuite.h"
+#include "TestEnvironment.h"
 
 class TestTestCase : public TestCase
 {
@@ -66,40 +67,6 @@ public:
     void test() override
     {
         assert(2 + 2 == 7, "Two plus two does not equal seven!");
-    }
-};
-
-class TestEnvironment
-{
-private:
-    TestSuiteReport report;
-    std::unique_ptr<TestReport> current_test;
-
-public:
-    TestEnvironment()
-        : report{"Default"}
-    {}
-
-    void beginTest(const std::string& test_name)
-    {
-        if (current_test)
-            report.log(*current_test);
-
-        current_test = std::make_unique<TestReport>(test_name);
-    }
-
-    void assert(bool statement, const std::string& msg)
-    {
-        if (!statement)
-            current_test->logFailedAssertion(msg);
-    }
-
-    std::string getSummary()
-    {
-        if (current_test)
-            report.log(*current_test);
-
-        return report.getSummary();
     }
 };
 

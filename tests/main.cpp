@@ -186,15 +186,12 @@ public:
         this->tests.emplace_back(std::make_shared<T>(test));
     }
 
-    bool run()
+    TestSuiteReport run()
     {
-        bool all_tests_passed = true;
-
         for (std::shared_ptr<TestCase> test : tests)
-            if (!test->run().testPassed())
-                all_tests_passed = false;
+            report.log(test->run());
         
-        return all_tests_passed;
+        return report;
     }
 };
 
@@ -221,7 +218,7 @@ int main()
         suite.add(test1);
         suite.add(test2);
 
-        if (suite.run())
+        if (suite.run().allTestsPassed())
             std::cout << "Test suite passed" << std::endl;
         else
             std::cout << "Test suite failed" << std::endl;

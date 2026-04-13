@@ -8,8 +8,8 @@ struct TestReport
 class TestCase
 {
 public:
-    TestCase()
-        : report {}
+    TestCase(const std::string& name)
+        : name{name}
     {}
 
     TestReport run()
@@ -26,6 +26,7 @@ public:
     virtual void test() = 0;
 
 protected:
+    std::string name;
     TestReport report;
 
     void assert(bool statement)
@@ -38,6 +39,16 @@ protected:
 class TestTestCase : public TestCase
 {
 public:
+    TestTestCase(const std::string& name) : TestCase(name)
+    {}
+
+    TestReport run()
+    {
+        std::cout << "Running test " << this->name << std::endl;
+
+        return TestCase::run();
+    }
+
     void setUp()
     {
         std::cout << "setUp called\n";
@@ -52,6 +63,9 @@ public:
 class TwoPlusTwoEqualsFive : public TestTestCase
 {
 public:
+    TwoPlusTwoEqualsFive(const std::string& name) : TestTestCase(name)
+    {}
+
     void test() override
     {
         assert(2 + 2 == 5);
@@ -61,6 +75,9 @@ public:
 class TwoPlusTwoEqualsFour : public TestTestCase
 {
 public:
+    TwoPlusTwoEqualsFour(const std::string& name) : TestTestCase(name)
+    {}
+
     void test() override
     {
         assert(2 + 2 == 4);
@@ -71,8 +88,7 @@ int main()
 {
 
     {
-        TwoPlusTwoEqualsFive test;
-        std::cout << "Running test 2+2=5?\n";
+        TwoPlusTwoEqualsFive test("2+2=5?");
 
         TestReport report = test.run();
         if (report.passed)
@@ -82,8 +98,7 @@ int main()
     }
    
     {
-        TwoPlusTwoEqualsFour test;
-        std::cout << "Running test 2+2=4?\n";
+        TwoPlusTwoEqualsFour test("2+2=4?");
 
         TestReport report = test.run();
         if (report.passed)

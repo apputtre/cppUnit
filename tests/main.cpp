@@ -9,9 +9,12 @@ private:
     std::vector<std::string> log;
 
 public:
-
     bool passed = true;
 
+    bool testPassed()
+    {
+        return passed;
+    }
 
     std::string getSummary()
     {

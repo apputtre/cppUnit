@@ -5,9 +5,13 @@
 
 struct TestReport
 {
+private:
+    std::vector<std::string> log;
+
+public:
+
     bool passed = true;
 
-    std::vector<std::string> log;
 
     std::string getSummary()
     {
@@ -139,20 +143,8 @@ int main()
             std::cout << "Test passed\n";
         else
             std::cout << "Test failed\n";    
-        std::cout << "Report summary:\n";    
+        std::cout << "Report summary:\n";
         std::cout << report.getSummary();
-    }
-
-    std::cout << "\n";
-
-    {
-        TestReport report;
-
-        report.log.push_back("This is a test (first entry)"); 
-        report.log.push_back("Another entry (second entry)");
-
-        std::cout << report.getSummary() << std::endl;
-
     }
 
     return 0;

@@ -139,6 +139,13 @@ public:
     }
 };
 
+class TestSuite
+{
+public:
+    TestSuite();
+
+};
+
 int main()
 {
 

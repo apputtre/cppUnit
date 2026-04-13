@@ -138,26 +138,14 @@ int main()
 
     {
         TwoPlusTwoEqualsFive test("2+2=5?");
-
         TestReport report = test.run();
-        if (report.testPassed())
-            std::cout << "Test passed\n";
-        else
-            std::cout << "Test failed\n";
-        std::cout << "Report summary:\n";
-        std::cout << report.getSummary();
+        std::cout << report.getSummary() << std::endl;
     }
    
     {
         TwoPlusTwoEqualsFour test("2+2=4?");
-
         TestReport report = test.run();
-        if (report.testPassed())
-            std::cout << "Test passed\n";
-        else
-            std::cout << "Test failed\n";    
-        std::cout << "Report summary:\n";
-        std::cout << report.getSummary();
+        std::cout << report.getSummary() << std::endl;
     }
 
     return 0;

@@ -12,7 +12,7 @@ CXXFLAGS = -Wall -Wextra -Werror -g -std=c++20 -O3 $(foreach dir,$(INCLUDE_DIRS)
 CFLAGS = -g $(foreach dir,$(INCLUDE_DIRS),$(patsubst %,-I%,$(dir)))
 LDFLAGS = 
 
-main.exe: main.cpp include/test.h
+main.exe: main.cpp
 	mkdir -p $(BIN_PATH)
 	$(CXX) $(CXXFLAGS) tests/main.cpp -o $(BIN_PATH)/main.exe $(LDFLAGS)
 

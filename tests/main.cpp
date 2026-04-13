@@ -154,6 +154,17 @@ public:
         T* t = new T(test);
         this->tests.push_back(t);
     }
+
+    bool run()
+    {
+        bool all_tests_passed = true;
+
+        for (TestCase* test_case_ptr : tests)
+            if (!test_case_ptr->run().testPassed())
+                all_tests_passed = false;
+        
+        return all_tests_passed;
+    }
 };
 
 int main()
@@ -180,9 +191,9 @@ int main()
         suite.add(test1);
         suite.add(test2);
 
-        /*
         suite.run();
 
+        /*
         std::cout << suite.getSummary() std::endl;
         */
     }

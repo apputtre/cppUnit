@@ -52,6 +52,19 @@ public:
     }
 };
 
+struct TestSuiteReport
+{
+private:
+    std::string suiteName;
+    bool passed = true;
+    std::vector<TestReport> reports;
+
+public:
+    TestSuiteReport(const std::string& suiteName)
+        : suiteName{suiteName}
+    {}
+};
+
 class TestCase
 {
 public:
@@ -169,7 +182,6 @@ public:
 
 int main()
 {
-
     {
         TwoPlusTwoEqualsFive test("2+2=5?");
         TestReport report = test.run();
@@ -179,7 +191,7 @@ int main()
     {
         TwoPlusTwoEqualsFour test("2+2=4?");
         TestReport report = test.run();
-        std::cout << report.getSummary() << std::endl;
+        std::cout << report.getSummary() << std::endl << std::endl;
     }
 
     {
@@ -191,10 +203,15 @@ int main()
         suite.add(test1);
         suite.add(test2);
 
-        suite.run();
+        if (suite.run())
+            std::cout << "Test suite passed" << std::endl;
+        else
+            std::cout << "Test suite failed" << std::endl;
 
         /*
         std::cout << suite.getSummary() std::endl;
+
+        suite.add("2+2=5?", []{assert(2 + 2 == 5, "Two plus two does not equal 5!";)});
         */
     }
 

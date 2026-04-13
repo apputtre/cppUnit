@@ -240,16 +240,22 @@ class TestEnvironment
 {
 private:
     TestSuiteReport report;
-    TestReport current_test;
+    std::unique_ptr<TestReport> current_test;
 
 public:
     TestEnvironment()
-        : report{"Default Suite"}, current_test{""}
+        : report{"Default Suite"}
     {}
 
     void beginTest(const std::string& test_name)
     {
-        current_test = TestReport(test_name);
+        current_test = std::make_unique<TestReport>(test_name);
+    }
+
+    void assert(bool statement, const std::string& msg)
+    {
+        if (!statement)
+            current_test->logFailedAssertion(msg);
     }
 };
 
@@ -287,7 +293,6 @@ int main()
         TestEnvironment tenv;
 
         tenv.beginTest("2+2=5?");
-        /*
         tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
 
         tenv.beginTest("2+2=4?");
@@ -296,6 +301,7 @@ int main()
         tenv.beginTest("2+2=7?");
         tenv.assert(2 + 2 == 7, "Two plus two does not equal 7!");
 
+        /*
         std::cout << report.getSummary() << std::endl;
         */
     }

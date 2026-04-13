@@ -28,9 +28,9 @@ public:
         std::stringstream summary;
 
         if (passed)
-            summary << "Test " << testName << " passed" << std::endl;
+            summary << "Test " << "\"" << testName << "\"" << " passed" << std::endl;
         else
-            summary << "Test " << testName << " failed" << std::endl;
+            summary << "Test " << "\"" << testName << "\"" << " failed" << std::endl;
 
         
         for (const std::string& entry : log)

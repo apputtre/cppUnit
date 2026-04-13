@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <memory>
 
 struct TestReport
 {
@@ -141,9 +142,18 @@ public:
 
 class TestSuite
 {
-public:
-    TestSuite();
+private:
+    std::vector<TestCase*> tests;
 
+public:
+    TestSuite() {};
+
+    template <typename T>
+    void add(const T& test)
+    {
+        T* t = new T(test);
+        this->tests.push_back(t);
+    }
 };
 
 int main()
@@ -159,6 +169,22 @@ int main()
         TwoPlusTwoEqualsFour test("2+2=4?");
         TestReport report = test.run();
         std::cout << report.getSummary() << std::endl;
+    }
+
+    {
+        TwoPlusTwoEqualsFive test1("2+2=5?");
+        TwoPlusTwoEqualsFour test2("2+2=4?");
+
+        TestSuite suite;
+
+        suite.add(test1);
+        suite.add(test2);
+
+        /*
+        suite.run();
+
+        std::cout << suite.getSummary() std::endl;
+        */
     }
 
     return 0;

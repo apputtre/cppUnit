@@ -2,6 +2,11 @@
 
 #include "test.h"
 
+struct TestReport
+{
+    bool passed;
+};
+
 class TestCase
 {
 public:

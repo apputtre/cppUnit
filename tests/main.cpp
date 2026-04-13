@@ -244,7 +244,7 @@ private:
 
 public:
     TestEnvironment()
-        : report{"Default Suite"}
+        : report{"Default"}
     {}
 
     void beginTest(const std::string& test_name)
@@ -259,6 +259,14 @@ public:
     {
         if (!statement)
             current_test->logFailedAssertion(msg);
+    }
+
+    std::string getSummary()
+    {
+        if (current_test)
+            report.log(*current_test);
+
+        return report.getSummary();
     }
 };
 
@@ -304,9 +312,7 @@ int main()
         tenv.beginTest("2+2=7?");
         tenv.assert(2 + 2 == 7, "Two plus two does not equal 7!");
 
-        /*
-        std::cout << report.getSummary() << std::endl;
-        */
+        std::cout << tenv.getSummary() << std::endl;
     }
 
     return 0;

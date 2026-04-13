@@ -63,6 +63,14 @@ public:
     TestSuiteReport(const std::string& suiteName)
         : suiteName{suiteName}
     {}
+
+    void log(TestReport report)
+    {
+        reports.push_back(report);
+
+        if (!report.testPassed())
+            passed = false;
+    }
 };
 
 class TestCase

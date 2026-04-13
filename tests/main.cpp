@@ -8,8 +8,13 @@ struct TestReport
 private:
     std::vector<std::string> log;
     bool passed = true;
+    std::string testName;
 
 public:
+
+    TestReport(const std::string& testName)
+        : testName{testName}
+    {}
 
     bool testPassed()
     {
@@ -45,12 +50,12 @@ class TestCase
 {
 public:
     TestCase(const std::string& name)
-        : name{name}
+        : name{name}, report{name}
     {}
 
     TestReport run()
     {
-        this->report = TestReport {};
+        this->report = TestReport {name};
 
         setUp();
         test();

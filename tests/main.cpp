@@ -25,6 +25,11 @@ public:
     {
         std::stringstream summary;
 
+        if (passed)
+            summary << "Test " << testName << " passed" << std::endl;
+        else
+            summary << "Test " << testName << " failed" << std::endl;
+
         for (const std::string& entry : log)
             summary << entry << std::endl;
 

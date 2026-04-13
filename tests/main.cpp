@@ -86,6 +86,9 @@ public:
 
         for (TestReport report : reports)
         {
+            if (report.testPassed())
+                continue;
+
             std::stringstream reportSummary(report.getSummary());
 
             for (std::string line; !reportSummary.eof(); std::getline(reportSummary, line))
@@ -246,10 +249,6 @@ int main()
         TestSuiteReport report = suite.run();
 
         std::cout << report.getSummary() << std::endl;
-
-        /*
-        suite.add("2+2=5?", []{assert(2 + 2 == 5, "Two plus two does not equal 5!";)});
-        */
     }
 
     return 0;

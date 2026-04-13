@@ -239,7 +239,18 @@ public:
 class TestEnvironment
 {
 private:
+    TestSuiteReport report;
+    TestReport current_test;
+
 public:
+    TestEnvironment()
+        : report{"Default Suite"}, current_test{""}
+    {}
+
+    void beginTest(const std::string& test_name)
+    {
+        current_test = TestReport(test_name);
+    }
 };
 
 int main()
@@ -273,10 +284,10 @@ int main()
     }
 
     {
-        /*
         TestEnvironment tenv;
 
         tenv.beginTest("2+2=5?");
+        /*
         tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
 
         tenv.beginTest("2+2=4?");

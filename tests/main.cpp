@@ -29,10 +29,8 @@ public:
 
         summary << "Test " << '\"' << testName << '\"' << (passed ? " passed" : " failed") << std::endl;
         
-        for (auto it = log.begin(); it != log.end(); ++it)
-        {
-            summary << '\t' << *it << std::endl;
-        }
+        for (std::string& entry : log)
+            summary << '\t' << entry << std::endl;
 
         summary.flush();
 

@@ -115,5 +115,30 @@ int main()
         std::cout << tenv.getSummary() << std::endl;
     }
 
+    {
+        TestEnvironment tenv;
+
+        tenv.beginSuite("Basic arithmetic");
+
+        tenv.beginTest("2+2=5?");
+        tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
+
+        tenv.beginTest("2+2=4?");
+        tenv.assert(2 + 2 == 4, "Two plus two does not equal 4!");
+
+        tenv.beginTest("2+2=7?");
+        tenv.assert(2 + 2 == 7, "Two plus two does not equal 7!");
+
+        tenv.beginSuite("String comparison");
+
+        tenv.beginTest("abc=def?");
+        tenv.assert(std::string("abc") == std::string("def"), "abc does not equal def!");
+
+        tenv.beginTest("abc=abc?");
+        tenv.assert(std::string("abc") == std::string("abc"), "abc does not equal abc!");
+
+        std::cout << tenv.getSummary() << std::endl;
+    }
+
     return 0;
 }

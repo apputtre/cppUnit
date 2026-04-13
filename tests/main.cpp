@@ -123,7 +123,7 @@ public:
 
     void test() override
     {
-        assert(2 + 2 == 5);
+        assert(2 + 2 == 5, "Two plus two does not equal five!");
     }
 };
 
@@ -135,7 +135,7 @@ public:
 
     void test() override
     {
-        assert(2 + 2 == 4);
+        assert(2 + 2 == 4, "Two plus two does not equal four!");
     }
 };
 

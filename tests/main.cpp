@@ -7,9 +7,9 @@ struct TestReport
 {
 private:
     std::vector<std::string> log;
+    bool passed = true;
 
 public:
-    bool passed = true;
 
     bool testPassed()
     {
@@ -130,7 +130,7 @@ int main()
         TwoPlusTwoEqualsFive test("2+2=5?");
 
         TestReport report = test.run();
-        if (report.passed)
+        if (report.testPassed())
             std::cout << "Test passed\n";
         else
             std::cout << "Test failed\n";
@@ -142,7 +142,7 @@ int main()
         TwoPlusTwoEqualsFour test("2+2=4?");
 
         TestReport report = test.run();
-        if (report.passed)
+        if (report.testPassed())
             std::cout << "Test passed\n";
         else
             std::cout << "Test failed\n";    

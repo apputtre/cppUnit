@@ -1,8 +1,25 @@
+#include <string>
+#include <sstream>
 #include <iostream>
+#include <vector>
 
 struct TestReport
 {
     bool passed = true;
+
+    std::vector<std::string> log;
+
+    std::string getSummary()
+    {
+        std::stringstream summary;
+
+        for (const std::string& entry : log)
+            summary << entry << std::endl;
+
+        summary.flush();
+
+        return summary.str();
+    }
 };
 
 class TestCase
@@ -14,6 +31,7 @@ public:
 
     TestReport run()
     {
+        this->report = TestReport {};
         setUp();
         test();
         tearDown();
@@ -105,6 +123,18 @@ int main()
             std::cout << "Test passed\n";
         else
             std::cout << "Test failed\n";    
+    }
+
+    std::cout << "\n";
+
+    {
+        TestReport report;
+
+        report.log.push_back("This is a test (first entry)"); 
+        report.log.push_back("Another entry (second entry)");
+
+        std::cout << report.getSummary() << std::endl;
+
     }
 
     return 0;

@@ -89,7 +89,7 @@ int main()
         TwoPlusTwoEqualsFour test2("2+2=4?");
         TwoPlusTwoEqualsSeven test3("2+2=7?");
 
-        TestSuite suite("Test test suite");
+        TestSuite suite("Test Suite");
 
         suite.add(test1);
         suite.add(test2);

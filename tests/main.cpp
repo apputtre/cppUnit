@@ -1,28 +1,32 @@
 #include <iostream>
 
-#include "test.h"
-
 struct TestReport
 {
-    bool passed;
+    bool passed = true;
 };
 
 class TestCase
 {
 public:
-    bool run()
+    TestCase()
+        : report {}
+    {}
+
+    TestReport run()
     {
         setUp();
-        bool result = test();
+        test();
         tearDown();
-        return result;
+        return report;
     }
 
     virtual void setUp() {}
     virtual void tearDown() {}
 
-    virtual bool test() = 0;
-private:
+    virtual void test() = 0;
+
+protected:
+    TestReport report;
 };
 
 class TestTestCase : public TestCase
@@ -42,18 +46,18 @@ public:
 class TwoPlusTwoEqualsFive : public TestTestCase
 {
 public:
-    bool test() override
+    void test() override
     {
-        return 2 + 2 == 5;
+        this->report.passed = 2 + 2 == 5;
     }
 };
 
 class TwoPlusTwoEqualsFour : public TestTestCase
 {
 public:
-    bool test() override
+    void test() override
     {
-        return 2 + 2 == 4;
+        this->report.passed = 2 + 2 == 4;
     }
 };
 
@@ -62,22 +66,24 @@ int main()
 
     {
         TwoPlusTwoEqualsFive test;
-
         std::cout << "Running test 2+2=5?\n";
-        if (!test.run())
-            std::cout << "Test failed\n";
-        else
+
+        TestReport report = test.run();
+        if (report.passed)
             std::cout << "Test passed\n";
+        else
+            std::cout << "Test failed\n";
     }
    
     {
         TwoPlusTwoEqualsFour test;
-
         std::cout << "Running test 2+2=4?\n";
-        if (!test.run())
-            std::cout << "Test failed\n";
+
+        TestReport report = test.run();
+        if (report.passed)
+            std::cout << "Test passed\n";
         else
-            std::cout << "Test passed\n";    
+            std::cout << "Test failed\n";    
     }
 
     return 0;

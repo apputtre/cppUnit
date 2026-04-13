@@ -71,6 +71,11 @@ public:
         if (!report.testPassed())
             passed = false;
     }
+
+    bool allTestsPassed()
+    {
+        return passed;
+    }
 };
 
 class TestCase

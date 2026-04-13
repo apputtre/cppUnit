@@ -20,6 +20,18 @@ struct TestReport
 
         return summary.str();
     }
+
+    void logFailedAssertion()
+    {
+        log.push_back("Assertion failure");
+        passed = false;
+    }
+
+    void logFailedAssertion(const std::string& msg)
+    {
+        log.push_back("Assertion failure: " + msg);
+        passed = false;
+    }
 };
 
 class TestCase
@@ -32,9 +44,11 @@ public:
     TestReport run()
     {
         this->report = TestReport {};
+
         setUp();
         test();
         tearDown();
+
         return report;
     }
 
@@ -50,7 +64,7 @@ protected:
     void assert(bool statement)
     {
         if (!statement)
-            report.passed = false;
+            report.logFailedAssertion();
     }
 };
 
@@ -113,6 +127,8 @@ int main()
             std::cout << "Test passed\n";
         else
             std::cout << "Test failed\n";
+        std::cout << "Report summary:\n";
+        std::cout << report.getSummary();
     }
    
     {
@@ -123,6 +139,8 @@ int main()
             std::cout << "Test passed\n";
         else
             std::cout << "Test failed\n";    
+        std::cout << "Report summary:\n";    
+        std::cout << report.getSummary();
     }
 
     std::cout << "\n";

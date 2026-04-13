@@ -157,9 +157,12 @@ class TestSuite
 {
 private:
     std::vector<std::shared_ptr<TestCase>> tests;
+    std::string name;
 
 public:
-    TestSuite() {};
+    TestSuite(const std::string name)
+        : name{name}
+    {};
 
     template <typename T>
     void add(const T& test)
@@ -199,7 +202,7 @@ int main()
         TwoPlusTwoEqualsFive test1("2+2=5?");
         TwoPlusTwoEqualsFour test2("2+2=4?");
 
-        TestSuite suite;
+        TestSuite suite("Test test suite");
 
         suite.add(test1);
         suite.add(test2);

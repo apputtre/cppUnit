@@ -2,6 +2,7 @@
 #define TESTENVIRONMENT_H
 
 #include <string>
+#include <memory>
 
 #include "TestReport.h"
 #include "TestSuiteReport.h"

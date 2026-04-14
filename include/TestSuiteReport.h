@@ -62,6 +62,11 @@ public:
     {
         return passed;
     }
+
+    size_t numTests()
+    {
+        return reports.size();
+    }
 };
 
 #endif

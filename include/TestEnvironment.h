@@ -39,7 +39,7 @@ public:
 
     void beginTest()
     {
-        beginTest("Dummy test");
+        beginTest("Test " + std::to_string(suite_reports.back()->numTests() + 1 + (curr_test_report ? 1 : 0)));
     }
 
     void assert(bool statement, const std::string& msg)

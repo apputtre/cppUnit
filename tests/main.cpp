@@ -140,5 +140,22 @@ int main()
         std::cout << tenv.getSummary() << std::endl;
     }
 
+    {
+        TestEnvironment tenv;
+
+        tenv.beginSuite("First suite");
+
+        tenv.beginTest();
+        tenv.assert(true, "true is false!");
+
+        tenv.beginTest();
+        tenv.assert(true, "true is false!");
+
+        tenv.beginTest();
+        tenv.assert(true, "true is false!");
+
+        std::cout << tenv.getSummary() << std::endl;
+    }
+
     return 0;
 }

@@ -37,6 +37,11 @@ public:
         curr_test_report = std::make_unique<TestReport>(test_name);
     }
 
+    void beginTest()
+    {
+        beginTest("Dummy test");
+    }
+
     void assert(bool statement, const std::string& msg)
     {
         if (!statement)

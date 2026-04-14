@@ -146,13 +146,13 @@ int main()
         tenv.beginSuite("First suite");
 
         tenv.beginTest();
-        tenv.assert(true, "true is false!");
+        tenv.assert(false, "false is false!");
 
         tenv.beginTest();
-        tenv.assert(true, "true is false!");
+        tenv.assert(false, "false is false!");
 
         tenv.beginTest();
-        tenv.assert(true, "true is false!");
+        tenv.assert(false, "false is false!");
 
         std::cout << tenv.getSummary() << std::endl;
     }

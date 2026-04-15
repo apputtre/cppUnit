@@ -24,7 +24,17 @@ struct AssertionFailureReport
 
     virtual std::string getSummary() const
     {
-        return std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
+        std::stringstream summary;
+
+
+        summary << std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
+
+        if (msg != "")
+            summary << std::format(": {}", msg);
+        
+        summary.flush();
+
+        return summary.str();
     }
 };
 

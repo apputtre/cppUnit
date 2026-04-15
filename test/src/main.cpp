@@ -13,8 +13,10 @@
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_REPLACEMENT "    "
 
-std::string checkOutput(std::string actual_output, const std::string& expected_output_file);
+std::string checkOutput(const std::string& actual_output, const std::string& expected_output_file);
 std::string visualizeWhitespace(std::string str);
+std::string getFileContents(std::ifstream& fstream);
+std::string replaceTabs(const std::string& str);
 
 int main()
 {
@@ -136,7 +138,7 @@ int main()
     return 0;
 }
 
-std::string checkOutput(std::string actual_output, const std::string& expected_output_file)
+std::string checkOutput(const std::string& actual_output, const std::string& expected_output_file)
 {
     std::stringstream report;
 
@@ -145,43 +147,17 @@ std::string checkOutput(std::string actual_output, const std::string& expected_o
     if (!fs.good())
         throw std::runtime_error(std::format("Could not open file {}", expected_output_file));
 
-    fs.seekg(0, std::ifstream::end);
-    const size_t file_size = fs.tellg();
-    fs.seekg(0, std::ifstream::beg);
-    
-    char* buf = new char[file_size];
+    std::string expected_output = getFileContents(fs);
 
-    fs.read(buf, file_size);
-    std::string expected_output(buf);
+    fs.close();
 
-    delete[](buf);
-
-    std::stringstream ss;
-
-    for (char& c : actual_output)
-        if (c == '\t')
-            ss << TAB_REPLACEMENT;
-        else
-            ss << c;
-
-    actual_output = ss.str();
-
-    if (actual_output != expected_output)
+    if (replaceTabs(actual_output) != expected_output)
         report << "Test 1 failed" << std::endl;
     
     report << "=== EXPECTED ===" << std::endl;
-    report << expected_output << std::endl;
+    report << visualizeWhitespace(expected_output) << std::endl;
     report << "=== ACTUAL ===" << std::endl;
-
-    /*
-    for (char& c : actual_output)
-        if (c == '\t')
-            ss << "[ \\t]";
-        else
-            ss << c;
-    */
-
-    report << actual_output << std::endl;
+    report << visualizeWhitespace(actual_output) << std::endl;
 
     // line-by-line comparison
     std::stringstream ss_expected(expected_output);
@@ -222,5 +198,44 @@ std::string checkOutput(std::string actual_output, const std::string& expected_o
 
 std::string visualizeWhitespace(std::string str)
 {
+    std::stringstream ss(str);
+
+    for (char& c : str)
+        if (c == '\t')
+            ss << "[ \\t]";
+        else if (c == '\n')
+            ss << "[\\n]";
+        else
+            ss << c;
+
     return str;
+}
+
+std::string getFileContents(std::ifstream& fstream)
+{
+    fstream.seekg(0, std::ifstream::end);
+    const size_t file_size = fstream.tellg();
+    fstream.seekg(0, std::ifstream::beg);
+    
+    char* buf = new char[file_size];
+
+    fstream.read(buf, file_size);
+    std::string contents(buf);
+
+    delete[](buf);
+
+    return contents;
+}
+
+std::string replaceTabs(const std::string& str)
+{
+    std::stringstream ss;
+
+    for (const char& c : str)
+        if (c == '\t')
+            ss << TAB_REPLACEMENT;
+        else
+            ss << c;
+
+    return ss.str();
 }

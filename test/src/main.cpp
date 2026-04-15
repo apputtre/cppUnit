@@ -202,8 +202,9 @@ int main()
         TestEnvironment tenv;
 
         tenv.beginSuite("assertEq");
-        //tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
-        tenv.assert(2+2 == 5, "Two plus two does not equal five!");
+
+        tenv.beginTest();
+        tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
 
         std::cout << tenv.getSummary();
     }

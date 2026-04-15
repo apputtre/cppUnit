@@ -10,7 +10,10 @@
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
 
-std::string checkOutput(std::string actual_output, const std::string& expected_path);
+#define EXPECTED_OUTPUT_DIR "../test_outputs"
+
+std::string checkOutput(std::string actual_output, const std::string& expected_output_file);
+std::string visualizeWhitespace(std::string str);
 
 int main()
 {
@@ -32,7 +35,7 @@ int main()
 
         std::string summary = tenv.getSummary();
 
-        std::string report = checkOutput(summary, "../test_outputs/test_1.txt");
+        std::string report = checkOutput(summary, "test_1.txt");
 
         if (report != "")
             std::cout << report << std::endl;
@@ -132,14 +135,14 @@ int main()
     return 0;
 }
 
-std::string checkOutput(std::string actual_output, const std::string& expected_path)
+std::string checkOutput(std::string actual_output, const std::string& expected_output_file)
 {
     std::stringstream report;
 
-    std::ifstream fs(expected_path);
+    std::ifstream fs(std::format("{}/{}", EXPECTED_OUTPUT_DIR, expected_output_file).c_str());
 
     if (!fs.good())
-        throw std::runtime_error(std::format("Could not open file {}", expected_path));
+        throw std::runtime_error(std::format("Could not open file {}", expected_output_file));
 
     fs.seekg(0, std::ifstream::end);
     const size_t file_size = fs.tellg();
@@ -214,4 +217,9 @@ std::string checkOutput(std::string actual_output, const std::string& expected_p
     report.flush();
 
     return report.str();
+}
+
+std::string visualizeWhitespace(std::string str)
+{
+
 }

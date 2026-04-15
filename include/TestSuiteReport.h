@@ -50,8 +50,10 @@ public:
 
             std::stringstream reportSummary(report.getSummary());
 
-            for (std::string line; !reportSummary.eof(); std::getline(reportSummary, line))
+            std::string line;
+            for (; !reportSummary.eof(); std::getline(reportSummary, line))
                 summary << '\t' << line << std::endl;
+            summary << '\t' << line;
         }
 
         summary.flush();

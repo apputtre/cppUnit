@@ -51,7 +51,7 @@ public:
 
     void logFailedAssertion(const std::string& msg, const std::source_location& location)
     {
-        log.push_back(std::format("Assertion failure (file {}, line {}): {}", location.file_name(), location.line(), msg));
+        log.push_back(std::format("Assertion failure (file {}, line {}): \"{}\"", location.file_name(), location.line(), msg));
         passed = false;
     }
 };

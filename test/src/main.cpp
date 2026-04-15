@@ -13,6 +13,7 @@ int main()
 {
     {
         std::cout << "=== TEST 1 ===" << std::endl;
+
         TestEnvironment tenv;
 
         tenv.beginSuite("Basic assertions");

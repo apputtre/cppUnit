@@ -21,8 +21,6 @@ std::string replaceSpaces(const std::string& str);
 int main()
 {
     {
-        std::cout << "=== TEST 1 ===" << std::endl;
-
         TestEnvironment tenv;
 
         tenv.beginSuite("Basic assertions");
@@ -41,7 +39,10 @@ int main()
         std::string report = checkOutput(summary, "test_1.txt");
 
         if (report != "")
+        {
+            std::cout << "Test 1 failed\n";
             std::cout << report << std::endl;
+        }
     }
 
     {
@@ -154,35 +155,33 @@ std::string checkOutput(const std::string& actual_output, const std::string& exp
     if (actual_output != expected_output)
         report << "Test 1 failed" << std::endl;
     
-    report << "=== EXPECTED ===" << std::endl;
-    report << visualizeWhitespace(expected_output) << std::endl;
     report << "=== ACTUAL ===" << std::endl;
     report << visualizeWhitespace(actual_output) << std::endl;
+    report << "=== EXPECTED ===" << std::endl;
+    report << visualizeWhitespace(expected_output) << std::endl;
 
     // line-by-line comparison
-    std::stringstream ss_expected(visualizeWhitespace(expected_output));
     std::stringstream ss_actual(visualizeWhitespace(actual_output));
-    std::string line_expected, line_actual;
+    std::stringstream ss_expected(visualizeWhitespace(expected_output));
+    std::string line_actual, line_expected;
     int i = 0;
     do
     {
-        getline(ss_expected, line_expected);
         getline(ss_actual, line_actual);
+        getline(ss_expected, line_expected);
 
         if (line_expected != line_actual)
         {
-            report << "Lines differ " << i << std::endl;
+            report << "=== LINE " << i + 1 << " ===" << std::endl;
 
             size_t pos = 0;
             while (line_expected[pos] == line_actual[pos])
                 ++pos;
             
-            report << "Lines differ at position " << pos << std::endl;
-
-            report << line_expected << std::endl;
             report << line_actual << std::endl;
+            report << line_expected << std::endl;
 
-            for (int i = 0; i < (int) pos; ++i)
+            for (int j = 0; j < (int) pos; ++j)
                 report << " ";
             report << "^HERE (" << pos << ")" << std::endl;
         }

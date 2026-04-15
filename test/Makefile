@@ -1,5 +1,5 @@
-INCLUDE_DIRS=include
-BIN_PATH=test/bin
+INCLUDE_DIRS=../include
+BIN_PATH=bin
 SRC_PATH=src test
 OBJ_PATH=obj
 

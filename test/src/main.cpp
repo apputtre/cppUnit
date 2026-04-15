@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <format>
+#include <math.h>
 
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
@@ -17,11 +18,11 @@ int main()
         tenv.beginTest("2+2=5?");
         tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
 
-        tenv.beginTest("2+2=4?");
-        tenv.assert(2 + 2 == 4, "Two plus two does not equal 4!");
+        tenv.beginTest("3-4-5");
+        tenv.assert(3*3 + 4*4 == 5*5, "3^2 + 4^2 does not equal 5^2!");
 
-        tenv.beginTest("2+2=7?");
-        tenv.assert(2 + 2 == 7, "Two plus two does not equal 7!");
+        tenv.beginTest("War is Peace?");
+        tenv.assert(std::string("War") == std::string("Peace"), "War is not Peace!");
 
         std::cout << tenv.getSummary();
     }

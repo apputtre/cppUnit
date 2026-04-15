@@ -28,16 +28,18 @@ struct AssertionFailureReport
     }
 };
 
-template<typename T>
-concept Printable = requires(T t, std::ostream os)
+namespace xUnitCpp_impl
 {
-    os << t;
+    template<typename T>
+    concept Printable = requires(T t, std::ostream os)
+    {
+        os << t;
+    };
 };
 
-template<typename Param1, typename Param2>
+template<typename TParam1, typename TParam2>
 struct ComparisonFailureReport : AssertionFailureReport
 {
-
     enum ComparisonType
     {
         EqualTo,
@@ -48,15 +50,15 @@ struct ComparisonFailureReport : AssertionFailureReport
         GreaterThanOrEqualTo
     };
 
-    Param1 x;
-    Param2 y;
+    TParam1 x;
+    TParam2 y;
     ComparisonType comparisonType;
 
     ComparisonFailureReport(
         const std::source_location& location,
         const std::string& msg,
-        const Param1& x,
-        const Param2& y,
+        const TParam1& x,
+        const TParam2& y,
         const ComparisonType& comparisonType
     ) : AssertionFailureReport(location, msg)
     {
@@ -67,8 +69,8 @@ struct ComparisonFailureReport : AssertionFailureReport
 
     ComparisonFailureReport(
         const std::source_location& location,
-        const Param1& x,
-        const Param2& y,
+        const TParam1& x,
+        const TParam2& y,
         const ComparisonType& comparisonType
     ) : AssertionFailureReport(location)
     {
@@ -79,22 +81,29 @@ struct ComparisonFailureReport : AssertionFailureReport
 
     std::string getSummary() const override
     {
-        //std::string comparison_description = "";
+        std::stringstream summary;
 
-        /*
-        switch(comparisonType)
+        summary << std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
+
+        if constexpr (xUnitCpp_impl::Printable<TParam1> && xUnitCpp_impl::Printable<TParam2>)
         {
-            case ComparisonType::EqualTo:
-                comparison_description = std::format("{} == {}", x, y);
-                break;
-            default:
-                throw std::runtime_error("Not implemented");
-        }
-                */
+            summary << std::endl;
 
-        //return std::format("Assertion failure (file {}, line {})\n{}", location.file_name(), location.line(), comparison_description);
-        return std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
+            switch(comparisonType)
+            {
+                case ComparisonType::EqualTo:
+                    summary << x << " == " << y << std::endl;
+                    break;
+                default:
+                    throw std::runtime_error("Not implemented");
+            }
+        }
+        
+        summary.flush();
+
+        return summary.str();
     }
+
 };
 
 #endif

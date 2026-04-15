@@ -53,10 +53,9 @@ public:
             std::string line;
             for (std::getline(reportSummary, line); !reportSummary.eof(); std::getline(reportSummary, line))
                 summary << '\t' << line << std::endl;
-            summary << '\t' << line;
+            if (line.size() > 0)
+                summary << line << std::endl;
         }
-
-        summary << std::endl;
 
         summary.flush();
 

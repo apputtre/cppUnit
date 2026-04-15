@@ -10,8 +10,6 @@
 
 int main()
 {
-    std::cout << std::endl;
-
     {
         std::cout << "=== TEST 1 ===" << std::endl;
         TestEnvironment tenv;
@@ -27,8 +25,6 @@ int main()
 
         std::cout << tenv.getSummary();
     }
-
-    std::cout << std::endl;
 
     {
         std::cout << "=== TEST 2 ===" << std::endl;
@@ -56,8 +52,6 @@ int main()
         std::cout << tenv.getSummary();
     }
 
-    std::cout << std::endl;
-
     {
         std::cout << "=== TEST 3 ===" << std::endl;
         TestEnvironment tenv;
@@ -84,8 +78,6 @@ int main()
         std::cout << tenv.getSummary();
     }
 
-    std::cout << std::endl;
-
     {
         std::cout << "=== TEST 4 ===" << std::endl;
         TestEnvironment tenv;
@@ -98,8 +90,6 @@ int main()
         std::cout << tenv.getSummary();
     }
 
-    std::cout << std::endl;
-
     {
         std::cout << "=== TEST 5 ===" << std::endl;
         TestEnvironment tenv;
@@ -110,10 +100,20 @@ int main()
         tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
 
         tenv.beginTest("Non-printable arguments");
-        std::clock_t t1;
-        std::clock_t t2;
 
-        tenv.assertEq(t1, t2, "A does not equal B!");
+        struct A
+        {
+            int x;
+
+            bool operator==(const A& other) const
+            {
+                return x == other.x;
+            }
+        };
+
+        A a1{0};
+        A a2{1};
+        tenv.assertEq(a1, a2, "a1 does not equal a2!");
 
         std::cout << tenv.getSummary();
     }

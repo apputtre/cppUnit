@@ -70,13 +70,14 @@ public:
         }
     }
 
-    template<typename TParam1, typename TParam2> requires std::equality_comparable_with<TParam1, TParam2>
+    template<typename TParam1, typename TParam2>
+        requires requires (TParam1 p1, TParam2 p2) {p1 == p2;}
     void assertEq(const TParam1& x, const TParam2& y, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)
             beginTest();
 
-        if (x != y)
+        if (!(x == y))
         {
             ComparisonFailureReport<TParam1, TParam2> report(location, msg, x, y, ComparisonFailureReport<TParam1, TParam2>::ComparisonType::EqualTo);
 
@@ -85,12 +86,13 @@ public:
     }
 
     template<typename TParam1, typename TParam2>
+        requires requires (TParam1 p1, TParam2 p2) {p1 == p2;}
     void assertEq(const TParam1& x, const TParam2& y, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)
             beginTest();
 
-        if (x != y)
+        if (!(x == y))
         {
             AssertionFailureReport report(location);
 

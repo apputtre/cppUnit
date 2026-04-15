@@ -73,18 +73,25 @@ public:
 int main()
 {
     {
+        std::cout << "=== TEST 1 ===" << std::endl;
         TwoPlusTwoEqualsFive test("2+2=5?");
         TestReport report = test.run();
-        std::cout << report.getSummary() << std::endl;
-    }
-   
-    {
-        TwoPlusTwoEqualsFour test("2+2=4?");
-        TestReport report = test.run();
-        std::cout << report.getSummary() << std::endl << std::endl;
+        std::cout << report.getSummary();
     }
 
+    std::cout << std::endl;
+   
     {
+        std::cout << "=== TEST 2 ===" << std::endl;
+        TwoPlusTwoEqualsFour test("2+2=4?");
+        TestReport report = test.run();
+        std::cout << report.getSummary();
+    }
+
+    std::cout << std::endl;
+
+    {
+        std::cout << "=== TEST 3 ===" << std::endl;
         TwoPlusTwoEqualsFive test1("2+2=5?");
         TwoPlusTwoEqualsFour test2("2+2=4?");
         TwoPlusTwoEqualsSeven test3("2+2=7?");
@@ -97,10 +104,13 @@ int main()
 
         TestSuiteReport report = suite.run();
 
-        std::cout << report.getSummary() << std::endl;
+        std::cout << report.getSummary();
     }
 
+    std::cout << std::endl;
+
     {
+        std::cout << "=== TEST 4 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginTest("2+2=5?");
@@ -112,10 +122,13 @@ int main()
         tenv.beginTest("2+2=7?");
         tenv.assert(2 + 2 == 7, "Two plus two does not equal 7!");
 
-        std::cout << tenv.getSummary() << std::endl;
+        std::cout << tenv.getSummary();
     }
 
+    std::cout << std::endl;
+
     {
+        std::cout << "=== TEST 5 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginSuite("Basic arithmetic");
@@ -137,10 +150,13 @@ int main()
         tenv.beginTest("abc=abc?");
         tenv.assert(std::string("abc") == std::string("abc"), "abc does not equal abc!");
 
-        std::cout << tenv.getSummary() << std::endl;
+        std::cout << tenv.getSummary();
     }
 
+    std::cout << std::endl;
+
     {
+        std::cout << "=== TEST 6 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginSuite("First suite");

@@ -41,7 +41,7 @@ public:
             suite_name,
             reports.size() - num_failing_reports,
             reports.size()
-        );
+        ) << std::endl;
 
         for (TestReport report : reports)
         {
@@ -51,7 +51,7 @@ public:
             std::stringstream reportSummary(report.getSummary());
 
             std::string line;
-            for (; !reportSummary.eof(); std::getline(reportSummary, line))
+            for (std::getline(reportSummary, line); !reportSummary.eof(); std::getline(reportSummary, line))
                 summary << '\t' << line << std::endl;
             summary << '\t' << line;
         }

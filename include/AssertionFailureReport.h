@@ -21,7 +21,7 @@ struct AssertionFailureReport
         this->location = location;
     }
 
-    std::string getSummary() const
+    virtual std::string getSummary() const
     {
         return std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
     }
@@ -69,14 +69,18 @@ struct ComparisonFailureReport : AssertionFailureReport
         this->comparisonType = comparisonType;
     }
 
-    std::string getSummary() const
+    std::string getSummary() const override
     {
+        std::cout << 1 << std::endl;
         std::string comparison_description;
 
         switch(comparisonType)
         {
             case ComparisonType::EqualTo:
                 comparison_description = std::format("{} == {}", x, y);
+                break;
+            default:
+                throw std::runtime_error("Not implemented");
         }
 
         return std::format("Assertion failure (file {}, line {})\n{}", location.file_name(), location.line(), comparison_description);

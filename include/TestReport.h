@@ -34,7 +34,12 @@ public:
         
         for (auto it = log.begin(); it != log.end(); ++it)
         {
-            summary << '\t' << *it;
+            std::stringstream entry(*it);
+
+            std::string line;
+            for (std::getline(entry, line); !entry.eof(); std::getline(entry, line))
+                summary << '\t' << line << std::endl;
+            summary << '\t' << line;
 
             if (it != log.end() - 1)
                 summary << std::endl;

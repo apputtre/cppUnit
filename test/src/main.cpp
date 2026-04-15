@@ -178,7 +178,21 @@ int main()
         tenv.beginTest();
         tenv.assert(false, "This test should fail");
 
-        std::cout << tenv.getSummary() << std::endl;
+        std::cout << tenv.getSummary();
+    }
+
+    std::cout << std::endl;
+
+    {
+        std::cout << "=== TEST 7 ===" << std::endl;
+        TestEnvironment tenv;
+
+        tenv.beginSuite("Test suite");
+
+        tenv.beginTest();
+        tenv.assert(false);
+
+        std::cout << tenv.getSummary();
     }
 
     return 0;

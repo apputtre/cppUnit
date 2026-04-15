@@ -49,6 +49,12 @@ public:
             curr_test_report->logFailedAssertion(msg);
     }
 
+    void assert(bool statement)
+    {
+        if (!statement)
+            curr_test_report->logFailedAssertion();
+    }
+
     std::string getSummary()
     {
         std::stringstream summary;

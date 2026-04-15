@@ -221,5 +221,5 @@ std::string checkOutput(std::string actual_output, const std::string& expected_o
 
 std::string visualizeWhitespace(std::string str)
 {
-
+    return str;
 }

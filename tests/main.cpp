@@ -154,6 +154,14 @@ int main()
         tenv.beginTest();
         tenv.assert(false, "false is false!");
 
+        tenv.beginSuite("Second suite");
+
+        tenv.beginTest();
+        tenv.assert(true, "This test should pass");
+
+        tenv.beginTest();
+        tenv.assert(false, "This test should fail");
+
         std::cout << tenv.getSummary() << std::endl;
     }
 

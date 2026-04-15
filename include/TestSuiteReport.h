@@ -41,7 +41,7 @@ public:
             suite_name,
             reports.size() - num_failing_reports,
             reports.size()
-        ) << std::endl;
+        );
 
         for (TestReport report : reports)
         {
@@ -55,6 +55,8 @@ public:
                 summary << '\t' << line << std::endl;
             summary << '\t' << line;
         }
+
+        summary << std::endl;
 
         summary.flush();
 

@@ -44,15 +44,41 @@ public:
         beginTest("Test " + std::to_string(suite_reports.back()->numTests() + 1 + (curr_test_report ? 1 : 0)));
     }
 
-    void assert(bool statement, const std::string& msg, const std::source_location& location = std::source_location::current())
+    void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
+        if (!curr_test_report)
+            beginTest();
+
         if (!statement)
             curr_test_report->logFailedAssertion(msg, location);
     }
 
-    void assert(bool statement, const std::source_location& location = std::source_location::current())
+    void assert(bool statement, const std::source_location location = std::source_location::current())
     {
+        if (!curr_test_report)
+            beginTest();
+
         if (!statement)
+            curr_test_report->logFailedAssertion(location);
+    }
+
+    template<typename TParam1, typename TParam2>
+    void assertEq(const TParam1& x, const TParam2& y, const std::string& msg, const std::source_location location = std::source_location::current())
+    {
+        if (!curr_test_report)
+            beginTest();
+
+        if (x != y)
+            curr_test_report->logFailedAssertion(msg, location);
+    }
+
+    template<typename TParam1, typename TParam2>
+    void assertEq(const TParam1& x, const TParam2& y, const std::source_location location = std::source_location::current())
+    {
+        if (!curr_test_report)
+            beginTest();
+
+        if (x != y)
             curr_test_report->logFailedAssertion(location);
     }
 

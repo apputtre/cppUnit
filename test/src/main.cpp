@@ -189,8 +189,21 @@ int main()
 
         tenv.beginSuite("Test suite");
 
-        tenv.beginTest();
+        tenv.beginTest("Assertion without message");
         tenv.assert(false);
+
+        std::cout << tenv.getSummary();
+    }
+
+    std::cout << std::endl;
+
+    {
+        std::cout << "=== TEST 8 ===" << std::endl;
+        TestEnvironment tenv;
+
+        tenv.beginSuite("assertEq");
+        //tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
+        tenv.assert(2+2 == 5, "Two plus two does not equal five!");
 
         std::cout << tenv.getSummary();
     }

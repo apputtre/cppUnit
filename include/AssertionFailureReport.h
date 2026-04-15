@@ -3,15 +3,16 @@
 
 #include <string>
 #include <source_location>
+#include <format>
 
 struct AssertionFailureReport
 {
-    std::string& msg;
     std::source_location location;
+    std::string msg = "";
 
-    std::string getSummary()
+    std::string getSummary() const
     {
-        
+        return std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
     }
 };
 

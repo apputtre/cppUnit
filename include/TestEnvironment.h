@@ -50,7 +50,15 @@ public:
             beginTest();
 
         if (!statement)
-            curr_test_report->logFailedAssertion(msg, location);
+        {
+            AssertionFailureReport report
+            {
+                .location = location,
+                .msg = msg
+            };
+
+            curr_test_report->logFailedAssertion(report);
+        }
     }
 
     void assert(bool statement, const std::source_location location = std::source_location::current())
@@ -59,7 +67,14 @@ public:
             beginTest();
 
         if (!statement)
-            curr_test_report->logFailedAssertion(location);
+        {
+            AssertionFailureReport report
+            {
+                .location = location
+            };
+
+            curr_test_report->logFailedAssertion(report);
+        }
     }
 
     template<typename TParam1, typename TParam2>
@@ -69,7 +84,15 @@ public:
             beginTest();
 
         if (x != y)
-            curr_test_report->logFailedAssertion(msg, location);
+        {
+            AssertionFailureReport report
+            {
+                .location = location,
+                .msg = msg
+            };
+
+            curr_test_report->logFailedAssertion(report);
+        }
     }
 
     template<typename TParam1, typename TParam2>
@@ -79,7 +102,14 @@ public:
             beginTest();
 
         if (x != y)
-            curr_test_report->logFailedAssertion(location);
+        {
+            AssertionFailureReport report
+            {
+                .location = location
+            };
+
+            curr_test_report->logFailedAssertion(report);
+        }
     }
 
     std::string getSummary()

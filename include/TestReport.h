@@ -6,6 +6,8 @@
 #include <sstream>
 #include <source_location>
 
+#include "AssertionFailureReport.h"
+
 struct TestReport
 {
 private:
@@ -43,15 +45,9 @@ public:
         return summary.str();
     }
 
-    void logFailedAssertion(const std::source_location& location)
+    void logFailedAssertion(const AssertionFailureReport& report)
     {
-        log.push_back(std::format("Assertion failure (file {}, line {})", location.file_name(), location.line()));
-        passed = false;
-    }
-
-    void logFailedAssertion(const std::string& msg, const std::source_location& location)
-    {
-        log.push_back(std::format("Assertion failure (file {}, line {}): \"{}\"", location.file_name(), location.line(), msg));
+        log.push_back(report.getSummary());
         passed = false;
     }
 };

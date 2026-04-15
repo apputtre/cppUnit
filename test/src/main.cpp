@@ -6,111 +6,14 @@
 #include <format>
 
 #include "TestSuiteReport.h"
-#include "TestCase.h"
-#include "TestSuite.h"
 #include "TestEnvironment.h"
-
-class TestTestCase : public TestCase
-{
-public:
-    TestTestCase(const std::string& name) : TestCase(name)
-    {}
-
-    TestReport run()
-    {
-        std::cout << "Running test " << this->name << std::endl;
-
-        return TestCase::run();
-    }
-
-    void setUp()
-    {
-        std::cout << "setUp called\n";
-    }
-
-    void tearDown()
-    {
-        std::cout << "tearDown called\n";
-    }
-};
-
-class TwoPlusTwoEqualsFive : public TestTestCase
-{
-public:
-    TwoPlusTwoEqualsFive(const std::string& name) : TestTestCase(name)
-    {}
-
-    void test() override
-    {
-        assert(2 + 2 == 5, "Two plus two does not equal five!");
-    }
-};
-
-class TwoPlusTwoEqualsFour : public TestTestCase
-{
-public:
-    TwoPlusTwoEqualsFour(const std::string& name) : TestTestCase(name)
-    {}
-
-    void test() override
-    {
-        assert(2 + 2 == 4, "Two plus two does not equal four!");
-    }
-};
-
-class TwoPlusTwoEqualsSeven : public TestTestCase
-{
-public:
-    TwoPlusTwoEqualsSeven(const std::string& name) : TestTestCase(name)
-    {}
-
-    void test() override
-    {
-        assert(2 + 2 == 7, "Two plus two does not equal seven!");
-    }
-};
 
 int main()
 {
+    std::cout << std::endl;
+
     {
         std::cout << "=== TEST 1 ===" << std::endl;
-        TwoPlusTwoEqualsFive test("2+2=5?");
-        TestReport report = test.run();
-        std::cout << report.getSummary();
-    }
-
-    std::cout << std::endl;
-   
-    {
-        std::cout << "=== TEST 2 ===" << std::endl;
-        TwoPlusTwoEqualsFour test("2+2=4?");
-        TestReport report = test.run();
-        std::cout << report.getSummary();
-    }
-
-    std::cout << std::endl;
-
-    {
-        std::cout << "=== TEST 3 ===" << std::endl;
-        TwoPlusTwoEqualsFive test1("2+2=5?");
-        TwoPlusTwoEqualsFour test2("2+2=4?");
-        TwoPlusTwoEqualsSeven test3("2+2=7?");
-
-        TestSuite suite("Test Suite");
-
-        suite.add(test1);
-        suite.add(test2);
-        suite.add(test3);
-
-        TestSuiteReport report = suite.run();
-
-        std::cout << report.getSummary();
-    }
-
-    std::cout << std::endl;
-
-    {
-        std::cout << "=== TEST 4 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginTest("2+2=5?");
@@ -128,7 +31,7 @@ int main()
     std::cout << std::endl;
 
     {
-        std::cout << "=== TEST 5 ===" << std::endl;
+        std::cout << "=== TEST 2 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginSuite("Basic arithmetic");
@@ -156,7 +59,7 @@ int main()
     std::cout << std::endl;
 
     {
-        std::cout << "=== TEST 6 ===" << std::endl;
+        std::cout << "=== TEST 3 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginSuite("First suite");
@@ -184,7 +87,7 @@ int main()
     std::cout << std::endl;
 
     {
-        std::cout << "=== TEST 7 ===" << std::endl;
+        std::cout << "=== TEST 4 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginSuite("Test suite");
@@ -198,7 +101,7 @@ int main()
     std::cout << std::endl;
 
     {
-        std::cout << "=== TEST 8 ===" << std::endl;
+        std::cout << "=== TEST 5 ===" << std::endl;
         TestEnvironment tenv;
 
         tenv.beginSuite("assertEq");

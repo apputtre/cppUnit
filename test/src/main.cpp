@@ -202,7 +202,7 @@ std::string visualizeWhitespace(std::string str)
 
     for (char& c : str)
         if (c == '\t')
-            ss << "[ \\t]";
+            ss << "[\\t ]";
         else if (c == '\n')
             ss << "[\\n]\n";
         else

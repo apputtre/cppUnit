@@ -4,7 +4,8 @@
 #include <vector>
 #include <memory>
 #include <format>
-#include <math.h>
+#include <fstream>
+#include <algorithm>
 
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
@@ -27,7 +28,87 @@ int main()
         tenv.beginTest("War is Peace?");
         tenv.assert(std::string("War") == std::string("Peace"), "War is not Peace!");
 
-        std::cout << tenv.getSummary();
+        std::string actual_output = tenv.getSummary();
+
+        std::ifstream fs("../test_outputs/test_1.txt");
+
+        if (!fs.good())
+            throw std::runtime_error("Could not open test_outputs/test_1.txt");
+        
+
+        fs.seekg(0, std::ifstream::end);
+        const size_t file_size = fs.tellg();
+        fs.seekg(0, std::ifstream::beg);
+        
+        char* buf = new char[file_size];
+
+        fs.read(buf, file_size);
+        std::string expected_output(buf);
+
+        delete[](buf);
+
+        std::stringstream ss;
+
+        for (char& c : actual_output)
+            if (c == '\t')
+                ss << "    ";
+            else
+                ss << c;
+
+        actual_output = ss.str();
+
+        if (actual_output != expected_output)
+            std::cout << "Test 1 failed" << std::endl;
+        
+        std::cout << "=== EXPECTED ===" << std::endl;
+        std::cout << expected_output << std::endl;
+        std::cout << "=== ACTUAL ===" << std::endl;
+
+        /*
+        for (char& c : actual_output)
+            if (c == '\t')
+                ss << "[ \\t]";
+            else
+                ss << c;
+        */
+
+        std::cout << actual_output << std::endl;
+
+        // line-by-line comparison
+        std::stringstream ss_expected(expected_output);
+        std::stringstream ss_actual(actual_output);
+        std::string line_expected, line_actual;
+        int i = 0;
+        do
+        {
+            getline(ss_expected, line_expected);
+            getline(ss_actual, line_actual);
+
+            if (line_expected != line_actual)
+            {
+                std::cout << "Lines differ " << i << std::endl;
+
+                size_t pos = 0;
+                while (line_expected[pos] == line_actual[pos])
+                    ++pos;
+                
+                std::cout << "Lines differ at position " << pos << std::endl;
+
+                std::cout << line_expected << std::endl;
+                std::cout << line_actual << std::endl;
+
+                for (int i = 0; i < (int) pos - 1; ++i)
+                    std::cout << " ";
+                std::cout << "|" << std::endl;
+
+                for (int i = 0; i < (int) pos - 1; ++i)
+                    std::cout << " ";
+                std::cout << "HERE" << std::endl;
+            }
+            
+            ++i;
+
+        } while (line_expected.size() > 0 && line_actual.size() > 0);
     }
 
     {

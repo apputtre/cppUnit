@@ -160,8 +160,8 @@ std::string checkOutput(const std::string& actual_output, const std::string& exp
     report << visualizeWhitespace(actual_output) << std::endl;
 
     // line-by-line comparison
-    std::stringstream ss_expected(expected_output);
-    std::stringstream ss_actual(actual_output);
+    std::stringstream ss_expected(visualizeWhitespace(expected_output));
+    std::stringstream ss_actual(visualizeWhitespace(actual_output));
     std::string line_expected, line_actual;
     int i = 0;
     do
@@ -184,7 +184,7 @@ std::string checkOutput(const std::string& actual_output, const std::string& exp
 
             for (int i = 0; i < (int) pos; ++i)
                 report << " ";
-            report << "^HERE" << std::endl;
+            report << "^HERE (" << pos << ")" << std::endl;
         }
         
         ++i;

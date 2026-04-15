@@ -70,7 +70,7 @@ public:
         }
     }
 
-    template<typename TParam1, typename TParam2>
+    template<typename TParam1, typename TParam2> requires std::equality_comparable_with<TParam1, TParam2>
     void assertEq(const TParam1& x, const TParam2& y, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)

@@ -4,6 +4,7 @@
 #include <string>
 #include <source_location>
 #include <format>
+#include <ostream>
 
 struct AssertionFailureReport
 {
@@ -27,9 +28,16 @@ struct AssertionFailureReport
     }
 };
 
+template<typename T>
+concept Printable = requires(T t, std::ostream os)
+{
+    os << t;
+};
+
 template<typename Param1, typename Param2>
 struct ComparisonFailureReport : AssertionFailureReport
 {
+
     enum ComparisonType
     {
         EqualTo,
@@ -71,8 +79,9 @@ struct ComparisonFailureReport : AssertionFailureReport
 
     std::string getSummary() const override
     {
-        std::string comparison_description;
+        //std::string comparison_description = "";
 
+        /*
         switch(comparisonType)
         {
             case ComparisonType::EqualTo:
@@ -81,8 +90,10 @@ struct ComparisonFailureReport : AssertionFailureReport
             default:
                 throw std::runtime_error("Not implemented");
         }
+                */
 
-        return std::format("Assertion failure (file {}, line {})\n{}", location.file_name(), location.line(), comparison_description);
+        //return std::format("Assertion failure (file {}, line {})\n{}", location.file_name(), location.line(), comparison_description);
+        return std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
     }
 };
 

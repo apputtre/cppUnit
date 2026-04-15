@@ -106,8 +106,14 @@ int main()
 
         tenv.beginSuite("assertEq");
 
-        tenv.beginTest();
+        tenv.beginTest("Printable arguments");
         tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
+
+        tenv.beginTest("Non-printable arguments");
+        std::clock_t t1;
+        std::clock_t t2;
+
+        tenv.assertEq(t1, t2, "A does not equal B!");
 
         std::cout << tenv.getSummary();
     }

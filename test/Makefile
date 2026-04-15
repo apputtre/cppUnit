@@ -14,7 +14,7 @@ LDFLAGS =
 
 main.exe: main.cpp TestCase.h TestEnvironment.h TestReport.h TestSuite.h TestSuiteReport.h
 	mkdir -p $(BIN_PATH)
-	$(CXX) $(CXXFLAGS) test/main.cpp -o $(BIN_PATH)/main.exe $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) src/main.cpp -o $(BIN_PATH)/main.exe $(LDFLAGS)
 
 .PHONY: clean
 clean:

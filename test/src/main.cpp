@@ -11,12 +11,12 @@
 #include "TestEnvironment.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
-#define TAB_REPLACEMENT "    "
+#define TAB_WIDTH 4
 
 std::string checkOutput(const std::string& actual_output, const std::string& expected_output_file);
 std::string visualizeWhitespace(std::string str);
 std::string getFileContents(std::ifstream& fstream);
-std::string replaceTabs(const std::string& str);
+std::string replaceSpaces(const std::string& str);
 
 int main()
 {
@@ -147,11 +147,11 @@ std::string checkOutput(const std::string& actual_output, const std::string& exp
     if (!fs.good())
         throw std::runtime_error(std::format("Could not open file {}", expected_output_file));
 
-    std::string expected_output = getFileContents(fs);
+    std::string expected_output = replaceSpaces(getFileContents(fs));
 
     fs.close();
 
-    if (replaceTabs(actual_output) != expected_output)
+    if (actual_output != expected_output)
         report << "Test 1 failed" << std::endl;
     
     report << "=== EXPECTED ===" << std::endl;
@@ -204,11 +204,11 @@ std::string visualizeWhitespace(std::string str)
         if (c == '\t')
             ss << "[ \\t]";
         else if (c == '\n')
-            ss << "[\\n]";
+            ss << "[\\n]\n";
         else
             ss << c;
 
-    return str;
+    return ss.str();
 }
 
 std::string getFileContents(std::ifstream& fstream)
@@ -227,15 +227,31 @@ std::string getFileContents(std::ifstream& fstream)
     return contents;
 }
 
-std::string replaceTabs(const std::string& str)
+std::string replaceSpaces(const std::string& str)
 {
-    std::stringstream ss;
+    std::stringstream ss_out;
 
-    for (const char& c : str)
-        if (c == '\t')
-            ss << TAB_REPLACEMENT;
+    std::string buf;
+    std::string tab_replacement;
+
+    for (int i = 0; i < TAB_WIDTH; ++i)
+        tab_replacement += " ";
+
+    for (int i = 0; i < (int) str.length(); ++i)
+    {
+        for (int j = 0; j < TAB_WIDTH && i + j < (int) str.length(); ++j)
+            buf += str[i + j];
+
+        if (buf == tab_replacement)
+        {
+            ss_out << '\t';
+            i += buf.size() - 1;
+        }
         else
-            ss << c;
+            ss_out << str[i];
+        
+        buf.erase();
+    }
 
-    return ss.str();
+    return ss_out.str();
 }

@@ -51,11 +51,7 @@ public:
 
         if (!statement)
         {
-            AssertionFailureReport report
-            {
-                .location = location,
-                .msg = msg
-            };
+            AssertionFailureReport report(location, msg);
 
             curr_test_report->logFailedAssertion(report);
         }
@@ -68,10 +64,7 @@ public:
 
         if (!statement)
         {
-            AssertionFailureReport report
-            {
-                .location = location
-            };
+            AssertionFailureReport report(location);
 
             curr_test_report->logFailedAssertion(report);
         }
@@ -85,11 +78,7 @@ public:
 
         if (x != y)
         {
-            AssertionFailureReport report
-            {
-                .location = location,
-                .msg = msg
-            };
+            ComparisonFailureReport<TParam1, TParam2> report(location, msg, x, y, ComparisonFailureReport<TParam1, TParam2>::ComparisonType::EqualTo);
 
             curr_test_report->logFailedAssertion(report);
         }
@@ -103,10 +92,7 @@ public:
 
         if (x != y)
         {
-            AssertionFailureReport report
-            {
-                .location = location
-            };
+            AssertionFailureReport report(location);
 
             curr_test_report->logFailedAssertion(report);
         }

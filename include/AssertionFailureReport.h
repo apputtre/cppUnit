@@ -71,7 +71,6 @@ struct ComparisonFailureReport : AssertionFailureReport
 
     std::string getSummary() const override
     {
-        std::cout << 1 << std::endl;
         std::string comparison_description;
 
         switch(comparisonType)

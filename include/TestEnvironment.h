@@ -56,8 +56,13 @@ public:
         if (curr_test_report)
             suite_reports.back()->log(*curr_test_report);
 
-        for (std::shared_ptr<TestSuiteReport> report : suite_reports)
-            summary << report->getSummary() << std::endl;
+        for (auto it = suite_reports.begin(); it != suite_reports.end(); ++it)
+        {
+            summary << it->get()->getSummary();
+
+            if (it != suite_reports.end() - 1)
+                summary << std::endl;
+        }
         
         return summary.str();
     }

@@ -15,6 +15,8 @@ int main()
         std::cout << "=== TEST 1 ===" << std::endl;
         TestEnvironment tenv;
 
+        tenv.beginSuite("Basic assertions");
+
         tenv.beginTest("2+2=5?");
         tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
 

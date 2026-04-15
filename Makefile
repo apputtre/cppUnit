@@ -1,6 +1,6 @@
 INCLUDE_DIRS=include
 BIN_PATH=bin
-SRC_PATH=src tests
+SRC_PATH=src test
 OBJ_PATH=obj
 
 OBJ_FILES=main.o
@@ -14,7 +14,7 @@ LDFLAGS =
 
 main.exe: main.cpp TestCase.h TestEnvironment.h TestReport.h TestSuite.h TestSuiteReport.h
 	mkdir -p $(BIN_PATH)
-	$(CXX) $(CXXFLAGS) tests/main.cpp -o $(BIN_PATH)/main.exe $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) test/main.cpp -o $(BIN_PATH)/main.exe $(LDFLAGS)
 
 .PHONY: clean
 clean:

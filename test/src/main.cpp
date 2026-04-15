@@ -11,6 +11,7 @@
 #include "TestEnvironment.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
+#define TAB_REPLACEMENT "    "
 
 std::string checkOutput(std::string actual_output, const std::string& expected_output_file);
 std::string visualizeWhitespace(std::string str);
@@ -159,7 +160,7 @@ std::string checkOutput(std::string actual_output, const std::string& expected_o
 
     for (char& c : actual_output)
         if (c == '\t')
-            ss << "    ";
+            ss << TAB_REPLACEMENT;
         else
             ss << c;
 

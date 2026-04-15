@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <source_location>
 
 struct TestReport
 {
@@ -42,15 +43,15 @@ public:
         return summary.str();
     }
 
-    void logFailedAssertion()
+    void logFailedAssertion(const std::source_location& location)
     {
-        log.push_back("Assertion failure");
+        log.push_back(std::format("Assertion failure (file {}, line {})", location.file_name(), location.line()));
         passed = false;
     }
 
-    void logFailedAssertion(const std::string& msg)
+    void logFailedAssertion(const std::string& msg, const std::source_location& location)
     {
-        log.push_back("Assertion failure: " + msg);
+        log.push_back(std::format("Assertion failure (file {}, line {}): {}", location.file_name(), location.line(), msg));
         passed = false;
     }
 };

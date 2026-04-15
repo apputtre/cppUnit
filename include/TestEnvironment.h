@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <source_location>
 
 #include "TestReport.h"
 #include "TestSuiteReport.h"
@@ -43,16 +44,16 @@ public:
         beginTest("Test " + std::to_string(suite_reports.back()->numTests() + 1 + (curr_test_report ? 1 : 0)));
     }
 
-    void assert(bool statement, const std::string& msg)
+    void assert(bool statement, const std::string& msg, const std::source_location& location = std::source_location::current())
     {
         if (!statement)
-            curr_test_report->logFailedAssertion(msg);
+            curr_test_report->logFailedAssertion(msg, location);
     }
 
-    void assert(bool statement)
+    void assert(bool statement, const std::source_location& location = std::source_location::current())
     {
         if (!statement)
-            curr_test_report->logFailedAssertion();
+            curr_test_report->logFailedAssertion(location);
     }
 
     std::string getSummary()

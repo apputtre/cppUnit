@@ -2,6 +2,7 @@
 #define TESTCASE_H
 
 #include <string>
+#include <source_location>
 
 #include "TestReport.h"
 #include "TestCase.h"
@@ -33,16 +34,16 @@ protected:
     std::string name;
     TestReport report;
 
-    void assert(bool statement)
+    void assert(bool statement, const std::source_location location = std::source_location::current())
     {
         if (!statement)
-            report.logFailedAssertion();
+            report.logFailedAssertion(location);
     }
 
-    void assert(bool statement, const std::string& msg)
+    void assert(bool statement, const std::string& msg, std::source_location location = std::source_location::current())
     {
         if (!statement)
-            report.logFailedAssertion(msg);
+            report.logFailedAssertion(msg, location);
     }
 };
 

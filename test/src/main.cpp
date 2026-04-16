@@ -146,23 +146,28 @@ std::string checkOutput(const std::string& actual_output, const std::string& exp
 
     std::string expected_output = replaceSpaces(getFileContents(expected_output_file));
 
-    if (actual_output != expected_output)
-        report << "Test 1 failed" << std::endl;
+    if (actual_output == expected_output)
+        return "";
     
     report << "=== ACTUAL ===" << std::endl;
     report << visualizeWhitespace(actual_output) << std::endl;
     report << "=== EXPECTED ===" << std::endl;
     report << visualizeWhitespace(expected_output) << std::endl;
 
-    // line-by-line comparison
     std::stringstream ss_actual(visualizeWhitespace(actual_output));
     std::stringstream ss_expected(visualizeWhitespace(expected_output));
-    std::string line_actual, line_expected;
     int i = 0;
     do
     {
-        getline(ss_actual, line_actual);
-        getline(ss_expected, line_expected);
+        std::string line_actual = "";
+
+        if (!ss_actual.eof())
+            getline(ss_actual, line_actual);
+
+        std::string line_expected = "";
+
+        if (!ss_expected.eof())
+            getline(ss_expected, line_expected);
 
         if (line_expected != line_actual)
         {
@@ -182,7 +187,7 @@ std::string checkOutput(const std::string& actual_output, const std::string& exp
         
         ++i;
 
-    } while (line_expected.size() > 0 && line_actual.size() > 0);
+    } while (!ss_actual.eof() && !ss_expected.eof());
 
     report.flush();
 

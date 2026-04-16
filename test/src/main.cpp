@@ -6,6 +6,7 @@
 #include <format>
 #include <fstream>
 #include <algorithm>
+#include <ios>
 
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
@@ -213,13 +214,13 @@ std::string visualizeWhitespace(std::string str)
 std::string getFileContents(std::ifstream& fstream)
 {
     fstream.seekg(0, std::ifstream::end);
-    const size_t file_size = fstream.tellg();
+    const size_t num_chars = fstream.tellg();
     fstream.seekg(0, std::ifstream::beg);
     
-    char* buf = new char[file_size];
+    char* buf = new char[num_chars];
 
-    fstream.read(buf, file_size);
-    std::string contents(buf);
+    fstream.read(buf, num_chars);
+    std::string contents(buf, num_chars);
 
     delete[](buf);
 

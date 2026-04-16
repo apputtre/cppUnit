@@ -16,7 +16,7 @@
 
 std::string checkOutput(const std::string& actual_output, const std::string& expected_output_file);
 std::string visualizeWhitespace(std::string str);
-std::string getFileContents(std::ifstream& fstream);
+std::string getFileContents(const std::string& path);
 std::string replaceSpaces(const std::string& str);
 
 int main()
@@ -144,14 +144,7 @@ std::string checkOutput(const std::string& actual_output, const std::string& exp
 {
     std::stringstream report;
 
-    std::ifstream fs(std::format("{}/{}", EXPECTED_OUTPUT_DIR, expected_output_file).c_str());
-
-    if (!fs.good())
-        throw std::runtime_error(std::format("Could not open file {}", expected_output_file));
-
-    std::string expected_output = replaceSpaces(getFileContents(fs));
-
-    fs.close();
+    std::string expected_output = replaceSpaces(getFileContents(expected_output_file));
 
     if (actual_output != expected_output)
         report << "Test 1 failed" << std::endl;
@@ -211,20 +204,20 @@ std::string visualizeWhitespace(std::string str)
     return ss.str();
 }
 
-std::string getFileContents(std::ifstream& fstream)
+std::string getFileContents(const std::string& filename)
 {
-    fstream.seekg(0, std::ifstream::end);
-    const size_t num_chars = fstream.tellg();
-    fstream.seekg(0, std::ifstream::beg);
-    
-    char* buf = new char[num_chars];
+    std::ifstream file(std::format("{}/{}", EXPECTED_OUTPUT_DIR, filename));
 
-    fstream.read(buf, num_chars);
-    std::string contents(buf, num_chars);
+    if (!file)
+    {
+        throw std::runtime_error("Could not open file " + filename);
+    }
 
-    delete[](buf);
+    std::stringstream contents;
 
-    return contents;
+    contents << file.rdbuf();
+
+    return contents.str();
 }
 
 std::string replaceSpaces(const std::string& str)

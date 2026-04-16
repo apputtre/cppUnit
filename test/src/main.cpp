@@ -11,6 +11,7 @@
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
 #include "Test1.h"
+#include "Test2.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -23,6 +24,8 @@ std::string replaceSpaces(const std::string& str);
 int main()
 {
     {
+        // Basic assertions
+
         TestEnvironment tenv = Test1();
 
         std::string summary = tenv.getSummary();
@@ -37,53 +40,9 @@ int main()
     }
 
     {
-        std::cout << "=== TEST 2 ===" << std::endl;
-        TestEnvironment tenv;
+        // Multiple suites
 
-        tenv.beginSuite("Basic arithmetic");
-
-        tenv.beginTest("2+2=5?");
-        tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
-
-        tenv.beginTest("2+2=4?");
-        tenv.assert(2 + 2 == 4, "Two plus two does not equal 4!");
-
-        tenv.beginTest("2+2=7?");
-        tenv.assert(2 + 2 == 7, "Two plus two does not equal 7!");
-
-        tenv.beginSuite("String comparison");
-
-        tenv.beginTest("abc=def?");
-        tenv.assert(std::string("abc") == std::string("def"), "abc does not equal def!");
-
-        tenv.beginTest("abc=abc?");
-        tenv.assert(std::string("abc") == std::string("abc"), "abc does not equal abc!");
-
-        std::cout << tenv.getSummary();
-    }
-
-    {
-        std::cout << "=== TEST 3 ===" << std::endl;
-        TestEnvironment tenv;
-
-        tenv.beginSuite("First suite");
-
-        tenv.beginTest();
-        tenv.assert(false, "false is false!");
-
-        tenv.beginTest();
-        tenv.assert(false, "false is false!");
-
-        tenv.beginTest();
-        tenv.assert(false, "false is false!");
-
-        tenv.beginSuite("Second suite");
-
-        tenv.beginTest();
-        tenv.assert(true, "This test should pass");
-
-        tenv.beginTest();
-        tenv.assert(false, "This test should fail");
+        TestEnvironment tenv = Test2();
 
         std::cout << tenv.getSummary();
     }

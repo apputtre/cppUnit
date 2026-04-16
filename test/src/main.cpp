@@ -10,6 +10,7 @@
 
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
+#include "Test1.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -22,18 +23,7 @@ std::string replaceSpaces(const std::string& str);
 int main()
 {
     {
-        TestEnvironment tenv;
-
-        tenv.beginSuite("Basic assertions");
-
-        tenv.beginTest("2+2=5?");
-        tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");
-
-        tenv.beginTest("3-4-5");
-        tenv.assert(3*3 + 4*4 == 5*5, "3^2 + 4^2 does not equal 5^2!");
-
-        tenv.beginTest("War is Peace?");
-        tenv.assert(std::string("War") == std::string("Peace"), "War is not Peace!");
+        TestEnvironment tenv = Test1();
 
         std::string summary = tenv.getSummary();
 

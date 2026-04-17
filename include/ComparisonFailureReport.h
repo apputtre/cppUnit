@@ -44,18 +44,6 @@ struct ComparisonFailureReport : AssertionFailureReport
         this->comparison_symbol = comparison_symbol;
     }
 
-    ComparisonFailureReport(
-        const std::source_location& location,
-        const TParam1& x,
-        const TParam2& y,
-        const ComparisonType& comparison_symbol
-    ) : AssertionFailureReport(location)
-    {
-        this->x = x;
-        this->y = y;
-        this->comparison_symbol = comparison_symbol;
-    }
-
     std::string getSummary() const override
     {
         std::stringstream summary;

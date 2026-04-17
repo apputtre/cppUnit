@@ -17,16 +17,6 @@ namespace xUnitCpp_impl
 template<typename TParam1, typename TParam2>
 struct ComparisonFailureReport : AssertionFailureReport
 {
-    enum ComparisonType
-    {
-        EqualTo,
-        NotEqualTo,
-        LessThan,
-        LessThanOrEqualTo,
-        GreaterThan,
-        GreaterThanOrEqualTo
-    };
-
     TParam1 x;
     TParam2 y;
     std::string comparison_symbol;

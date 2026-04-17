@@ -60,15 +60,7 @@ public:
 
     void assert(bool statement, const std::source_location location = std::source_location::current())
     {
-        if (!curr_test_report)
-            beginTest();
-
-        if (!statement)
-        {
-            AssertionFailureReport report(location);
-
-            curr_test_report->logFailedAssertion(report);
-        }
+        assert(statement, "", location);
     }
 
     template<typename TParam1, typename TParam2>
@@ -90,15 +82,7 @@ public:
         requires requires (TParam1 p1, TParam2 p2) {p1 == p2;}
     void assertEq(const TParam1& x, const TParam2& y, const std::source_location location = std::source_location::current())
     {
-        if (!curr_test_report)
-            beginTest();
-
-        if (!(x == y))
-        {
-            AssertionFailureReport report(location);
-
-            curr_test_report->logFailedAssertion(report);
-        }
+        assertEq(x, y, "", location);
     }
 
     std::string getSummary()

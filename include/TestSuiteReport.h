@@ -71,6 +71,16 @@ public:
     {
         return reports.size();
     }
+
+    size_t numFailingTests()
+    {
+        return num_failing_reports;
+    }
+
+    size_t numPassingTests()
+    {
+        return numTests() - numFailingTests();
+    }
 };
 
 #endif

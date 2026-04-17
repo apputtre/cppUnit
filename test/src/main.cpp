@@ -70,7 +70,10 @@ int main()
         tenv.beginTest("assertEq with printable arguments 3");
         tenv.assertEq(std::string("War"), std::string("Peace"), "War is not peace!");
 
-        tenv.beginTest("Non-printable arguments");
+        tenv.beginTest("assertEq with printable arguments 4");
+        tenv.assertEq(true, false);
+
+        tenv.beginTest("assertEq with non-printable arguments");
 
         struct ComparableButNotPrintable
         {

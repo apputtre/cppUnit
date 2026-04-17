@@ -7,6 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <ios>
+#include <ostream>
 
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
@@ -35,6 +36,18 @@ struct ComparableButNotPrintable
         return x != other.x;
     }
 };
+
+struct ComparableAndPrintable : ComparableButNotPrintable
+{
+    ComparableAndPrintable() = default;
+};
+
+std::ostream& operator<<(std::ostream& os, const ComparableAndPrintable& x)
+{
+    os << x.x;
+
+    return os;
+}
 
 int main()
 {

@@ -1,4 +1,4 @@
-Test suite "assertGtEq" (1/5 passing tests)
+Test suite "assertGtEq" (2/6 passing tests)
     Test "assertGtEq with printable arguments 1" failed
         Assertion failure (file include/Test5.h, line 21): "One is not greater than or equal to two!"
         1 >= 2
@@ -6,7 +6,23 @@ Test suite "assertGtEq" (1/5 passing tests)
         Assertion failure (file include/Test5.h, line 27)
         2.5 >= 3
     Test "assertGtEq with non-printable arguments" failed
-        Assertion failure (file include/Test5.h, line 30)
-    Test "assertGtEq with arguments with custom print operation" failed
         Assertion failure (file include/Test5.h, line 33)
+    Test "assertGtEq with arguments with custom print operation" failed
+        Assertion failure (file include/Test5.h, line 36)
         ComparableAndPrintable(1) >= ComparableAndPrintable(2)
+
+Test suite "assertLtEq" (1/6 passing tests)
+    Test "assertLtEq with printable arguments 1" failed
+        Assertion failure (file include/Test5.h, line 41): "Two is not less than or equal to one!"
+        2 <= 1
+    Test "assertLtEq with printable arguments 2" failed
+        Assertion failure (file include/Test5.h, line 44): "Z is not less than or equal to A!"
+        Z <= A
+    Test "assertLtEq with printable arguments 3" failed
+        Assertion failure (file include/Test5.h, line 47)
+        3 <= 2.5
+    Test "assertLtEq with non-printable arguments" failed
+        Assertion failure (file include/Test5.h, line 53)
+    Test "assertLtEq with arguments with custom print operation" failed
+        Assertion failure (file include/Test5.h, line 56)
+        ComparableAndPrintable(2) <= ComparableAndPrintable(1)

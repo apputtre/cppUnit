@@ -81,7 +81,6 @@ int main()
         TestEnvironment tenv = Test5();
 
         std::string summary = tenv.getSummary();
-        std::cout << summary << std::endl;
 
         std::string report = checkOutput(summary, "test_5.txt");
 

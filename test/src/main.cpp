@@ -37,14 +37,11 @@ struct ComparableButNotPrintable
     }
 };
 
-struct ComparableAndPrintable : ComparableButNotPrintable
-{
-    ComparableAndPrintable() = default;
-};
+struct ComparableAndPrintable : ComparableButNotPrintable {};
 
 std::ostream& operator<<(std::ostream& os, const ComparableAndPrintable& x)
 {
-    os << x.x;
+    os << "ComparableAndPrintable(" << x.x << ")";
 
     return os;
 }
@@ -105,6 +102,13 @@ int main()
 
         ComparableButNotPrintable a1{1};
         ComparableButNotPrintable a2{2};
+
+        tenv.assertEq(a1, a2, "a1 does not equal a2!");
+
+        ComparableAndPrintable a1{1};
+        ComparableAndPrintable a2{2};
+
+        tenv.beginTest("assertEq with arguments with custom print operation");
 
         tenv.assertEq(a1, a2, "a1 does not equal a2!");
 

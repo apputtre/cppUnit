@@ -26,6 +26,9 @@ TestEnvironment Test5()
     tenv.beginTest("assertGtEq with printable arguments 3");
     tenv.assertGtEq(2.5, 3);
 
+    tenv.beginTest("assertGtEq with printable arguments 4");
+    tenv.assertGtEq(2.5, 2.5, "2.5 is not greater than or equal to 2.5!");
+
     tenv.beginTest("assertGtEq with non-printable arguments");
     tenv.assertGtEq(comp_not_print_1, comp_not_print_2);
 

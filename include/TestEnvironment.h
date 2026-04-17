@@ -109,10 +109,14 @@ public:
 
         for (auto it = suite_reports.begin(); it != suite_reports.end(); ++it)
         {
-            summary << it->get()->getSummary();
+            if (!it->get()->allTestsPassed())
+            {
+                summary << it->get()->getSummary();
 
-            if (it != suite_reports.end() - 1)
-                summary << std::endl;
+                if (it != suite_reports.end() - 1)
+                    summary << std::endl;
+            }
+
         }
         
         return summary.str();

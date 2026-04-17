@@ -27,8 +27,8 @@ TestEnvironment Test2()
 
     tenv.beginSuite("Third suite");
 
-    tenv.beginTest("false?");
-    tenv.assert(false, "False is false!");
+    tenv.beginTest("Assertion without message");
+    tenv.assert(false);
 
     tenv.beginTest("War is peace?");
     tenv.assert(std::string("War") == std::string("Peace"), "War is not Peace!");

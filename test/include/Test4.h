@@ -23,7 +23,7 @@ TestEnvironment Test4()
     tenv.beginTest("assertGt with printable arguments 2");
     tenv.assertGt('Z', 'A', "Z is not greater than A!");
 
-    tenv.beginTest("assertGt with printable arguments 4");
+    tenv.beginTest("assertGt with printable arguments 3");
     tenv.assertGt(2.5, 3);
 
     tenv.beginTest("assertGt with non-printable arguments");
@@ -40,7 +40,7 @@ TestEnvironment Test4()
     tenv.beginTest("assertLt with printable arguments 2");
     tenv.assertLt('A', 'Z', "A is not less than Z!");
 
-    tenv.beginTest("assertLt with printable arguments 4");
+    tenv.beginTest("assertLt with printable arguments 3");
     tenv.assertLt(3, 2.5);
 
     tenv.beginTest("assertLt with non-printable arguments");

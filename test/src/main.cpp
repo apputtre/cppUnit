@@ -14,6 +14,7 @@
 #include "Test1.h"
 #include "Test2.h"
 #include "Test3.h"
+#include "Test4.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -58,18 +59,33 @@ int main()
     }
 
     {
-        // assertEq, assertNeq, assertGt, assertLt
+        // assertEq, assertNeq
 
         TestEnvironment tenv = Test3();
 
         std::string summary = tenv.getSummary();
-        std::cout << summary << std::endl;
 
         std::string report = checkOutput(summary, "test_3.txt");
 
         if (report != "")
         {
             std::cout << "Test 3 failed\n";
+            std::cout << report << std::endl;
+        }
+    }
+
+    {
+        // assertGt, assertLt
+
+        TestEnvironment tenv = Test4();
+
+        std::string summary = tenv.getSummary();
+
+        std::string report = checkOutput(summary, "test_4.txt");
+
+        if (report != "")
+        {
+            std::cout << "Test 4 failed\n";
             std::cout << report << std::endl;
         }
     }

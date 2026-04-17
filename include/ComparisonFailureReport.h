@@ -5,7 +5,7 @@
 
 #include "AssertionFailureReport.h"
 
-namespace xUnitCpp_impl
+namespace yUnit_impl 
 {
     template<typename T>
     concept Printable = requires(T t, std::ostream os)
@@ -40,7 +40,7 @@ struct ComparisonFailureReport : AssertionFailureReport
 
         summary << formatMessage(location, msg);
 
-        if constexpr (xUnitCpp_impl::Printable<TParam1> && xUnitCpp_impl::Printable<TParam2>)
+        if constexpr (yUnit_impl::Printable<TParam1> && yUnit_impl::Printable<TParam2>)
             summary << std::endl << x << " " << comparison_symbol << " " << y << std::endl; 
         
         summary.flush();

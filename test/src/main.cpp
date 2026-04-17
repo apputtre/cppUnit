@@ -72,18 +72,18 @@ int main()
 
         tenv.beginTest("Non-printable arguments");
 
-        struct A
+        struct ComparableButNotPrintable
         {
             int x;
 
-            bool operator==(const A& other) const
+            bool operator==(const ComparableButNotPrintable& other) const
             {
                 return x == other.x;
             }
         };
 
-        A a1{0};
-        A a2{1};
+        ComparableButNotPrintable a1{0};
+        ComparableButNotPrintable a2{1};
         tenv.assertEq(a1, a2, "a1 does not equal a2!");
 
         std::cout << tenv.getSummary();

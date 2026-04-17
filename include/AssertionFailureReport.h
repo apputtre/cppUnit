@@ -95,6 +95,9 @@ struct ComparisonFailureReport : AssertionFailureReport
 
         summary << std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
 
+        if (msg != "")
+            summary << std::format(": {}", msg);
+
         if constexpr (xUnitCpp_impl::Printable<TParam1> && xUnitCpp_impl::Printable<TParam2>)
         {
             summary << std::endl;

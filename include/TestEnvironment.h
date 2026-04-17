@@ -7,6 +7,7 @@
 
 #include "TestReport.h"
 #include "TestSuiteReport.h"
+#include "ComparisonFailureReport.h"
 
 class TestEnvironment
 {

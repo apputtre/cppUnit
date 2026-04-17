@@ -72,31 +72,31 @@ struct ComparisonFailureReport : AssertionFailureReport
 
     TParam1 x;
     TParam2 y;
-    ComparisonType comparisonType;
+    std::string comparisonSymbol;
 
     ComparisonFailureReport(
         const std::source_location& location,
         const std::string& msg,
         const TParam1& x,
         const TParam2& y,
-        const ComparisonType& comparisonType
+        const std::string& comparisonSymbol
     ) : AssertionFailureReport(location, msg)
     {
         this->x = x;
         this->y = y;
-        this->comparisonType = comparisonType;
+        this->comparisonSymbol = comparisonSymbol;
     }
 
     ComparisonFailureReport(
         const std::source_location& location,
         const TParam1& x,
         const TParam2& y,
-        const ComparisonType& comparisonType
+        const ComparisonType& comparisonSymbol
     ) : AssertionFailureReport(location)
     {
         this->x = x;
         this->y = y;
-        this->comparisonType = comparisonType;
+        this->comparisonSymbol = comparisonSymbol;
     }
 
     std::string getSummary() const override
@@ -106,18 +106,7 @@ struct ComparisonFailureReport : AssertionFailureReport
         summary << formatMessage(location, msg);
 
         if constexpr (xUnitCpp_impl::Printable<TParam1> && xUnitCpp_impl::Printable<TParam2>)
-        {
-            summary << std::endl;
-
-            switch(comparisonType)
-            {
-                case ComparisonType::EqualTo:
-                    summary << x << " == " << y << std::endl;
-                    break;
-                default:
-                    throw std::runtime_error("Not implemented");
-            }
-        }
+            summary << std::endl << std::format("{} {} {}", x, comparisonSymbol, y) << std::endl; 
         
         summary.flush();
 

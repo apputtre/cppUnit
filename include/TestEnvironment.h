@@ -79,7 +79,7 @@ public:
 
         if (!(x == y))
         {
-            ComparisonFailureReport<TParam1, TParam2> report(location, msg, x, y, ComparisonFailureReport<TParam1, TParam2>::ComparisonType::EqualTo);
+            ComparisonFailureReport<TParam1, TParam2> report(location, msg, x, y, "==");
 
             curr_test_report->logFailedAssertion(report);
         }

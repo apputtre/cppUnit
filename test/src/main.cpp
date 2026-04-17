@@ -27,6 +27,8 @@ std::string replaceSpaces(const std::string& str);
 
 int main()
 {
+    std::cout << "Running tests" << std::endl;
+
     {
         // Basic assertions
 

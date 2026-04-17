@@ -44,7 +44,15 @@ int main()
 
         TestEnvironment tenv = Test2();
 
-        std::cout << tenv.getSummary();
+        std::string summary = tenv.getSummary();
+
+        std::string report = checkOutput(summary, "test_2.txt");
+
+        if (report != "")
+        {
+            std::cout << "Test 2 failed\n";
+            std::cout << report << std::endl;
+        }
     }
 
     {

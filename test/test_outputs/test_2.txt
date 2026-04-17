@@ -1,0 +1,9 @@
+Test suite "First suite" (2/3 passing tests)
+    Test "2+2=5?" failed
+        Assertion failure (file include/Test2.h, line 18): Two plus two does not equal five!
+
+Test suite "Third suite" (0/2 passing tests)
+    Test "Assertion without message" failed
+        Assertion failure (file include/Test2.h, line 31)
+    Test "War is peace?" failed
+        Assertion failure (file include/Test2.h, line 34): War is not Peace!

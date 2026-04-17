@@ -59,10 +59,32 @@ int main()
         std::cout << "=== TEST 4 ===" << std::endl;
         TestEnvironment tenv;
 
-        tenv.beginSuite("Test suite");
+        tenv.beginSuite("assertEq");
 
-        tenv.beginTest("Assertion without message");
-        tenv.assert(false);
+        tenv.beginTest("assertEq with printable arguments 1");
+        tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
+
+        tenv.beginTest("assertEq with printable arguments 2");
+        tenv.assertEq(std::cos(0), 1, "cos(0) is not 1!");
+
+        tenv.beginTest("assertEq with printable arguments 3");
+        tenv.assertEq("War", "Peace", "War is not peace!");
+
+        tenv.beginTest("Non-printable arguments");
+
+        struct A
+        {
+            int x;
+
+            bool operator==(const A& other) const
+            {
+                return x == other.x;
+            }
+        };
+
+        A a1{0};
+        A a2{1};
+        tenv.assertEq(a1, a2, "a1 does not equal a2!");
 
         std::cout << tenv.getSummary();
     }

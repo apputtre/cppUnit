@@ -21,6 +21,21 @@ std::string visualizeWhitespace(std::string str);
 std::string getFileContents(const std::string& path);
 std::string replaceSpaces(const std::string& str);
 
+struct ComparableButNotPrintable
+{
+    int x;
+
+    bool operator==(const ComparableButNotPrintable& other) const
+    {
+        return x == other.x;
+    }
+
+    bool operator!=(const ComparableButNotPrintable& other) const
+    {
+        return x != other.x;
+    }
+};
+
 int main()
 {
     {
@@ -75,19 +90,31 @@ int main()
 
         tenv.beginTest("assertEq with non-printable arguments");
 
-        struct ComparableButNotPrintable
-        {
-            int x;
+        ComparableButNotPrintable a1{1};
+        ComparableButNotPrintable a2{2};
 
-            bool operator==(const ComparableButNotPrintable& other) const
-            {
-                return x == other.x;
-            }
-        };
-
-        ComparableButNotPrintable a1{0};
-        ComparableButNotPrintable a2{1};
         tenv.assertEq(a1, a2, "a1 does not equal a2!");
+
+
+        tenv.beginSuite("assertNeq");
+
+        tenv.beginTest("assertNeq with printable arguments 1");
+        tenv.assertNeq(2+2, 5, "Two plus two equals five!");
+
+        tenv.beginTest("assertNeq with printable arguments 2");
+        tenv.assertNeq(std::cos(0), 1, "cos(0) is 1!");
+
+        tenv.beginTest("assertNeq with printable arguments 3");
+        tenv.assertNeq(std::string("War"), std::string("Peace"), "War is peace!");
+
+        tenv.beginTest("assertNeq with printable arguments 4");
+        tenv.assertNeq(true, true);
+
+        tenv.beginTest("assertNeq with non-printable arguments");
+        ComparableButNotPrintable a3{1};
+
+        tenv.assertNeq(a1, a3, "a1 equals a3!");
+
 
         std::cout << tenv.getSummary();
     }

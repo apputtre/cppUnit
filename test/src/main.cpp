@@ -35,6 +35,11 @@ struct ComparableButNotPrintable
     {
         return x != other.x;
     }
+
+    bool operator>(const ComparableButNotPrintable& other) const
+    {
+        return x > other.x;
+    }
 };
 
 struct ComparableAndPrintable : ComparableButNotPrintable {};
@@ -136,6 +141,24 @@ int main()
         tenv.beginTest("assertNeq with arguments with custom print operation");
         ComparableAndPrintable comp_and_print_3{1};
         tenv.assertNeq(comp_and_print_1, comp_and_print_3);
+
+
+        tenv.beginSuite("assertGt");
+
+        tenv.beginTest("assertGt with printable arguments 1");
+        tenv.assertGt(1, 2, "One is not greater than two!");
+
+        tenv.beginTest("assertGt with printable arguments 2");
+        tenv.assertGt('Z', 'A', "Z is not greater than A!");
+
+        tenv.beginTest("assertGt with printable arguments 4");
+        tenv.assertGt(2.5, 3);
+
+        tenv.beginTest("assertGt with non-printable arguments");
+        tenv.assertGt(comp_not_print_1, comp_not_print_2);
+
+        tenv.beginTest("assertGt with arguments with custom print operation");
+        tenv.assertGt(comp_and_print_1, comp_and_print_2);
 
         std::cout << tenv.getSummary();
     }

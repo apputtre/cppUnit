@@ -68,7 +68,7 @@ int main()
         tenv.assertEq(std::cos(0), 1, "cos(0) is not 1!");
 
         tenv.beginTest("assertEq with printable arguments 3");
-        tenv.assertEq("War", "Peace", "War is not peace!");
+        tenv.assertEq(std::string("War"), std::string("Peace"), "War is not peace!");
 
         tenv.beginTest("Non-printable arguments");
 

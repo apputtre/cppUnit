@@ -211,7 +211,6 @@ public:
                 if (it != suite_reports.end() - 1)
                     summary << std::endl;
             }
-
         }
         
         return summary.str();

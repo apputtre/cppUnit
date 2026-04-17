@@ -13,12 +13,12 @@ struct TestReport
 private:
     std::vector<std::string> log;
     bool passed = true;
-    std::string testName;
+    std::string test_name;
 
 public:
 
-    TestReport(const std::string& testName)
-        : testName{testName}
+    TestReport(const std::string& test_name)
+        : test_name{test_name}
     {}
 
     bool testPassed()
@@ -30,7 +30,7 @@ public:
     {
         std::stringstream summary;
 
-        summary << "Test " << '\"' << testName << '\"' << (passed ? " passed" : " failed") << std::endl;
+        summary << "Test " << '\"' << test_name << '\"' << (passed ? " passed" : " failed") << std::endl;
         
         for (auto it = log.begin(); it != log.end(); ++it)
         {

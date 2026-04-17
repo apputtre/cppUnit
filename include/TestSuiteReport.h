@@ -17,8 +17,8 @@ private:
     size_t num_failing_reports = 0;
 
 public:
-    TestSuiteReport(const std::string& suiteName)
-        : suite_name{suiteName}
+    TestSuiteReport(const std::string& suite_name)
+        : suite_name{suite_name}
     {}
 
     void log(TestReport report)
@@ -48,10 +48,10 @@ public:
             if (report.testPassed())
                 continue;
 
-            std::stringstream reportSummary(report.getSummary());
+            std::stringstream report_summary(report.getSummary());
 
             std::string line;
-            for (std::getline(reportSummary, line); !reportSummary.eof(); std::getline(reportSummary, line))
+            for (std::getline(report_summary, line); !report_summary.eof(); std::getline(report_summary, line))
                 summary << '\t' << line << std::endl;
             if (line.size() > 0)
                 summary << line << std::endl;

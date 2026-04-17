@@ -1,0 +1,12 @@
+Test suite "assertGtEq" (1/5 passing tests)
+    Test "assertGtEq with printable arguments 1" failed
+        Assertion failure (file include/Test5.h, line 21): "One is not greater than or equal to two!"
+        1 >= 2
+    Test "assertGtEq with printable arguments 3" failed
+        Assertion failure (file include/Test5.h, line 27)
+        2.5 >= 3
+    Test "assertGtEq with non-printable arguments" failed
+        Assertion failure (file include/Test5.h, line 30)
+    Test "assertGtEq with arguments with custom print operation" failed
+        Assertion failure (file include/Test5.h, line 33)
+        ComparableAndPrintable(1) >= ComparableAndPrintable(2)

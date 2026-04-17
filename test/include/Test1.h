@@ -1,3 +1,6 @@
+#ifndef TEST1_H
+#define TEST1_H
+
 #include "TestEnvironment.h"
 
 TestEnvironment Test1()
@@ -17,3 +20,5 @@ TestEnvironment Test1()
 
     return tenv;
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef TEST3_H
+#define TEST3_H
+
 #include "TestEnvironment.h" 
 #include "ComparableButNotPrintable.h"
 #include "ComparableAndPrintable.h"
@@ -59,3 +62,5 @@ TestEnvironment Test3()
 
     return tenv;
 }
+
+#endif

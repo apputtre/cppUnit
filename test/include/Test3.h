@@ -9,6 +9,14 @@ TestEnvironment Test3()
 {
     TestEnvironment tenv;
 
+    ComparableButNotPrintable comp_not_print_1{1};
+    ComparableButNotPrintable comp_not_print_2{2};
+    ComparableButNotPrintable comp_not_print_3{1};
+
+    ComparableAndPrintable comp_and_print_1{1};
+    ComparableAndPrintable comp_and_print_2{2};
+    ComparableAndPrintable comp_and_print_3{1};
+
     tenv.beginSuite("assertEq");
 
     tenv.beginTest("assertEq with printable arguments 1");
@@ -24,17 +32,9 @@ TestEnvironment Test3()
     tenv.assertEq(true, false);
 
     tenv.beginTest("assertEq with non-printable arguments");
-
-    ComparableButNotPrintable comp_not_print_1{1};
-    ComparableButNotPrintable comp_not_print_2{2};
-
     tenv.assertEq(comp_not_print_1, comp_not_print_2);
 
-    ComparableAndPrintable comp_and_print_1{1};
-    ComparableAndPrintable comp_and_print_2{2};
-
     tenv.beginTest("assertEq with arguments with custom print operation");
-
     tenv.assertEq(comp_and_print_1, comp_and_print_2);
 
     tenv.beginSuite("assertNeq");
@@ -52,13 +52,10 @@ TestEnvironment Test3()
     tenv.assertNeq(true, true);
 
     tenv.beginTest("assertNeq with non-printable arguments");
-    ComparableButNotPrintable comp_not_print_3{1};
     tenv.assertNeq(comp_not_print_1, comp_not_print_3);
 
     tenv.beginTest("assertNeq with arguments with custom print operation");
-    ComparableAndPrintable comp_and_print_3{1};
     tenv.assertNeq(comp_and_print_1, comp_and_print_3);
-
 
     return tenv;
 }

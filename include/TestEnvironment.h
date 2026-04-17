@@ -173,6 +173,28 @@ public:
         assertGtEq(x, y, "", location);
     }
 
+    template<typename TParam1, typename TParam2>
+        requires requires (TParam1 p1, TParam2 p2) {p1 <= p2;}
+    void assertLtEq(const TParam1& x, const TParam2& y, const std::string& msg, const std::source_location location = std::source_location::current())
+    {
+        if (!curr_test_report)
+            beginTest();
+
+        if (!(x <= y))
+        {
+            ComparisonFailureReport<TParam1, TParam2> report(location, msg, x, y, "<=");
+
+            curr_test_report->logFailedAssertion(report);
+        }
+    }
+
+    template<typename TParam1, typename TParam2>
+        requires requires (TParam1 p1, TParam2 p2) {p1 <= p2;}
+    void assertLtEq(const TParam1& x, const TParam2& y, const std::source_location location = std::source_location::current())
+    {
+        assertLtEq(x, y, "", location);
+    }
+
     std::string getSummary()
     {
         std::stringstream summary;

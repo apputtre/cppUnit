@@ -32,24 +32,25 @@ TestEnvironment Test5()
     tenv.beginTest("assertGtEq with arguments with custom print operation");
     tenv.assertGtEq(comp_and_print_1, comp_and_print_2);
 
-    /*
-    tenv.beginSuite("assertLt");
+    tenv.beginSuite("assertLtEq");
 
-    tenv.beginTest("assertLt with printable arguments 1");
-    tenv.assertLt(2, 1, "Two is not less than one!");
+    tenv.beginTest("assertLtEq with printable arguments 1");
+    tenv.assertLtEq(2, 1, "Two is not less than or equal to one!");
 
-    tenv.beginTest("assertLt with printable arguments 2");
-    tenv.assertLt('A', 'Z', "A is not less than Z!");
+    tenv.beginTest("assertLtEq with printable arguments 2");
+    tenv.assertLtEq('Z', 'A', "Z is not less than or equal to A!");
 
-    tenv.beginTest("assertLt with printable arguments 3");
-    tenv.assertLt(3, 2.5);
+    tenv.beginTest("assertLtEq with printable arguments 3");
+    tenv.assertLtEq(3, 2.5);
 
-    tenv.beginTest("assertLt with non-printable arguments");
-    tenv.assertLt(comp_not_print_2, comp_not_print_1);
+    tenv.beginTest("assertLt with printable arguments 4");
+    tenv.assertLtEq(2.5, 2.5, "2.5 is not less than or equal to 2.5!");
 
-    tenv.beginTest("assertLt with arguments with custom print operation");
-    tenv.assertLt(comp_and_print_2, comp_and_print_1);
-    */
+    tenv.beginTest("assertLtEq with non-printable arguments");
+    tenv.assertLtEq(comp_not_print_2, comp_not_print_1);
+
+    tenv.beginTest("assertLtEq with arguments with custom print operation");
+    tenv.assertLtEq(comp_and_print_2, comp_and_print_1);
 
     return tenv;
 }

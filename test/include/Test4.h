@@ -11,11 +11,9 @@ TestEnvironment Test4()
 
     ComparableButNotPrintable comp_not_print_1{1};
     ComparableButNotPrintable comp_not_print_2{2};
-    ComparableButNotPrintable comp_not_print_3{1};
 
     ComparableAndPrintable comp_and_print_1{1};
     ComparableAndPrintable comp_and_print_2{2};
-    ComparableAndPrintable comp_and_print_3{1};
 
     tenv.beginSuite("assertGt");
 

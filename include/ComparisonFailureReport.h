@@ -63,7 +63,7 @@ struct ComparisonFailureReport : AssertionFailureReport
         summary << formatMessage(location, msg);
 
         if constexpr (xUnitCpp_impl::Printable<TParam1> && xUnitCpp_impl::Printable<TParam2>)
-            summary << std::endl << std::format("{} {} {}", x, comparisonSymbol, y) << std::endl; 
+            summary << std::endl << x << " " << comparisonSymbol << " " << y << std::endl; 
         
         summary.flush();
 

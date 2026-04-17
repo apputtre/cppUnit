@@ -81,6 +81,8 @@ int main()
     }
 
     {
+        // assertEq, assertNeq, assertGt, assertLt
+
         std::cout << "=== TEST 4 ===" << std::endl;
         TestEnvironment tenv;
 
@@ -100,17 +102,17 @@ int main()
 
         tenv.beginTest("assertEq with non-printable arguments");
 
-        ComparableButNotPrintable a1{1};
-        ComparableButNotPrintable a2{2};
+        ComparableButNotPrintable comp_not_print_1{1};
+        ComparableButNotPrintable comp_not_print_2{2};
 
-        tenv.assertEq(a1, a2, "a1 does not equal a2!");
+        tenv.assertEq(comp_not_print_1, comp_not_print_2);
 
-        ComparableAndPrintable a1{1};
-        ComparableAndPrintable a2{2};
+        ComparableAndPrintable comp_and_print_1{1};
+        ComparableAndPrintable comp_and_print_2{2};
 
         tenv.beginTest("assertEq with arguments with custom print operation");
 
-        tenv.assertEq(a1, a2, "a1 does not equal a2!");
+        tenv.assertEq(comp_and_print_1, comp_and_print_2);
 
 
         tenv.beginSuite("assertNeq");
@@ -128,10 +130,12 @@ int main()
         tenv.assertNeq(true, true);
 
         tenv.beginTest("assertNeq with non-printable arguments");
-        ComparableButNotPrintable a3{1};
+        ComparableButNotPrintable comp_not_print_3{1};
+        tenv.assertNeq(comp_not_print_1, comp_not_print_3);
 
-        tenv.assertNeq(a1, a3, "a1 equals a3!");
-
+        tenv.beginTest("assertNeq with arguments with custom print operation");
+        ComparableAndPrintable comp_and_print_3{1};
+        tenv.assertNeq(comp_and_print_1, comp_and_print_3);
 
         std::cout << tenv.getSummary();
     }

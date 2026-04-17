@@ -1,3 +1,1 @@
-An implementation of the xUnit testing framework in C++ as described in Kent Beck's "Test Driven Development". Some liberties were taken.
-
-Author: Alexander Puttré
+Based on the xUnit testing framework as described in Kent Beck's "Test Driven Development."

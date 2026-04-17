@@ -42,7 +42,7 @@ protected:
         message << std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
 
         if (msg != "")
-            message << ": " << msg;
+            message << ": \"" << msg << "\"";
         
         return message.str();
     }

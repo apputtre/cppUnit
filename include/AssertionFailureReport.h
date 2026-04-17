@@ -8,6 +8,7 @@
 
 struct AssertionFailureReport
 {
+public:
     std::source_location location;
     std::string msg = "";
 
@@ -26,15 +27,24 @@ struct AssertionFailureReport
     {
         std::stringstream summary;
 
-
-        summary << std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
-
-        if (msg != "")
-            summary << std::format(": {}", msg);
+        summary << formatMessage(location, msg);
         
         summary.flush();
 
         return summary.str();
+    }
+
+protected:
+    std::string formatMessage(const std::source_location& location, const std::string& msg) const
+    {
+        std::stringstream message;
+
+        message << std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
+
+        if (msg != "")
+            message << ": " << msg;
+        
+        return message.str();
     }
 };
 
@@ -93,10 +103,7 @@ struct ComparisonFailureReport : AssertionFailureReport
     {
         std::stringstream summary;
 
-        summary << std::format("Assertion failure (file {}, line {})", location.file_name(), location.line());
-
-        if (msg != "")
-            summary << std::format(": {}", msg);
+        summary << formatMessage(location, msg);
 
         if constexpr (xUnitCpp_impl::Printable<TParam1> && xUnitCpp_impl::Printable<TParam2>)
         {

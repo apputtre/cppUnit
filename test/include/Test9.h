@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "TestEnvironment.h"
-#include "TestSuite.h"
 
 TestEnvironment tenv;
 

@@ -112,7 +112,7 @@ int main()
     }
 
     {
-        // Default suite
+        // endTest()
 
         TestEnvironment tenv = Test7();
 

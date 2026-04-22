@@ -20,7 +20,7 @@ public:
         : name {name}
     {}
 
-    void registerTest(const std::function<void(TestEnvironment&)>& test)
+    void addTest(const std::function<void(TestEnvironment&)>& test)
     {
         auto ptr = std::make_shared<std::function<void(TestEnvironment&)>>(test);
 
@@ -30,6 +30,9 @@ public:
     void run(TestEnvironment& tenv)
     {
         tenv.beginSuite(name);
+
+        for (auto test : tests)
+            test->operator()(tenv);
 
         tenv.endSuite();
     }

@@ -92,21 +92,21 @@ int main()
             std::cout << "Test 5 failed\n";
             std::cout << report << std::endl;
         }
+    }
 
+    {
+        // Default suite
+
+        TestEnvironment tenv = Test6();
+
+        std::string summary = tenv.getSummary();
+
+        std::string report = checkOutput(summary, "test_6.txt");
+
+        if (report != "")
         {
-            // Default suite
-
-            TestEnvironment tenv = Test6();
-
-            std::string summary = tenv.getSummary();
-
-            std::string report = checkOutput(summary, "test_6.txt");
-
-            if (report != "")
-            {
-                std::cout << "Test 6 failed\n";
-                std::cout << report << std::endl;
-            }
+            std::cout << "Test 6 failed\n";
+            std::cout << report << std::endl;
         }
     }
 

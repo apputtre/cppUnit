@@ -8,6 +8,10 @@ class TestCase
 public:
     TestReport report;
 
+    TestCase(const std::string& name)
+        : report{name}
+    {}
+
     void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!statement)

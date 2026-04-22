@@ -3,5 +3,5 @@ Test suite "endTest()" (0/2 passing tests)
         Assertion failure (file include/Test7.h, line 13): "War is not peace!"
         War == Peace
     Test "Test 2" failed
-        Assertion failure (file include/Test7.h, line 18): "Two plus two does not equal five!"
+        Assertion failure (file include/Test7.h, line 17): "Two plus two does not equal five!"
         4 == 5

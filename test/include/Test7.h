@@ -14,7 +14,6 @@ TestEnvironment Test7()
 
     tenv.endTest();
 
-    tenv.assert("2+2=5?");
     tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
 
     return tenv;

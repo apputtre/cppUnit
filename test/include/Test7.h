@@ -9,8 +9,8 @@ TestEnvironment Test7()
 
     tenv.beginSuite("endTest()");
 
-    tenv.beginTest("War is peace?");
-    tenv.assertEq(std::string("War"), std::string("Peace"), "War is not Peace!");
+    tenv.beginTest("War is Peace?");
+    tenv.assertEq(std::string("War"), std::string("Peace"), "War is not peace!");
 
     tenv.endTest();
 

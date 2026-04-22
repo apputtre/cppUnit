@@ -17,6 +17,10 @@ TestEnvironment Test9()
 
     TestSuiteTest test("Test suite class");
 
+    auto test_case = [](TestEnvironment& tenv){ tenv.beginTest(); tenv.assertEq(2+2, 5); tenv.endTest(); };
+
+    test.registerTest(test_case);
+
     // test.run(tenv);
 
     return tenv;

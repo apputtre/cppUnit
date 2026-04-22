@@ -19,6 +19,13 @@ public:
     TestSuite(const std::string& name)
         : name {name}
     {}
+
+    void registerTest(const std::function<void(TestEnvironment&)>& test)
+    {
+        auto ptr = std::make_shared<std::function<void(TestEnvironment&)>>(test);
+
+        tests.push_back(ptr);
+    }
 };
 
 #endif

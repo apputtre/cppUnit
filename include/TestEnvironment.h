@@ -213,7 +213,7 @@ public:
         std::stringstream summary;
 
         if (curr_test_report)
-            suite_reports.back()->log(*curr_test_report);
+            curr_test_suite_report->log(*curr_test_report);
 
         for (auto it = suite_reports.begin(); it != suite_reports.end(); ++it)
         {

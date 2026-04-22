@@ -19,7 +19,6 @@
 #include "Test6.h"
 #include "Test7.h"
 #include "Test8.h"
-
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
 

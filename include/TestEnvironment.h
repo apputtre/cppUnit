@@ -26,6 +26,11 @@ public:
         suite_reports.emplace_back(std::make_shared<TestSuiteReport>(suite_name));
     }
 
+    void endSuite()
+    {
+
+    }
+
     void beginTest(const std::string& test_name)
     {
         if (suite_reports.size() == 0)

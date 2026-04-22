@@ -18,6 +18,7 @@
 #include "Test5.h"
 #include "Test6.h"
 #include "Test7.h"
+#include "Test8.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -127,6 +128,21 @@ int main()
         }
     }
 
+    {
+        // endSuite()
+
+        TestEnvironment tenv = Test8();
+
+        std::string summary = tenv.getSummary();
+
+        std::string report = checkOutput(summary, "test_8.txt");
+
+        if (report != "")
+        {
+            std::cout << "Test 8 failed\n";
+            std::cout << report << std::endl;
+        }
+    }
 
     return 0;
 }

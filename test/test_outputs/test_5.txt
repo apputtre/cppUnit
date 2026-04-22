@@ -7,6 +7,7 @@ Test suite "assertGtEq" (2/6 passing tests)
             2.5 >= 3
     Test "assertGtEq with non-printable arguments" failed
         Assertion failure (file include/Test5.h, line 33)
+            <LHS> >= <RHS>
     Test "assertGtEq with arguments with custom print operation" failed
         Assertion failure (file include/Test5.h, line 36)
             ComparableAndPrintable(1) >= ComparableAndPrintable(2)
@@ -23,6 +24,7 @@ Test suite "assertLtEq" (1/6 passing tests)
             3 <= 2.5
     Test "assertLtEq with non-printable arguments" failed
         Assertion failure (file include/Test5.h, line 53)
+            <LHS> <= <RHS>
     Test "assertLtEq with arguments with custom print operation" failed
         Assertion failure (file include/Test5.h, line 56)
             ComparableAndPrintable(2) <= ComparableAndPrintable(1)

@@ -7,6 +7,7 @@ Test suite "assertGt" (1/5 passing tests)
             2.5 > 3
     Test "assertGt with non-printable arguments" failed
         Assertion failure (file include/Test4.h, line 30)
+            <LHS> > <RHS>
     Test "assertGt with arguments with custom print operation" failed
         Assertion failure (file include/Test4.h, line 33)
             ComparableAndPrintable(1) > ComparableAndPrintable(2)
@@ -20,6 +21,7 @@ Test suite "assertLt" (1/5 passing tests)
             3 < 2.5
     Test "assertLt with non-printable arguments" failed
         Assertion failure (file include/Test4.h, line 47)
+            <LHS> < <RHS>
     Test "assertLt with arguments with custom print operation" failed
         Assertion failure (file include/Test4.h, line 50)
             ComparableAndPrintable(2) < ComparableAndPrintable(1)

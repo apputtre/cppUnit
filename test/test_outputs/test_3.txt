@@ -10,6 +10,7 @@ Test suite "assertEq" (1/6 passing tests)
             1 == 0
     Test "assertEq with non-printable arguments" failed
         Assertion failure (file include/Test3.h, line 35)
+            <LHS> == <RHS>
     Test "assertEq with arguments with custom print operation" failed
         Assertion failure (file include/Test3.h, line 38)
             ComparableAndPrintable(1) == ComparableAndPrintable(2)
@@ -23,6 +24,7 @@ Test suite "assertNeq" (2/6 passing tests)
             1 != 1
     Test "assertNeq with non-printable arguments" failed
         Assertion failure (file include/Test3.h, line 55)
+            <LHS> != <RHS>
     Test "assertNeq with arguments with custom print operation" failed
         Assertion failure (file include/Test3.h, line 58)
             ComparableAndPrintable(1) != ComparableAndPrintable(1)

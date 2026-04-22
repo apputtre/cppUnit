@@ -32,7 +32,7 @@ public:
     {
         endTest();
 
-        curr_test_report = nullptr;
+        curr_test_suite_report = nullptr;
     }
 
     void beginTest(const std::string& test_name)

@@ -48,7 +48,7 @@ public:
 
     void beginTest()
     {
-        beginTest("Test " + std::to_string(curr_test_suite_report.get()->numTests() + 1 + (curr_test_report ? 1 : 0)));
+        beginTest("Test " + std::to_string(curr_test_suite_report->numTests() + 1 + (curr_test_report ? 1 : 0)));
     }
 
     void endTest()

@@ -41,7 +41,7 @@ struct ComparisonFailureReport : AssertionFailureReport
         summary << formatMessage(location, msg);
 
         if constexpr (yUnit_impl::Printable<TParam1> && yUnit_impl::Printable<TParam2>)
-            summary << std::endl << x << " " << comparison_symbol << " " << y << std::endl; 
+            summary << std::endl << '\t' << x << " " << comparison_symbol << " " << y << std::endl; 
         
         summary.flush();
 

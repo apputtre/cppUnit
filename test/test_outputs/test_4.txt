@@ -1,25 +1,25 @@
 Test suite "assertGt" (1/5 passing tests)
     Test "assertGt with printable arguments 1" failed
         Assertion failure (file include/Test4.h, line 21): "One is not greater than two!"
-        1 > 2
+            1 > 2
     Test "assertGt with printable arguments 4" failed
         Assertion failure (file include/Test4.h, line 27)
-        2.5 > 3
+            2.5 > 3
     Test "assertGt with non-printable arguments" failed
         Assertion failure (file include/Test4.h, line 30)
     Test "assertGt with arguments with custom print operation" failed
         Assertion failure (file include/Test4.h, line 33)
-        ComparableAndPrintable(1) > ComparableAndPrintable(2)
+            ComparableAndPrintable(1) > ComparableAndPrintable(2)
 
 Test suite "assertLt" (1/5 passing tests)
     Test "assertLt with printable arguments 1" failed
         Assertion failure (file include/Test4.h, line 38): "Two is not less than one!"
-        2 < 1
+            2 < 1
     Test "assertLt with printable arguments 4" failed
         Assertion failure (file include/Test4.h, line 44)
-        3 < 2.5
+            3 < 2.5
     Test "assertLt with non-printable arguments" failed
         Assertion failure (file include/Test4.h, line 47)
     Test "assertLt with arguments with custom print operation" failed
         Assertion failure (file include/Test4.h, line 50)
-        ComparableAndPrintable(2) < ComparableAndPrintable(1)
+            ComparableAndPrintable(2) < ComparableAndPrintable(1)

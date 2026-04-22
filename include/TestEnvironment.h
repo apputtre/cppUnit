@@ -14,7 +14,7 @@ class TestEnvironment
 private:
     std::vector<std::shared_ptr<TestSuiteReport>> suite_reports;
     std::unique_ptr<TestReport> curr_test_report;
-    std::unique_ptr<TestSuiteReport> curr_test_suite_report;
+    std::shared_ptr<TestSuiteReport> curr_test_suite_report;
 
 public:
     TestEnvironment()
@@ -22,9 +22,10 @@ public:
 
     void beginSuite(const std::string& suite_name)
     {
-        endTest();
+        endSuite();
         
         suite_reports.emplace_back(std::make_shared<TestSuiteReport>(suite_name));
+        curr_test_suite_report = suite_reports.back();
     }
 
     void endSuite()

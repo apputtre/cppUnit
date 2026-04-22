@@ -13,18 +13,18 @@ class TestSuite
 {
 private:
     const std::string name;
-    std::vector<std::shared_ptr<std::function<void(TestEnvironment&)>>> tests;
+    std::vector<void(TestSuite::*)(TestEnvironment&)> tests;
 
 public:
     TestSuite(const std::string& name)
         : name {name}
-    {}
-
-    void addTest(const std::function<void(TestEnvironment&)>& test)
     {
-        auto ptr = std::make_shared<std::function<void(TestEnvironment&)>>(test);
+        addTest(Test);
+    }
 
-        tests.push_back(ptr);
+    void addTest(void(TestSuite::*test)(TestEnvironment&))
+    {
+        tests.push_back(test);
     }
 
     void run(TestEnvironment& tenv)
@@ -32,10 +32,12 @@ public:
         tenv.beginSuite(name);
 
         for (auto test : tests)
-            test->operator()(tenv);
+            (*this.*test)(tenv);
 
         tenv.endSuite();
     }
+
+    void Test(TestEnvironment& tenv) {tenv.beginTest(); tenv.assert(false);}
 };
 
 #endif

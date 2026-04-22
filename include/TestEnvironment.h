@@ -34,8 +34,7 @@ public:
         if (suite_reports.size() == 0)
             suite_reports.emplace_back(std::make_shared<TestSuiteReport>("Default"));
 
-        if (curr_test_report)
-            suite_reports.back()->log(*curr_test_report);
+        endTest();
 
         curr_test_report = std::make_unique<TestReport>(test_name);
     }

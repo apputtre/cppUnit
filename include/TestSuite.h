@@ -26,6 +26,13 @@ public:
 
         tests.push_back(ptr);
     }
+
+    void run(TestEnvironment& tenv)
+    {
+        tenv.beginSuite(name);
+
+        tenv.endSuite();
+    }
 };
 
 #endif

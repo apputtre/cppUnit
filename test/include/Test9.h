@@ -21,7 +21,7 @@ TestEnvironment Test9()
 
     test.registerTest(test_case);
 
-    // test.run(tenv);
+    test.run(tenv);
 
     return tenv;
 }

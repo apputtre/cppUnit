@@ -11,33 +11,43 @@
 
 class TestSuite
 {
-private:
-    const std::string name;
-    std::vector<void(TestSuite::*)(TestEnvironment&)> tests;
-
 public:
+    TestSuiteReport report;
+    std::unique_ptr<TestReport> curr_test_report;
+
     TestSuite(const std::string& name)
-        : name {name}
+        : report{name}
+    {}
+
+    void beginTest(const std::string& test_name)
     {
-        addTest(Test);
+        endTest();
+
+        curr_test_report = std::make_unique<TestReport>(test_name);
     }
 
-    void addTest(void(TestSuite::*test)(TestEnvironment&))
+    void beginTest()
     {
-        tests.push_back(test);
+        beginTest("Test " + std::to_string(report.numTests() + 1 + (curr_test_report ? 1 : 0)));
     }
 
-    void run(TestEnvironment& tenv)
+    void endTest()
     {
-        tenv.beginSuite(name);
-
-        for (auto test : tests)
-            (*this.*test)(tenv);
-
-        tenv.endSuite();
+        if (curr_test_report)
+            report.log(*curr_test_report);
+        
+        curr_test_report = nullptr;
     }
 
-    void Test(TestEnvironment& tenv) {tenv.beginTest(); tenv.assert(false);}
+    std::string getSummary()
+    {
+        std::stringstream summary;
+
+        if (curr_test_report)
+            report.log(*curr_test_report);
+        
+        return summary.str();
+    }
 };
 
 #endif

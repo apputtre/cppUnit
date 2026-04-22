@@ -13,6 +13,7 @@ class TestEnvironment
 {
 private:
     std::vector<std::shared_ptr<TestSuiteReport>> suite_reports;
+
     std::unique_ptr<TestReport> curr_test_report;
     std::shared_ptr<TestSuiteReport> curr_test_suite_report;
 
@@ -37,8 +38,8 @@ public:
 
     void beginTest(const std::string& test_name)
     {
-        if (suite_reports.size() == 0)
-            suite_reports.emplace_back(std::make_shared<TestSuiteReport>("Default"));
+        if (!curr_test_suite_report)
+            beginSuite("Default");
 
         endTest();
 

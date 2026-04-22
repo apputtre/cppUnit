@@ -45,6 +45,14 @@ public:
         beginTest("Test " + std::to_string(suite_reports.back()->numTests() + 1 + (curr_test_report ? 1 : 0)));
     }
 
+    void endTest()
+    {
+        if (curr_test_report)
+            suite_reports.back()->log(*curr_test_report);
+        
+        curr_test_report = nullptr;
+    }
+
     void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)

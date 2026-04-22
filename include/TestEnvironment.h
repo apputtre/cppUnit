@@ -21,11 +21,8 @@ public:
 
     void beginSuite(const std::string& suite_name)
     {
-        if (curr_test_report)
-            suite_reports.back()->log(*curr_test_report);
+        endTest();
         
-        curr_test_report = nullptr;
-
         suite_reports.emplace_back(std::make_shared<TestSuiteReport>(suite_name));
     }
 

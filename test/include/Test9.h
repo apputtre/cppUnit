@@ -50,26 +50,52 @@ namespace yUnit\
     statements\
     endTest();\
 
-SUITE(testTestSuite,
+SUITE(firstSuite,
 {
-    TEST(firstTest,
+    TEST(threeFourFive,
     {
-        assertEq(2+2, 5, "Two plus two does not equal 5!");
+        assert(3*3 + 4*4 == 5*5, "3^2 + 4^2 does not equal 5^2!");
     })
 
-    TEST(secondTest,
+    TEST(sinPi,
     {
-        assertEq(std::string("War"), std::string("Peace"), "War is not Peace!");
+        assert(std::cos(0) == 1, "Cos(0) is not 1!");
+    })
+
+    TEST(twoPlusTwoEqualsFive,
+    {
+        beginTest("2+2=5?");
+        assert(2 + 2 == 5, "Two plus two does not equal five!");
+    })
+
+})
+
+SUITE(secondSuite,
+{
+
+    TEST(trueIsTrue,
+    {
+        assert(true, "True is false!");
+    })
+
+    TEST(onePlusOne,
+    {
+        beginTest("1=1?");
+        assert(1 == 1, "One does not equal one!");
     })
 })
 
-TestEnvironment Test9()
+SUITE(thirdSuite,
 {
-    TestEnvironment tenv;
+    TEST(assertionWithoutMessage,
+    {
+        assert(false);
+    })
 
-    std::cout << yUnit::getSummary() << std::endl;
-
-    return tenv;
-}
+    TEST(warIsPeace,
+    {
+        assert(std::string("War") == std::string("Peace"), "War is not Peace!");
+    })
+})
 
 #endif

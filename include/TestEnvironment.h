@@ -11,7 +11,7 @@
 
 class TestEnvironment
 {
-private:
+protected:
     std::vector<std::shared_ptr<TestSuiteReport>> suite_reports;
 
     std::unique_ptr<TestReport> curr_test_report;

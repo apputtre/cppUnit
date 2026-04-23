@@ -5,8 +5,6 @@
 
 #include "TestEnvironment.h"
 
-TestEnvironment tenv;
-
 #define SUITE(suite_name, tests)\
 class Suite_##suite_name : public TestEnvironment\
 {\

@@ -16,8 +16,9 @@ namespace yUnit
     {
         std::stringstream summary;
 
-        for (auto report : suiteReports)
-            summary << report->getSummary();
+        for (auto report : impl::suiteReports)
+            if (!report->allTestsPassed())
+                summary << report->getSummary();
         
         summary.flush();
         return summary.str();

@@ -7,7 +7,10 @@
 
 namespace yUnit
 {
-    std::vector<std::shared_ptr<TestSuiteReport>> suiteReports;
+    namespace impl
+    {
+        std::vector<std::shared_ptr<TestSuiteReport>> suiteReports;
+    }
 
     std::string getSummary()
     {

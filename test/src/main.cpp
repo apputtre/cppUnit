@@ -148,9 +148,8 @@ int main()
     {
         // TestSuite
 
-        TestEnvironment tenv = Test9();
-
-        std::string summary = tenv.getSummary();
+        std::cout << yUnit::getSummary();
+        std::string summary = yUnit::getSummary();
 
         std::string report = checkOutput(summary, "test_9.txt");
 

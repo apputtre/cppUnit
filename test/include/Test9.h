@@ -6,16 +6,19 @@
 #include "TestEnvironment.h"
 
 #define SUITE(suite_name, tests)\
-class Suite_##suite_name : public TestEnvironment\
+namespace yUnit\
 {\
-public:\
-    Suite_##suite_name()\
+    class Suite_##suite_name : public TestEnvironment\
     {\
-        beginSuite(#suite_name);\
-        tests\
-        endSuite();\
-    }\
-};\
+    public:\
+        Suite_##suite_name()\
+        {\
+            beginSuite(#suite_name);\
+            tests\
+            endSuite();\
+        }\
+    };\
+};
 
 #define TEST(test_name, statements)\
     beginTest(#test_name);\
@@ -39,7 +42,7 @@ TestEnvironment Test9()
 {
     TestEnvironment tenv;
 
-    std::cout << Suite_testTestSuite().getSummary() << std::endl;
+    std::cout << yUnit::Suite_testTestSuite().getSummary() << std::endl;
 
     return tenv;
 }

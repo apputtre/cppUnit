@@ -8,6 +8,17 @@
 namespace yUnit
 {
     std::vector<std::shared_ptr<TestSuiteReport>> suiteReports;
+
+    std::string getSummary()
+    {
+        std::stringstream summary;
+
+        for (auto report : suiteReports)
+            summary << report->getSummary();
+        
+        summary.flush();
+        return summary.str();
+    }
 };
 
 #define SUITE(suite_name, tests)\
@@ -49,7 +60,7 @@ TestEnvironment Test9()
 {
     TestEnvironment tenv;
 
-    std::cout << yUnit::Suite_testTestSuite().getSummary() << std::endl;
+    std::cout << yUnit::getSummary() << std::endl;
 
     return tenv;
 }

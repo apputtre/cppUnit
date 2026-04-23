@@ -17,6 +17,11 @@ protected:
     std::unique_ptr<TestReport> curr_test_report;
     std::shared_ptr<TestSuiteReport> curr_test_suite_report;
 
+    std::shared_ptr<TestSuiteReport> getLastSuiteReport()
+    {
+        return suite_reports.back();
+    }
+
 public:
     TestEnvironment()
     {}

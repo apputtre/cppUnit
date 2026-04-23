@@ -5,6 +5,11 @@
 
 #include "TestEnvironment.h"
 
+namespace yUnit
+{
+    std::vector<std::shared_ptr<TestSuiteReport>> suiteReports;
+};
+
 #define SUITE(suite_name, tests)\
 namespace yUnit\
 {\
@@ -16,9 +21,11 @@ namespace yUnit\
             beginSuite(#suite_name);\
             tests\
             endSuite();\
+            suiteReports.push_back(curr_test_suite_report);\
         }\
     };\
 };
+
 
 #define TEST(test_name, statements)\
     beginTest(#test_name);\

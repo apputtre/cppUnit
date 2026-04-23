@@ -1,8 +1,8 @@
 Test suite "firstSuite" (3/4 passing tests)
     Test "2+2=5?" failed
-        Assertion failure (file include/Test9.h, line 53): "Two plus two does not equal five!"
+        Assertion failure (file include/Test9.h, line 8): "Two plus two does not equal five!"
 Test suite "thirdSuite" (0/2 passing tests)
     Test "assertionWithoutMessage" failed
-        Assertion failure (file include/Test9.h, line 88)
+        Assertion failure (file include/Test9.h, line 43)
     Test "warIsPeace" failed
-        Assertion failure (file include/Test9.h, line 88): "War is not Peace!"
+        Assertion failure (file include/Test9.h, line 43): "War is not Peace!"

@@ -148,7 +148,6 @@ int main()
     {
         // TestSuite
 
-        std::cout << yUnit::getSummary();
         std::string summary = yUnit::getSummary();
 
         std::string report = checkOutput(summary, "test_9.txt");
@@ -159,6 +158,7 @@ int main()
             std::cout << report << std::endl;
         }
     }
+
 
     return 0;
 }

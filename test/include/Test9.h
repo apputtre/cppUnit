@@ -36,11 +36,14 @@ namespace yUnit\
             beginSuite(#suite_name);\
             tests\
             endSuite();\
-            suiteReports.push_back(curr_test_suite_report);\
+            impl::suiteReports.push_back(getLastSuiteReport());\
         }\
     };\
+    namespace impl\
+    {\
+        Suite_##suite_name suite_##suite_name;\
+    }\
 };
-
 
 #define TEST(test_name, statements)\
     beginTest(#test_name);\

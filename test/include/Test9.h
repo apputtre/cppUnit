@@ -8,10 +8,10 @@
 TestEnvironment tenv;
 
 #define SUITE(suite_name, tests)\
-class TestSuite_##suite_name : public TestEnvironment\
+class Suite_##suite_name : public TestEnvironment\
 {\
 public:\
-    TestSuite_##suite_name()\
+    Suite_##suite_name()\
     {\
         beginSuite(#suite_name);\
         tests\
@@ -41,7 +41,7 @@ TestEnvironment Test9()
 {
     TestEnvironment tenv;
 
-    std::cout << TestSuite_testTestSuite().getSummary() << std::endl;
+    std::cout << Suite_testTestSuite().getSummary() << std::endl;
 
     return tenv;
 }

@@ -163,7 +163,7 @@ int main()
     {
         // TestSuite
 
-        std::string summary = yUnit::getSummary();
+        std::string summary = yUnit::getSummary("Test10");
 
         std::string report = checkOutput(summary, "test_10.txt");
 

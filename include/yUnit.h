@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <regex>
 
 #include "TestEnvironment.h"
 
@@ -11,16 +12,29 @@ namespace yUnit
 {
     namespace impl
     {
-        std::vector<std::shared_ptr<TestSuiteReport>> suiteReports;
+        std::vector<std::pair<const std::string, std::shared_ptr<TestSuiteReport>>> suiteReports;
     }
 
-    std::string getSummary()
+    std::string getSummary(const std::string& file_name = "")
     {
         std::stringstream summary;
 
+        bool found_requested_file = true;
+        if (file_name != "")
+            found_requested_file = false;
+
         for (auto report : impl::suiteReports)
-            if (!report->allTestsPassed())
-                summary << report->getSummary();
+        {
+            if (file_name == "" || report.first == file_name)
+            {
+                found_requested_file = true;
+                if (!report.second->allTestsPassed())
+                    summary << report.second->getSummary();
+            }
+        }
+
+        if (!found_requested_file)
+            throw std::runtime_error("File not found");
         
         summary.flush();
         return summary.str();
@@ -43,7 +57,12 @@ namespace yUnit\
             beginSuite(#suite_name);\
             __VA_ARGS__\
             endSuite();\
-            impl::suiteReports.push_back(getLastSuiteReport());\
+            std::smatch file_name_match;\
+            const std::regex regex("^(?:.*/)?(.+?)(?:\\.[^.]*$|$)");\
+            std::string path = std::string(__FILE__);\
+            std::regex_match(path, file_name_match, regex);\
+            std::string file_name = file_name_match[1];\
+            impl::suiteReports.emplace_back(file_name, getLastSuiteReport());\
         }\
     };\
     namespace impl\

@@ -20,6 +20,7 @@
 #include "Test7.h"
 #include "Test8.h"
 #include "Test9.h"
+#include "Test10.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -159,6 +160,19 @@ int main()
         }
     }
 
+    {
+        // TestSuite
+
+        std::string summary = yUnit::getSummary();
+
+        std::string report = checkOutput(summary, "test_10.txt");
+
+        if (report != "")
+        {
+            std::cout << "Test 10 failed\n";
+            std::cout << report << std::endl;
+        }
+    }
 
     return 0;
 }

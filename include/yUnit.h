@@ -25,6 +25,11 @@ namespace yUnit
         summary.flush();
         return summary.str();
     }
+
+    void clearSummary()
+    {
+        impl::suiteReports.clear();
+    }
 };
 
 #define SUITE(suite_name, ...)\

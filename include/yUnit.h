@@ -27,7 +27,7 @@ namespace yUnit
     }
 };
 
-#define SUITE(suite_name, tests)\
+#define SUITE(suite_name, ...)\
 namespace yUnit\
 {\
     class Suite_##suite_name : public TestEnvironment\
@@ -36,7 +36,7 @@ namespace yUnit\
         Suite_##suite_name()\
         {\
             beginSuite(#suite_name);\
-            tests\
+            __VA_ARGS__\
             endSuite();\
             impl::suiteReports.push_back(getLastSuiteReport());\
         }\
@@ -47,10 +47,9 @@ namespace yUnit\
     }\
 };
 
-#define TEST(test_name, statements)\
+#define TEST(test_name, ...)\
     beginTest(#test_name);\
-    statements\
+    __VA_ARGS__\
     endTest();
-
 
 #endif

@@ -13,6 +13,16 @@ namespace yUnit
     namespace impl
     {
         std::vector<std::pair<const std::string, std::shared_ptr<TestSuiteReport>>> suiteReports;
+
+        void logSuiteReport(std::shared_ptr<TestSuiteReport> report, const std::string& path)
+        {
+            std::smatch file_name_match;\
+            const std::regex regex("^(?:.*/)?(.+?)(?:\\.[^.]*$|$)");\
+            std::regex_match(path, file_name_match, regex);\
+            std::string file_name = file_name_match[1];\
+
+            suiteReports.emplace_back(file_name, report);
+        }
     }
 
     std::string getSummary(const std::string& file_name = "")
@@ -57,12 +67,7 @@ namespace yUnit\
             beginSuite(#suite_name);\
             __VA_ARGS__\
             endSuite();\
-            std::smatch file_name_match;\
-            const std::regex regex("^(?:.*/)?(.+?)(?:\\.[^.]*$|$)");\
-            std::string path = std::string(__FILE__);\
-            std::regex_match(path, file_name_match, regex);\
-            std::string file_name = file_name_match[1];\
-            impl::suiteReports.emplace_back(file_name, getLastSuiteReport());\
+            impl::logSuiteReport(getLastSuiteReport(), __FILE__);\
         }\
     };\
     namespace impl\

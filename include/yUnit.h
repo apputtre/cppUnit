@@ -33,13 +33,21 @@ namespace yUnit
         if (file_name != "")
             found_requested_file = false;
 
+        bool first_report = true;
         for (auto report : impl::suiteReports)
         {
             if (file_name == "" || report.first == file_name)
             {
                 found_requested_file = true;
                 if (!report.second->allTestsPassed())
+                {
+                    if (!first_report)
+                        summary << std::endl;
+
                     summary << report.second->getSummary();
+
+                    first_report = false;
+                }
             }
         }
 

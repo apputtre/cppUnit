@@ -32,6 +32,11 @@ public:
         }
     }
 
+    std::string getName()
+    {
+        return suite_name;
+    }
+
     std::string getSummary()
     {
         std::stringstream summary;

@@ -21,6 +21,7 @@
 #include "Test8.h"
 #include "Test9.h"
 #include "Test10.h"
+#include "Test11.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -170,6 +171,18 @@ int main()
         if (report != "")
         {
             std::cout << "Test 10 failed\n";
+            std::cout << report << std::endl;
+        }
+    }
+
+    {
+        std::string summary = yUnit::getSummary("Test11");
+
+        std::string report = checkOutput(summary, "test_11.txt");
+
+        if (report != "")
+        {
+            std::cout << "Test 11 failed\n";
             std::cout << report << std::endl;
         }
     }

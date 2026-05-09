@@ -64,6 +64,8 @@ public:
         curr_test_report = nullptr;
     }
 
+    void skip() {}
+
     void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)

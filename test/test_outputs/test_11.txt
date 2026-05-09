@@ -1,6 +1,13 @@
-Test suite "skipSuite" was skipped
+Test suite "skipSuite" was skipped (1 skipped tests)
 
-Test suite "skipTest" (1/1 passing tests, 1 skipped)
+Test suite "skipTests" (0/1 passing tests, 2 skipped)
     Test "test_1" failed
         Assertion failure (file include/Test11.h, line 18): "War is not Peace!"
-        "War" == "Peace"
+            War == Peace
+
+Test suite "skipTest" (0/2 passing tests, 1 skipped)
+    Test "test_1" failed
+        Assertion failure (file include/Test11.h, line 41): "War is not Peace!"
+            War == Peace
+    Test "test_3" failed
+        Assertion failure (file include/Test11.h, line 41): "False is false!"

@@ -14,18 +14,47 @@ SUITE(skipSuite,
     })
 })
 
-// Only test_2 should be skipped
-SUITE(skipTest,
+// Tests test_2 and test_3 should be skipped
+SUITE(skipTests,
 {
     TEST(test_1,
     {
-        assertEq(std::string("War"), std::string("Peace"), "War is not peace!");
+        assertEq(std::string("War"), std::string("Peace"), "War is not Peace!");
     })
 
     skip();
 
     // Should be reported as skipped
     TEST(test_2,
+    {
+        assert(true, "True is false!");
+    })
+
+    // Should be reported as skipped
+    TEST(test_3,
+    {
+        assert(false, "False is false!");
+    })
+})
+
+// Only test_2 should be skipped
+SUITE(skipTest,
+{
+    TEST(test_1,
+    {
+        assertEq(std::string("War"), std::string("Peace"), "War is not Peace!");
+    })
+
+
+    // Should be reported as skipped
+    TEST(test_2,
+    {
+        skip();
+
+        assert(true, "True is false!");
+    })
+
+    TEST(test_3,
     {
         assert(false, "False is false!");
     })

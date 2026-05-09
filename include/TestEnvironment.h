@@ -17,6 +17,8 @@ protected:
     std::unique_ptr<TestReport> curr_test_report;
     std::shared_ptr<TestSuiteReport> curr_test_suite_report;
 
+    bool skip_tests = false;
+
     std::shared_ptr<TestSuiteReport> getLastSuiteReport()
     {
         return suite_reports.back();
@@ -39,6 +41,7 @@ public:
         endTest();
 
         curr_test_suite_report = nullptr;
+        skip_tests = false;
     }
 
     void beginTest(const std::string& test_name)
@@ -49,6 +52,9 @@ public:
         endTest();
 
         curr_test_report = std::make_unique<TestReport>(test_name);
+
+        if (skip_tests)
+            curr_test_report->skip();
     }
 
     void beginTest()
@@ -64,7 +70,13 @@ public:
         curr_test_report = nullptr;
     }
 
-    void skip() {}
+    void skip()
+    {
+        if (curr_test_report)
+            curr_test_report->skip();
+        else 
+            skip_tests = true;
+    }
 
     void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
@@ -225,7 +237,7 @@ public:
 
         for (auto it = suite_reports.begin(); it != suite_reports.end(); ++it)
         {
-            if (!it->get()->allTestsPassed())
+            if (!it->get()->allTestsPassed() || it->get()->numTestsSkipped() > 0)
             {
                 summary << it->get()->getSummary();
 

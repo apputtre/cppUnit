@@ -39,7 +39,7 @@ namespace yUnit
             if (file_name == "" || report.first == file_name)
             {
                 found_requested_file = true;
-                if (!report.second->allTestsPassed())
+                if (!report.second->allTestsPassed() || report.second->numTestsSkipped() > 0)
                 {
                     if (!first_report)
                         summary << std::endl;

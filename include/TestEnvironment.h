@@ -26,9 +26,13 @@ protected:
     }
 
 public:
-
     TestEnvironment()
     {}
+
+    void registerTest(void(TestEnvironment::*test)())
+    {
+        return;
+    }
 
     void beginSuite(const std::string& suite_name)
     {

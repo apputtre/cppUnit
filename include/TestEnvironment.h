@@ -29,7 +29,8 @@ public:
     TestEnvironment()
     {}
 
-    void registerTest(void(TestEnvironment::*test)())
+    template<std::derived_from<TestEnvironment> T = TestEnvironment>
+    void registerTest(void(T::*test)())
     {
         return;
     }

@@ -31,160 +31,71 @@ std::string visualizeWhitespace(std::string str);
 std::string getFileContents(const std::string& path);
 std::string replaceSpaces(const std::string& str);
 
+void runTest(TestEnvironment& tenv, const std::string& expected_output_file);
+void runTest(const std::string& summary, const std::string& expected_output_file);
+
 int main()
 {
     std::cout << "Running tests" << std::endl;
 
     {
         // Basic assertions
-
-        TestEnvironment tenv = Test1();
-
-        std::string summary = tenv.getSummary();
-
-        std::string report = checkOutput(summary, "test_1.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 1 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = Test1();
+        runTest(tenv, "test_1.txt");
     }
 
     {
         // Multiple suites
-
-        TestEnvironment tenv = Test2();
-
-        std::string summary = tenv.getSummary();
-
-        std::string report = checkOutput(summary, "test_2.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 2 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = Test2();
+        runTest(tenv, "test_2.txt");
     }
 
     {
         // assertEq, assertNeq
-
-        TestEnvironment tenv = Test3();
-
-        std::string summary = tenv.getSummary();
-
-        std::string report = checkOutput(summary, "test_3.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 3 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = Test3();
+        runTest(tenv, "test_3.txt");
     }
 
     {
         // assertGtEq, assertLtEq
-
-        TestEnvironment tenv = Test5();
-
-        std::string summary = tenv.getSummary();
-
-        std::string report = checkOutput(summary, "test_5.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 5 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = Test5();
+        runTest(tenv, "test_5.txt");
     }
 
     {
         // Default suite
-
-        TestEnvironment tenv = Test6();
-
-        std::string summary = tenv.getSummary();
-
-        std::string report = checkOutput(summary, "test_6.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 6 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = Test6();
+        runTest(tenv, "test_6.txt");
     }
 
     {
         // endTest()
-
-        TestEnvironment tenv = Test7();
-
-        std::string summary = tenv.getSummary();
-
-        std::string report = checkOutput(summary, "test_7.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 7 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = Test7();
+        runTest(tenv, "test_7.txt");    
     }
 
     {
         // endSuite()
-
-        TestEnvironment tenv = Test8();
-
-        std::string summary = tenv.getSummary();
-
-        std::string report = checkOutput(summary, "test_8.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 8 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = Test8();
+        runTest(tenv, "test_8.txt");
     }
 
     {
         // TestSuite
-
-        std::string summary = yUnit::getSummary("Test9");
-
-        std::string report = checkOutput(summary, "test_9.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 9 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = yUnit::getSummary("Test9");
+        runTest(tenv, "test_9.txt");
     }
 
     {
         // TestSuite
-
-        std::string summary = yUnit::getSummary("Test10");
-
-        std::string report = checkOutput(summary, "test_10.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 10 failed\n";
-            std::cout << report << std::endl;
-        }
+        auto tenv = yUnit::getSummary("Test10");
+        runTest(tenv, "test_10.txt");
     }
 
     {
-        std::string summary = yUnit::getSummary("Test11");
-
-        std::string report = checkOutput(summary, "test_11.txt");
-
-        if (report != "")
-        {
-            std::cout << "Test 11 failed\n";
-            std::cout << report << std::endl;
-        }
+        // skip
+        auto tenv = yUnit::getSummary("Test11");
+        runTest(tenv, "test_11.txt");
     }
 
     return 0;
@@ -302,4 +213,22 @@ std::string replaceSpaces(const std::string& str)
     }
 
     return ss_out.str();
+}
+
+void runTest(TestEnvironment& tenv, const std::string& expected_output_file)
+{
+    std::string summary = tenv.getSummary();
+
+    runTest(summary, expected_output_file);
+}
+
+void runTest(const std::string& summary, const std::string& expected_output_file)
+{
+    std::string report = checkOutput(summary, expected_output_file);
+
+    if (report != "")
+    {
+        std::cout << "Test 1 failed\n";
+        std::cout << report << std::endl;
+    }
 }

@@ -1,13 +1,14 @@
 #include "yUnit.h"
 
-# define FIXTURE()
-
 class TestEnvironmentSubclass : public TestEnvironment
 {
+private:
+    std::vector<void(TestEnvironmentSubclass::*)()> tests;
+
 public:
     TestEnvironmentSubclass()
     {
-        registerTest(test);
+        tests.push_back(test);
     }
 
     std::string log;
@@ -25,9 +26,12 @@ public:
 
     void run()
     {
-        setUp();
-        test();
-        tearDown();
+        for (auto t : tests)
+        {
+            setUp();
+            (this->*t)();
+            tearDown();
+        }
 
         log += "run ";
     }

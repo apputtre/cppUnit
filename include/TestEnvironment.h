@@ -29,11 +29,9 @@ public:
     TestEnvironment()
     {}
 
-    template<std::derived_from<TestEnvironment> T = TestEnvironment>
-    void registerTest(void(T::*test)())
-    {
-        return;
-    }
+    virtual void setUp() {}
+
+    virtual void tearDown() {}
 
     void beginSuite(const std::string& suite_name)
     {

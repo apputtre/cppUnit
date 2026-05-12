@@ -8,7 +8,7 @@ OBJ_FILES=main.o
 VPATH = $(BIN_PATH) $(OBJ_PATH) $(SRC_PATH) $(INCLUDE_DIRS)
 
 # Variables used for implicit rules
-CXXFLAGS = -Wno-unused-parameter -Wall -Wextra -Werror -g -std=c++20 $(foreach dir,$(INCLUDE_DIRS),$(patsubst %,-I%,$(dir)))
+CXXFLAGS = -Wno-unused-variable -Wno-unused-parameter -Wall -Wextra -Werror -g -std=c++20 $(foreach dir,$(INCLUDE_DIRS),$(patsubst %,-I%,$(dir)))
 CFLAGS = -g $(foreach dir,$(INCLUDE_DIRS),$(patsubst %,-I%,$(dir)))
 LDFLAGS = 
 

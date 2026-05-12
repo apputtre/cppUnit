@@ -1,16 +1,19 @@
 #include "yUnit.h"
 
+struct TestRunner
+{
+    template<std::derived_from<TestEnvironment> T_TestEnvironment>
+    TestRunner(T_TestEnvironment& tenv, void(T_TestEnvironment::*test_func)())
+    {
+        tenv.setUp();
+        (tenv.*test_func)();
+        tenv.tearDown();
+    }
+};
+
 class TestEnvironmentSubclass : public TestEnvironment
 {
-private:
-    std::vector<void(TestEnvironmentSubclass::*)()> tests;
-
 public:
-    TestEnvironmentSubclass()
-    {
-        tests.push_back(test);
-    }
-
     std::string log;
 
     bool ran = false;
@@ -18,27 +21,22 @@ public:
     void setUp()
     {
         log += "setUp ";
+
+        TestEnvironment::setUp();
     }
+
     void tearDown()
     {
         log += "tearDown ";
-    }
 
-    void run()
-    {
-        for (auto t : tests)
-        {
-            setUp();
-            (this->*t)();
-            tearDown();
-        }
-
-        log += "run ";
+        TestEnvironment::tearDown();
     }
 
     void test()
     {
-        ran = true;       
+        ran = true;
+
+        log += "test ";
     }
 };
 
@@ -51,9 +49,9 @@ SUITE(registerTest,
         assert(!tenv.ran, "\'ran\' flag was true before running test!");
         assertEq(tenv.log, std::string(""), "Log is not empty before running test!");
 
-        tenv.run();
+        TestRunner trun(tenv, tenv.test);
 
         assert(tenv.ran, "\'run\' flag was not set!");
-        assertEq(tenv.log, std::string("setUp tearDown run "));
+        assertEq(tenv.log, std::string("setUp test tearDown "));
     })
 })

@@ -11,7 +11,7 @@
 
 class TestEnvironment
 {
-protected:
+private:
     std::vector<std::shared_ptr<TestSuiteReport>> suite_reports;
 
     std::unique_ptr<TestReport> curr_test_report;
@@ -19,12 +19,14 @@ protected:
 
     bool skip_tests = false;
 
+protected:
     std::shared_ptr<TestSuiteReport> getLastSuiteReport()
     {
         return suite_reports.back();
     }
 
 public:
+
     TestEnvironment()
     {}
 

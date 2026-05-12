@@ -19,8 +19,6 @@ private:
 
     bool skip_tests = false;
 
-    std::vector<void(TestEnvironment::*)()> tests;
-
 protected:
     std::shared_ptr<TestSuiteReport> getLastSuiteReport()
     {
@@ -28,29 +26,9 @@ protected:
     }
 
 public:
+
     TestEnvironment()
     {}
-
-    virtual void setUp() {}
-
-    virtual void tearDown() {}
-
-    template<std::derived_from<TestEnvironment> TSubclass>
-    void registerTest(void(TSubclass::*test)())
-    {
-        tests.push_back(static_cast<void(TestEnvironment::*)()>(test));
-    }
-
-    template<std::derived_from<TestEnvironment> TSubclass = TestEnvironment>
-    void runTests()
-    {
-        for (auto test : tests)
-        {
-            setUp();
-            (static_cast<TSubclass*>(this)->*test)();
-            tearDown();
-        }
-    }
 
     void beginSuite(const std::string& suite_name)
     {

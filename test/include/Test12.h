@@ -1,8 +1,15 @@
 #include "yUnit.h"
 
+# define FIXTURE()
+
 class TestEnvironmentSubclass : public TestEnvironment
 {
 public:
+    TestEnvironmentSubclass()
+    {
+        registerTest(test);
+    }
+
     std::string log;
 
     bool ran = false;
@@ -36,8 +43,6 @@ SUITE(registerTest,
     TEST(test1,
     {
         TestEnvironmentSubclass tenv;
-
-        tenv.registerTest(TestEnvironmentSubclass::test);
 
         assert(!tenv.ran, "\'ran\' flag was true before running test!");
         assertEq(tenv.log, std::string(""), "Log is not empty before running test!");

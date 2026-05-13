@@ -101,13 +101,11 @@ public:
 
     void combineReports(const TestEnvironment& other)
     {
-        /*
         for (auto& t : other.suiteless_tests)
-            suiteless_tests.push_back(std::make_unique<TestReport>(t));
+            suiteless_tests.push_back(std::make_unique<TestReport>(*t));
 
         for (auto t : other.suite_reports)
-            suite_reports.push_back(std::make_shared<TestSuiteReport>(t));
-        */
+            suite_reports.push_back(std::make_shared<TestSuiteReport>(*t));
     }
 
     void skip()

@@ -41,13 +41,12 @@ public:
         tests.push_back(static_cast<void(TestEnvironment::*)()>(test));
     }
 
-    template<std::derived_from<TestEnvironment> TSubclass = TestEnvironment>
     void runTests()
     {
         for (auto test : tests)
         {
             setUp();
-            (static_cast<TSubclass*>(this)->*test)();
+            (this->*test)();
             tearDown();
         }
     }

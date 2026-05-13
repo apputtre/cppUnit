@@ -60,6 +60,11 @@ public:
         curr_test_suite_report = suite_reports.back();
     }
 
+    void beginSuite()
+    {
+        beginSuite("Default");
+    }
+
     void endSuite()
     {
         endTest();
@@ -71,7 +76,7 @@ public:
     void beginTest(const std::string& test_name)
     {
         if (!curr_test_suite_report)
-            beginSuite("Default");
+            beginSuite();
 
         endTest();
 
@@ -83,6 +88,9 @@ public:
 
     void beginTest()
     {
+        if (!curr_test_suite_report)
+            beginSuite();
+
         beginTest("Test " + std::to_string(curr_test_suite_report->numTests() + 1 + (curr_test_report ? 1 : 0)));
     }
 

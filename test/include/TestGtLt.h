@@ -1,11 +1,11 @@
-#ifndef TEST4_H
-#define TEST4_H
+#ifndef TESTGTLT_H
+#define TESTGTLT_H
 
 #include "TestEnvironment.h"
 #include "ComparableButNotPrintable.h"
 #include "ComparableAndPrintable.h"
 
-TestEnvironment Test4()
+TestEnvironment testGtLt()
 {
     TestEnvironment tenv;
 

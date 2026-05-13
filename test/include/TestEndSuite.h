@@ -1,19 +1,20 @@
-#ifndef TEST7_H
-#define TEST7_H
+#ifndef TESTENDSUITE_H
+#define TESTENDSUITE_H
 
 #include "TestEnvironment.h"
 
-TestEnvironment Test7()
+TestEnvironment testEndSuite()
 {
     TestEnvironment tenv;
 
-    tenv.beginSuite("endTest()");
+    tenv.beginSuite("endSuite()");
 
     tenv.beginTest("War is Peace?");
     tenv.assertEq(std::string("War"), std::string("Peace"), "War is not peace!");
 
-    tenv.endTest();
+    tenv.endSuite();
 
+    tenv.beginTest("2+2=5?");
     tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
 
     return tenv;

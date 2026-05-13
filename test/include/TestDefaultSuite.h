@@ -1,13 +1,11 @@
-#ifndef TEST1_H
-#define TEST1_H
+#ifndef TESTDEFAULTSUITE_H
+#define TESTDEFAULTSUITE_H
 
 #include "TestEnvironment.h"
 
-TestEnvironment Test1()
+TestEnvironment testDefaultSuite()
 {
     TestEnvironment tenv;
-
-    tenv.beginSuite("Basic assertions");
 
     tenv.beginTest("2+2=5?");
     tenv.assert(2 + 2 == 5, "Two plus two does not equal 5!");

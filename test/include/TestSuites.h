@@ -1,11 +1,11 @@
-#ifndef TEST2_H
-#define TEST2_H
+#ifndef TESTSUITES_H
+#define TESTSUITES_H
 
 #include <math.h>
 
 #include "TestEnvironment.h"
 
-TestEnvironment Test2()
+TestEnvironment testSuites()
 {
     TestEnvironment tenv;
 

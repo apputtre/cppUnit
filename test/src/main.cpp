@@ -11,18 +11,15 @@
 
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
-#include "Test1.h"
-#include "Test2.h"
-#include "Test3.h"
-#include "Test4.h"
-#include "Test5.h"
-#include "Test6.h"
-#include "Test7.h"
-#include "Test8.h"
-#include "Test9.h"
-#include "Test10.h"
-#include "Test11.h"
-#include "Test12.h"
+#include "TestBasicAssertions.h"
+#include "TestDefaultSuite.h"
+#include "TestEndSuite.h"
+#include "TestEndTest.h"
+#include "TestEqNeq.h"
+#include "TestGtLt.h"
+#include "TestGtEqLtEq.h"
+#include "TestRegisterTest.h"
+#include "TestSuites.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -32,77 +29,21 @@ std::string visualizeWhitespace(std::string str);
 std::string getFileContents(const std::string& path);
 std::string replaceSpaces(const std::string& str);
 
-void runTest(TestEnvironment& tenv, const std::string& expected_output_file);
-void runTest(const std::string& summary, const std::string& expected_output_file);
+void runTest(const std::string& test_name, TestEnvironment tenv, const std::string& expected_output_file);
 
 int main()
 {
     std::cout << "Running tests" << std::endl;
 
-    {
-        // Basic assertions
-        auto tenv = Test1();
-        runTest(tenv, "test_1.txt");
-    }
-
-    {
-        // Multiple suites
-        auto tenv = Test2();
-        runTest(tenv, "test_2.txt");
-    }
-
-    {
-        // assertEq, assertNeq
-        auto tenv = Test3();
-        runTest(tenv, "test_3.txt");
-    }
-
-    {
-        // assertGtEq, assertLtEq
-        auto tenv = Test5();
-        runTest(tenv, "test_5.txt");
-    }
-
-    {
-        // Default suite
-        auto tenv = Test6();
-        runTest(tenv, "test_6.txt");
-    }
-
-    {
-        // endTest()
-        auto tenv = Test7();
-        runTest(tenv, "test_7.txt");    
-    }
-
-    {
-        // endSuite()
-        auto tenv = Test8();
-        runTest(tenv, "test_8.txt");
-    }
-
-    {
-        // TestSuite
-        auto tenv = yUnit::getSummary("Test9");
-        runTest(tenv, "test_9.txt");
-    }
-
-    {
-        // Test for angled brackets in macro issue
-        auto tenv = yUnit::getSummary("Test10");
-        runTest(tenv, "test_10.txt");
-    }
-
-    {
-        // skip
-        auto tenv = yUnit::getSummary("Test11");
-        runTest(tenv, "test_11.txt");
-    }
-
-    {
-        auto tenv = yUnit::getSummary("Test12");
-        runTest(tenv, "test_12.txt");
-    }
+    runTest("Basic assertions", testBasicAssertions(), "BasicAssertions.txt");
+    runTest("Suites", testSuites(), "Suites.txt");
+    runTest("assertEq, assertNeq", testEqNeq(), "EqNeq.txt");
+    runTest("assertGt, assertLt", testGtLt(), "GtLt.txt");
+    runTest("assertGtEq, assertLtEq", testGtEqLtEq(), "GtEqLtEq.txt");
+    runTest("Default suite", testDefaultSuite(), "DefaultSuite.txt");
+    runTest("endTest", testEndTest(), "EndTest.txt");    
+    runTest("endSuite", testEndSuite(), "EndSuite.txt");
+    runTest("registerTest", testRegisterTest(), "RegisterTest.txt");
 
     return 0;
 }
@@ -221,20 +162,14 @@ std::string replaceSpaces(const std::string& str)
     return ss_out.str();
 }
 
-void runTest(TestEnvironment& tenv, const std::string& expected_output_file)
+void runTest(const std::string& test_name, TestEnvironment tenv, const std::string& expected_output_file)
 {
     std::string summary = tenv.getSummary();
-
-    runTest(summary, expected_output_file);
-}
-
-void runTest(const std::string& summary, const std::string& expected_output_file)
-{
     std::string report = checkOutput(summary, expected_output_file);
 
     if (report != "")
     {
-        std::cout << "Test 1 failed\n";
+        std::cout << "Test " << test_name << " failed" << std::endl;;
         std::cout << report << std::endl;
     }
 }

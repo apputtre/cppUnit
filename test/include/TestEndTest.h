@@ -1,20 +1,19 @@
-#ifndef TEST8_H
-#define TEST8_H
+#ifndef TESTENDTEST_H
+#define TESTENDTEST_H
 
 #include "TestEnvironment.h"
 
-TestEnvironment Test8()
+TestEnvironment testEndTest()
 {
     TestEnvironment tenv;
 
-    tenv.beginSuite("endSuite()");
+    tenv.beginSuite("endTest()");
 
     tenv.beginTest("War is Peace?");
     tenv.assertEq(std::string("War"), std::string("Peace"), "War is not peace!");
 
-    tenv.endSuite();
+    tenv.endTest();
 
-    tenv.beginTest("2+2=5?");
     tenv.assertEq(2+2, 5, "Two plus two does not equal five!");
 
     return tenv;

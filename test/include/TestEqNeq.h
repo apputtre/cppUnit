@@ -1,11 +1,13 @@
-#ifndef TEST3_H
-#define TEST3_H
+#ifndef TESTEQNEQ_H
+#define TESTEQNEQ_H
 
 #include "TestEnvironment.h" 
 #include "ComparableButNotPrintable.h"
 #include "ComparableAndPrintable.h"
 
-TestEnvironment Test3()
+#include <math.h>
+
+TestEnvironment testEqNeq()
 {
     TestEnvironment tenv;
 

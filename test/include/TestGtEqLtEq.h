@@ -1,11 +1,11 @@
-#ifndef TEST5_H
-#define TEST5_H
+#ifndef TESTGTEQLTEQ_H
+#define TESTGTEQLTEQ_H
 
 #include "TestEnvironment.h"
 #include "ComparableButNotPrintable.h"
 #include "ComparableAndPrintable.h"
 
-TestEnvironment Test5()
+TestEnvironment testGtEqLtEq()
 {
     TestEnvironment tenv;
 

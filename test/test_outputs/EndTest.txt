@@ -1,0 +1,7 @@
+Test suite "endTest()" (0/2 passing tests)
+    Test "War is Peace?" failed
+        Assertion failure (file include/TestEndTest.h, line 13): "War is not peace!"
+            War == Peace
+    Test "Test 2" failed
+        Assertion failure (file include/TestEndTest.h, line 17): "Two plus two does not equal five!"
+            4 == 5

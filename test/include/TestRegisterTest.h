@@ -1,3 +1,6 @@
+#ifndef TESTREGISTERTEST_H
+#define TESTREGISTERTEST_H
+
 #include "yUnit.h"
 
 struct TestRegistrar
@@ -38,19 +41,20 @@ public:
     }
 };
 
-SUITE(registerTest,
+TestEnvironment testRegisterTest()
 {
-    TEST(test1,
-    {
-        TestEnvironmentSubclass tenv;
+    TestEnvironmentSubclass tenv;
 
-        assert(!tenv.ran, "\'ran\' flag was true before running test!");
-        assertEq(tenv.log, std::string(""), "Log is not empty before running test!");
+    tenv.assert(!tenv.ran, "\'ran\' flag was true before running test!");
+    tenv.assertEq(tenv.log, std::string(""), "Log is not empty before running test!");
 
-        TestRegistrar r(tenv, TestEnvironmentSubclass::test);
-        tenv.runTests();
+    TestRegistrar r(tenv, TestEnvironmentSubclass::test);
+    tenv.runTests();
 
-        assert(tenv.ran, "\'run\' flag was not set!");
-        assertEq(tenv.log, std::string("setUp test tearDown "));
-    })
-})
+    tenv.assert(tenv.ran, "\'run\' flag was not set!");
+    tenv.assertEq(tenv.log, std::string("setUp test tearDown "));
+
+    return tenv;
+}
+
+#endif

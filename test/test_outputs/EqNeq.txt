@@ -1,30 +1,30 @@
 Test suite "assertEq" (1/6 passing tests)
     Test "assertEq with printable arguments 1" failed
-        Assertion failure (file include/Test3.h, line 23): "Two plus two does not equal five!"
+        Assertion failure (file include/TestEqNeq.h, line 25): "Two plus two does not equal five!"
             4 == 5
     Test "assertEq with printable arguments 3" failed
-        Assertion failure (file include/Test3.h, line 29): "War is not peace!"
+        Assertion failure (file include/TestEqNeq.h, line 31): "War is not peace!"
             War == Peace
     Test "assertEq with printable arguments 4" failed
-        Assertion failure (file include/Test3.h, line 32)
+        Assertion failure (file include/TestEqNeq.h, line 34)
             1 == 0
     Test "assertEq with non-printable arguments" failed
-        Assertion failure (file include/Test3.h, line 35)
+        Assertion failure (file include/TestEqNeq.h, line 37)
             <LHS> == <RHS>
     Test "assertEq with arguments with custom print operation" failed
-        Assertion failure (file include/Test3.h, line 38)
+        Assertion failure (file include/TestEqNeq.h, line 40)
             ComparableAndPrintable(1) == ComparableAndPrintable(2)
 
 Test suite "assertNeq" (2/6 passing tests)
     Test "assertNeq with printable arguments 2" failed
-        Assertion failure (file include/Test3.h, line 46): "cos(0) is 1!"
+        Assertion failure (file include/TestEqNeq.h, line 48): "cos(0) is 1!"
             1 != 1
     Test "assertNeq with printable arguments 4" failed
-        Assertion failure (file include/Test3.h, line 52)
+        Assertion failure (file include/TestEqNeq.h, line 54)
             1 != 1
     Test "assertNeq with non-printable arguments" failed
-        Assertion failure (file include/Test3.h, line 55)
+        Assertion failure (file include/TestEqNeq.h, line 57)
             <LHS> != <RHS>
     Test "assertNeq with arguments with custom print operation" failed
-        Assertion failure (file include/Test3.h, line 58)
+        Assertion failure (file include/TestEqNeq.h, line 60)
             ComparableAndPrintable(1) != ComparableAndPrintable(1)

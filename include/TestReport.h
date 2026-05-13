@@ -50,6 +50,7 @@ public:
             std::string line;
             for (std::getline(entry, line); !entry.eof(); std::getline(entry, line))
                 summary << '\t' << line << std::endl;
+
             if (line.size() > 0)
                 summary << '\t' << line << std::endl;
         }

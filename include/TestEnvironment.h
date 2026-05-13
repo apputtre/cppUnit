@@ -13,6 +13,7 @@ class TestEnvironment
 {
 private:
     std::vector<std::shared_ptr<TestSuiteReport>> suite_reports;
+    std::vector<std::unique_ptr<TestReport>> suiteless_tests;
 
     std::unique_ptr<TestReport> curr_test_report;
     std::shared_ptr<TestSuiteReport> curr_test_suite_report;
@@ -59,11 +60,6 @@ public:
         curr_test_suite_report = suite_reports.back();
     }
 
-    void beginSuite()
-    {
-        beginSuite("Default");
-    }
-
     void endSuite()
     {
         endTest();
@@ -74,9 +70,6 @@ public:
 
     void beginTest(const std::string& test_name)
     {
-        if (!curr_test_suite_report)
-            beginSuite();
-
         endTest();
 
         curr_test_report = std::make_unique<TestReport>(test_name);
@@ -87,16 +80,21 @@ public:
 
     void beginTest()
     {
-        if (!curr_test_suite_report)
-            beginSuite();
-
-        beginTest("Test " + std::to_string(curr_test_suite_report->numTests() + 1 + (curr_test_report ? 1 : 0)));
+        if (curr_test_suite_report)
+            beginTest("Test " + std::to_string(curr_test_suite_report->numTests() + 1 + (curr_test_report ? 1 : 0)));
+        else
+            beginTest("Test " + std::to_string(suiteless_tests.size() + 1 + (curr_test_report ? 1 : 0)));
     }
 
     void endTest()
     {
         if (curr_test_report)
-            curr_test_suite_report->log(*curr_test_report);
+        {
+            if (curr_test_suite_report)
+                curr_test_suite_report->log(*curr_test_report);
+            else
+                suiteless_tests.emplace_back(curr_test_report.release());
+        }
         
         curr_test_report = nullptr;
     }
@@ -261,10 +259,20 @@ public:
 
     std::string getSummary()
     {
+        endTest();
+
         std::stringstream summary;
 
-        if (curr_test_report)
-            curr_test_suite_report->log(*curr_test_report);
+        for (auto it = suiteless_tests.begin(); it != suiteless_tests.end(); ++it)
+        {
+            if ((*it)->testPassed())
+                continue;
+
+            summary << (*it)->getSummary();
+
+            if (it == suiteless_tests.end() - 1)
+                summary << std::endl;
+        }
 
         for (auto it = suite_reports.begin(); it != suite_reports.end(); ++it)
         {

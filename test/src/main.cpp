@@ -22,6 +22,7 @@
 #include "Test9.h"
 #include "Test10.h"
 #include "Test11.h"
+#include "Test12.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -87,7 +88,7 @@ int main()
     }
 
     {
-        // TestSuite
+        // Test for angled brackets in macro issue
         auto tenv = yUnit::getSummary("Test10");
         runTest(tenv, "test_10.txt");
     }
@@ -96,6 +97,11 @@ int main()
         // skip
         auto tenv = yUnit::getSummary("Test11");
         runTest(tenv, "test_11.txt");
+    }
+
+    {
+        auto tenv = yUnit::getSummary("Test12");
+        runTest(tenv, "test_12.txt");
     }
 
     return 0;

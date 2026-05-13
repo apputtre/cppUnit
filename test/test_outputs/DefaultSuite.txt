@@ -1,5 +1,0 @@
-Test suite "Default" (1/3 passing tests)
-    Test "2+2=5?" failed
-        Assertion failure (file include/TestDefaultSuite.h, line 11): "Two plus two does not equal 5!"
-    Test "War is Peace?" failed
-        Assertion failure (file include/TestDefaultSuite.h, line 17): "War is not Peace!"

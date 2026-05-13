@@ -12,7 +12,7 @@
 #include "TestSuiteReport.h"
 #include "TestEnvironment.h"
 #include "TestBasicAssertions.h"
-#include "TestDefaultSuite.h"
+#include "TestSuitelessTests.h"
 #include "TestEndSuite.h"
 #include "TestEndTest.h"
 #include "TestEqNeq.h"
@@ -40,7 +40,7 @@ int main()
     runTest("assertEq, assertNeq", testEqNeq(), "EqNeq.txt");
     runTest("assertGt, assertLt", testGtLt(), "GtLt.txt");
     runTest("assertGtEq, assertLtEq", testGtEqLtEq(), "GtEqLtEq.txt");
-    runTest("Default suite", testDefaultSuite(), "DefaultSuite.txt");
+    runTest("Suiteless tests", testSuitelessTests(), "SuitelessTests.txt");
     runTest("endTest", testEndTest(), "EndTest.txt");    
     runTest("endSuite", testEndSuite(), "EndSuite.txt");
     runTest("addTest", testRegisterTest(), "RegisterTest.txt");

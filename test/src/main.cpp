@@ -44,7 +44,7 @@ int main()
     runTest("Suiteless tests", testSuitelessTests(), "SuitelessTests.txt");
     runTest("endTest", testEndTest(), "EndTest.txt");    
     runTest("endSuite", testEndSuite(), "EndSuite.txt");
-    runTest("addTest", testRunTest(), "RunTest.txt");
+    runTest("runTest", testRunTest(), "RunTest.txt");
     runTest("Combine Reports", testCombineReports(), "CombineReports.txt");
 
     return 0;

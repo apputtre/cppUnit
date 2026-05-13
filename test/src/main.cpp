@@ -18,7 +18,7 @@
 #include "TestEqNeq.h"
 #include "TestGtLt.h"
 #include "TestGtEqLtEq.h"
-#include "TestRegisterTest.h"
+#include "TestRunTest.h"
 #include "TestSuites.h"
 #include "TestCombineReports.h"
 
@@ -44,7 +44,7 @@ int main()
     runTest("Suiteless tests", testSuitelessTests(), "SuitelessTests.txt");
     runTest("endTest", testEndTest(), "EndTest.txt");    
     runTest("endSuite", testEndSuite(), "EndSuite.txt");
-    runTest("addTest", testRegisterTest(), "RegisterTest.txt");
+    runTest("addTest", testRunTest(), "RunTest.txt");
     runTest("Combine Reports", testCombineReports(), "CombineReports.txt");
 
     return 0;

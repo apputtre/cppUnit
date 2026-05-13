@@ -20,6 +20,7 @@
 #include "TestGtEqLtEq.h"
 #include "TestRegisterTest.h"
 #include "TestSuites.h"
+#include "TestCombineReports.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -44,6 +45,7 @@ int main()
     runTest("endTest", testEndTest(), "EndTest.txt");    
     runTest("endSuite", testEndSuite(), "EndSuite.txt");
     runTest("addTest", testRegisterTest(), "RegisterTest.txt");
+    runTest("Combine Reports", testCombineReports(), "CombineReports.txt");
 
     return 0;
 }

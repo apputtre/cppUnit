@@ -43,7 +43,7 @@ int main()
     runTest("Default suite", testDefaultSuite(), "DefaultSuite.txt");
     runTest("endTest", testEndTest(), "EndTest.txt");    
     runTest("endSuite", testEndSuite(), "EndSuite.txt");
-    runTest("registerTest", testRegisterTest(), "RegisterTest.txt");
+    runTest("addTest", testRegisterTest(), "RegisterTest.txt");
 
     return 0;
 }

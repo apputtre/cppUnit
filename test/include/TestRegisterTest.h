@@ -8,7 +8,7 @@ struct TestRegistrar
     template<std::derived_from<TestEnvironment> TSubclass>
     TestRegistrar(TSubclass& tenv, void(TSubclass::*test)())
     {
-        tenv.registerTest(test);
+        tenv.addTest(test);
     }
 };
 

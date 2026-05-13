@@ -36,7 +36,7 @@ public:
     virtual void tearDown() {}
 
     template<std::derived_from<TestEnvironment> TSubclass>
-    void registerTest(void(TSubclass::*test)())
+    void addTest(void(TSubclass::*test)())
     {
         tests.push_back(static_cast<void(TestEnvironment::*)()>(test));
     }

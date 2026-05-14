@@ -6,12 +6,15 @@
 #include <fstream>
 #include <format>
 
+#include "TestEnvironment.h"
+
 namespace testutils
 {
     const std::string expected_output_dir = "../test_outputs";
     const size_t tab_width = 4;
 
     std::string checkOutput(const std::string& actual_output, const std::string& expected_output_file);
+    std::string checkTestEnv(TestEnvironment& tenv, const std::string& expected_output_file);
     std::string visualizeWhitespace(std::string str);
     std::string getFileContents(const std::string& filename);
     std::string replaceSpaces(const std::string& str);
@@ -68,6 +71,12 @@ namespace testutils
         report.flush();
 
         return report.str();
+    }
+
+    std::string checkTestEnv(TestEnvironment& tenv, const std::string& expected_output_file)
+    {
+        std::string summary = tenv.getSummary();
+        return checkOutput(summary, expected_output_file);
     }
 
     std::string visualizeWhitespace(std::string str)

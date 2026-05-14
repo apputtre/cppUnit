@@ -20,6 +20,7 @@ std::string testGlobalGetSummary()
 
     p->addTest(TestEnvironmentSubclass3::test);
     yUnit::impl::registerTestEnvironment(p);
+    yUnit::runTests();
 
     return yUnit::getSummary();
 }

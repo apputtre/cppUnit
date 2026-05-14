@@ -19,11 +19,13 @@ public:
 
 TestEnvironment testGlobalTestEnvironment()
 {
+    yUnit::impl::clearTests();
+
     std::unique_ptr<TestEnvironmentSubclass2> p_s = std::make_unique<TestEnvironmentSubclass2>();
     p_s->addTest(TestEnvironmentSubclass2::test);
 
     yUnit::impl::registerTestEnvironment(p_s);
-    yUnit::runTests();
+    yUnit::impl::runTests();
 
     return yUnit::getGlobalTestEnvironment();
 }

@@ -16,11 +16,12 @@ public:
 
 std::string testGlobalGetSummary()
 {
+    yUnit::impl::clearTests();
+
     std::unique_ptr<TestEnvironmentSubclass3> p = std::make_unique<TestEnvironmentSubclass3>();
 
     p->addTest(TestEnvironmentSubclass3::test);
     yUnit::impl::registerTestEnvironment(p);
-    yUnit::runTests();
 
     return yUnit::getSummary();
 }

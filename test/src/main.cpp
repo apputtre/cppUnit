@@ -21,6 +21,7 @@
 #include "TestRunTest.h"
 #include "TestSuites.h"
 #include "TestCombineReports.h"
+#include "TestGlobalTestEnvironment.h"
 
 #define EXPECTED_OUTPUT_DIR "../test_outputs"
 #define TAB_WIDTH 4
@@ -46,6 +47,7 @@ int main()
     runTest("endSuite", testEndSuite(), "EndSuite.txt");
     runTest("runTest", testRunTest(), "RunTest.txt");
     runTest("Combine Reports", testCombineReports(), "CombineReports.txt");
+    runTest("Global test environment()", testGlobalTestEnvironment(), "GlobalTestEnvironment.txt");
 
     return 0;
 }

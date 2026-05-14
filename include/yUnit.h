@@ -15,6 +15,8 @@ namespace yUnit
         std::vector<std::pair<const std::string, std::shared_ptr<TestSuiteReport>>> suiteReports;
         std::vector<std::unique_ptr<TestEnvironment>> testEnvs;
 
+        TestEnvironment globalTestEnv;
+
         void logSuiteReport(std::shared_ptr<TestSuiteReport> report, const std::string& path)
         {
             std::smatch file_name_match;\
@@ -26,10 +28,15 @@ namespace yUnit
         }
 
         template<std::derived_from<TestEnvironment> T>
-        void registerTestEnvironment()
+        void registerTestEnvironment(std::unique_ptr<T>& p_tenv)
         {
-            testEnvs.push_back(static_cast<std::unique_ptr<TestEnvironment>>((std::make_unique<T>()));
+            testEnvs.emplace_back(std::move(p_tenv));
         }
+    }
+
+    TestEnvironment& getGlobalTestEnvironment()
+    {
+        return impl::globalTestEnv;
     }
 
     void runTests()
@@ -37,8 +44,7 @@ namespace yUnit
         for (std::unique_ptr<TestEnvironment>& tenv : impl::testEnvs)
         {
             tenv->runTests();
-
-            globalTestEnvironment.collate(*tenv);
+            impl::globalTestEnv.combineReports(*tenv);
         }
     }
 

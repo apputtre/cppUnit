@@ -29,8 +29,22 @@ protected:
     }
 
 public:
-    TestEnvironment()
-    {}
+    TestEnvironment() {}
+
+    TestEnvironment(const TestEnvironment& other)
+    {
+        for (auto p : other.suite_reports)
+            this->suite_reports.push_back(std::make_shared<TestSuiteReport>(*p));
+
+        for (auto& p : other.suiteless_tests)
+            this->suiteless_tests.push_back(std::make_unique<TestReport>(*p));
+
+        if (other.curr_test_report)
+            this->curr_test_report = std::make_unique<TestReport>(*other.curr_test_report);
+        
+        if (other.curr_test_suite_report)
+            this->curr_test_suite_report = std::make_shared<TestSuiteReport>(*other.curr_test_suite_report);
+    }
 
     virtual void setUp() {}
 
@@ -101,10 +115,14 @@ public:
 
     void combineReports(const TestEnvironment& other)
     {
-        for (auto& t : other.suiteless_tests)
+        TestEnvironment tenv(other);
+
+        tenv.endSuite();
+
+        for (auto& t : tenv.suiteless_tests)
             suiteless_tests.push_back(std::make_unique<TestReport>(*t));
 
-        for (auto t : other.suite_reports)
+        for (auto t : tenv.suite_reports)
             suite_reports.push_back(std::make_shared<TestSuiteReport>(*t));
     }
 
@@ -279,7 +297,7 @@ public:
 
             summary << (*it)->getSummary();
 
-            if (it == suiteless_tests.end() - 1)
+            if (it == suiteless_tests.end() - 1 && suite_reports.size() > 0)
                 summary << std::endl;
         }
 

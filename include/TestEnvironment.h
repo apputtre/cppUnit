@@ -133,7 +133,6 @@ public:
         curr_test_report.release();
         curr_test_suite_report.reset();
         skip_tests = false;
-        tests.clear();
     }
 
     void skip()

@@ -23,8 +23,10 @@
 #include "TestSuites.h"
 #include "TestCombineReports.h"
 #include "TestGlobalTestEnvironment.h"
+#include "TestGlobalGetSummary.h"
 
 void runTest(const std::string& test_name, TestEnvironment tenv, const std::string& expected_output_file);
+void runTest(const std::string& test_name, const std::string& summary, const std::string& expected_output_file);
 
 int main()
 {
@@ -41,14 +43,19 @@ int main()
     runTest("runTest", testRunTest(), "RunTest.txt");
     runTest("Combine Reports", testCombineReports(), "CombineReports.txt");
     runTest("Global test environment()", testGlobalTestEnvironment(), "GlobalTestEnvironment.txt");
+    runTest("Global getSummary()", testGlobalGetSummary(), "GlobalGetSummary.txt");
 
     return 0;
 }
 
-
 void runTest(const std::string& test_name, TestEnvironment tenv, const std::string& expected_output_file)
 {
     std::string summary = tenv.getSummary();
+    runTest(test_name, summary, expected_output_file);
+}
+
+void runTest(const std::string& test_name, const std::string& summary, const std::string& expected_output_file)
+{
     std::string report = testutils::checkOutput(summary, expected_output_file);
 
     if (report != "")

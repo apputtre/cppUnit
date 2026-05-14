@@ -126,6 +126,16 @@ public:
             suite_reports.push_back(std::make_shared<TestSuiteReport>(*t));
     }
 
+    void clear()
+    {
+        suite_reports.clear();
+        suiteless_tests.clear();
+        curr_test_report.release();
+        curr_test_suite_report.reset();
+        skip_tests = false;
+        tests.clear();
+    }
+
     void skip()
     {
         if (curr_test_report)

@@ -30,8 +30,6 @@ void runTest(const std::string& test_name, const std::string& summary, const std
 
 int main()
 {
-    std::cout << "Running tests" << std::endl;
-
     runTest("Basic assertions", testBasicAssertions(), "BasicAssertions.txt");
     runTest("Suites", testSuites(), "Suites.txt");
     runTest("assertEq, assertNeq", testEqNeq(), "EqNeq.txt");

@@ -3,7 +3,7 @@
 
 #include "yUnit.h"
 
-TEST(testGlobalTestEnvironment)
+TEST("2+2=5?")
 {
     assertEq(2+2, 5, "Two plus two does not equal five!");
 }

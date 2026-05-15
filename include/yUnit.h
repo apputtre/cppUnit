@@ -62,6 +62,7 @@ namespace yUnit
     }
 };
 
+/*
 #define SUITE(suite_name, ...)\
 namespace yUnit\
 {\
@@ -81,22 +82,73 @@ namespace yUnit\
         Suite_##suite_name suite_##suite_name;\
     }\
 };
+*/
 
-#define TEST(test_name)\
+/*
+#define __YUNIT_GET_UNIQUE_NAME(prefix, postfix) prefix##postfix
+#define _YUNIT_GET_UNIQUE_NAME(prefix, postfix) __YUNIT_GET_UNIQUE_NAME(prefix, postfix)
+#define YUNIT_GET_UNIQUE_NAME(prefix) _YUNIT_GET_UNIQUE_NAME(prefix, __COUNTER__)
+*/
+
+#define YUNIT_CONCAT(prefix, postfix) prefix##postfix
+
+#define _TEST(name, id)\
 namespace yUnit::impl\
 {\
-    class Test_##test_name : public TestEnvironment\
+    class YUNIT_CONCAT(Test_, id) : public TestEnvironment\
     {\
     public:\
-        Test_##test_name()\
+        YUNIT_CONCAT(Test_, id)()\
         {\
-            addTest(#test_name, test);\
+            addTest(name, test);\
         }\
-\
         void test();\
     };\
-    TestEnvironmentRegistrar testEnvironmentRegistrar_##test_name(std::make_unique<Test_##test_name>());\
+    TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::make_unique<YUNIT_CONCAT(Test_, id)>());\
 }\
-void yUnit::impl::Test_##test_name::test()
+void yUnit::impl::YUNIT_CONCAT(Test_, id)::test()
+
+#define TEST(name) _TEST(name, __COUNTER__)
+
+/*
+#define _BEGIN_SUITE(name, unique_name)\
+namespace yUnit::impl\
+{\
+    struct unique_name\
+    {\
+        unique_name()\
+        {\
+            yUnit::getGlobalTestEnvironment().beginSuite(name);\
+        }\
+    };\
+    unique_name beginSuite;\
+}
+
+#define BEGIN_SUITE(suite_name)\
+namespace yUnit::impl\
+{\
+    struct BeginSuite_##__COUNTER__\
+    {\
+        BeginSuite_##__COUNTER__()\
+        {\
+            yUnit::getGlobalTestEnvironment().beginSuite(suite_name);\
+        }\
+    };\
+    BeginSuite_##__COUNTER__ beginSuite_##__COUNTER__;\
+}
+
+#define END_SUITE()\
+namespace yUnit::impl\
+{\
+    struct EndSuite_##__COUNTER__\
+    {\
+        EndSuite_##__COUNTER__()\
+        {\
+            yUnit::getGlobalTestEnvironment().endSuite();\
+        }\
+    };\
+    EndSuite_##__COUNTER__ endSuite_##__COUNTER__;\
+}
+*/
 
 #endif

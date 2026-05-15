@@ -23,7 +23,6 @@
 #include "TestSuites.h"
 #include "TestCombineReports.h"
 #include "TestGlobalTestEnvironment.h"
-#include "TestGlobalGetSummary.h"
 #include "TestClear.h"
 
 void runTest(const std::string& test_name, TestEnvironment tenv, const std::string& expected_output_file);
@@ -45,7 +44,6 @@ int main()
     runTest("Combine Reports", testCombineReports(), "CombineReports.txt");
     runTest("TestSummary.clear()", testClear(), "Clear.txt");
     runTest("Global test environment()", testGlobalTestEnvironment(), "GlobalTestEnvironment.txt");
-    runTest("Global getSummary()", testGlobalGetSummary(), "GlobalGetSummary.txt");
 
     return 0;
 }

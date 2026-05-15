@@ -82,9 +82,21 @@ namespace yUnit\
     }\
 };
 
-#define TEST(test_name, ...)\
-    beginTest(#test_name);\
-    __VA_ARGS__\
-    endTest();
+#define TEST(test_name)\
+namespace yUnit::impl\
+{\
+    class Test_##test_name : public TestEnvironment\
+    {\
+    public:\
+        Test_##test_name()\
+        {\
+            addTest(#test_name, test);\
+        }\
+\
+        void test();\
+    };\
+    TestEnvironmentRegistrar testEnvironmentRegistrar_##test_name(std::make_unique<Test_##test_name>());\
+}\
+void yUnit::impl::Test_##test_name::test()
 
 #endif

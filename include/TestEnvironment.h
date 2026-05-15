@@ -20,7 +20,13 @@ private:
 
     bool skip_tests = false;
 
-    std::vector<void(TestEnvironment::*)()> tests;
+    struct Test
+    {
+        std::string name;
+        void(TestEnvironment::*func)();
+    };
+
+    std::vector<Test> tests;
 
 protected:
     std::shared_ptr<TestSuiteReport> getLastSuiteReport()
@@ -51,9 +57,19 @@ public:
     virtual void tearDown() {}
 
     template<std::derived_from<TestEnvironment> TSubclass>
+    void addTest(const std::string& name, void(TSubclass::*test)())
+    {
+        tests.push_back(
+            Test {name, static_cast<void(TestEnvironment::*)()>(test)}
+        );
+    }
+
+    template<std::derived_from<TestEnvironment> TSubclass>
     void addTest(void(TSubclass::*test)())
     {
-        tests.push_back(static_cast<void(TestEnvironment::*)()>(test));
+        tests.push_back(
+            Test {"", static_cast<void(TestEnvironment::*)()>(test)}
+        );
     }
 
     void runTests()
@@ -61,7 +77,14 @@ public:
         for (auto test : tests)
         {
             setUp();
-            (this->*test)();
+
+            if (test.name != "")
+                beginTest(test.name);
+            else
+                beginTest();
+            (this->*test.func)();
+            endTest();
+
             tearDown();
         }
     }

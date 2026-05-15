@@ -12,37 +12,49 @@ namespace yUnit
 {
     namespace impl
     {
-        std::vector<std::unique_ptr<TestEnvironment>> testEnvs;
+        inline std::vector<std::unique_ptr<TestEnvironment>> testEnvs;
 
-        TestEnvironment globalTestEnv;
+        inline TestEnvironment globalTestEnv;
 
         template<std::derived_from<TestEnvironment> T>
-        void registerTestEnvironment(std::unique_ptr<T>& p_tenv)
+        inline void registerTestEnvironment(std::unique_ptr<T>& p_tenv)
         {
-            testEnvs.emplace_back(std::move(p_tenv));
+            testEnvs.emplace_back(p_tenv.release());
         }
 
-        void runTests()
+        inline void runTests()
         {
-            for (std::unique_ptr<TestEnvironment>& tenv : impl::testEnvs)
+            for (auto& tenv : impl::testEnvs)
             {
                 tenv->runTests();
                 impl::globalTestEnv.combineReports(*tenv);
             }
         }
 
-        void clearTests()
+        inline void clearTests()
         {
             impl::testEnvs.clear();
         }
+
+        template<std::derived_from<TestEnvironment> T>
+        struct TestEnvironmentRegistrar
+        {
+            TestEnvironmentRegistrar(std::unique_ptr<T>&& p_tenv)
+            {
+                registerTestEnvironment(p_tenv);
+            }
+
+            TestEnvironmentRegistrar(std::unique_ptr<T>& p_tenv) : TestEnvironmentRegistrar(std::move(p_tenv))
+            {}
+        };
     }
 
-    TestEnvironment& getGlobalTestEnvironment()
+    inline TestEnvironment& getGlobalTestEnvironment()
     {
         return impl::globalTestEnv;
     }
 
-    std::string getSummary()
+    inline std::string getSummary()
     {
         getGlobalTestEnvironment().clear();
         impl::runTests();

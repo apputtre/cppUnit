@@ -12,28 +12,56 @@ namespace yUnit
 {
     namespace impl
     {
-        inline std::vector<std::unique_ptr<TestEnvironment>> testEnvs;
+        struct Suite
+        {
+            std::string name;
+            std::vector<std::unique_ptr<TestEnvironment>> tests {};
+
+            Suite(const std::string& name)
+            {
+                this->name = name;
+            }
+        };
+
+        inline std::vector<std::unique_ptr<TestEnvironment>> suitelessTests;
+        inline std::vector<Suite> suites;
+        inline bool in_suite = false;
 
         inline TestEnvironment globalTestEnv;
 
         template<std::derived_from<TestEnvironment> T>
         inline void registerTestEnvironment(std::unique_ptr<T>& p_tenv)
         {
-            testEnvs.emplace_back(p_tenv.release());
+            std::cout << (in_suite ? "true" : "false") << std::endl;
+
+            if (in_suite)
+                suites.back().tests.emplace_back(p_tenv.release());
+            else
+                suitelessTests.emplace_back(p_tenv.release());
         }
 
         inline void runTests()
         {
-            for (auto& tenv : impl::testEnvs)
+            for (auto& tenv : impl::suitelessTests)
             {
                 tenv->runTests();
                 impl::globalTestEnv.combineReports(*tenv);
+            }
+
+            for (auto& suite : impl::suites)
+            {
+                for (auto& tenv : suite.tests)
+                {
+                    tenv->beginSuite(suite.name);
+                    tenv->runTests();
+                    globalTestEnv.combineReports(*tenv);
+                }
             }
         }
 
         inline void clearTests()
         {
-            impl::testEnvs.clear();
+            impl::suitelessTests.clear();
         }
 
         template<std::derived_from<TestEnvironment> T>
@@ -110,45 +138,36 @@ void yUnit::impl::YUNIT_CONCAT(Test_, id)::test()
 
 #define TEST(name) _TEST(name, __COUNTER__)
 
-/*
-#define _BEGIN_SUITE(name, unique_name)\
+#define _BEGIN_SUITE(name, id)\
 namespace yUnit::impl\
 {\
-    struct unique_name\
+    struct YUNIT_CONCAT(BeginSuite_, id)\
     {\
-        unique_name()\
+        YUNIT_CONCAT(BeginSuite_, id)()\
         {\
-            yUnit::getGlobalTestEnvironment().beginSuite(name);\
+            yUnit::impl::in_suite = true;\
+            yUnit::impl::suites.push_back(yUnit::impl::Suite{name});\
         }\
     };\
-    unique_name beginSuite;\
+    YUNIT_CONCAT(BeginSuite_, id) YUNIT_CONCAT(beginSuite_, id);\
 }
 
-#define BEGIN_SUITE(suite_name)\
+#define BEGIN_SUITE(name) _BEGIN_SUITE(name, __COUNTER__)
+
+#define _END_SUITE(id)
 namespace yUnit::impl\
 {\
-    struct BeginSuite_##__COUNTER__\
+    struct YUNIT_CONCAT(EndSuite_, id)
     {\
-        BeginSuite_##__COUNTER__()\
+        YUNIT_CONCAT(EndSuite_, id)()\
         {\
-            yUnit::getGlobalTestEnvironment().beginSuite(suite_name);\
+            yUnit::impl::in_suite = false;
+            std::cout << yUnit::impl::in_suite << std::endl;
         }\
     };\
-    BeginSuite_##__COUNTER__ beginSuite_##__COUNTER__;\
+    YUNIT_CONCAT(EndSuite_, id) YUNIT_CONCAT(endSuite_, id);\
 }
 
-#define END_SUITE()\
-namespace yUnit::impl\
-{\
-    struct EndSuite_##__COUNTER__\
-    {\
-        EndSuite_##__COUNTER__()\
-        {\
-            yUnit::getGlobalTestEnvironment().endSuite();\
-        }\
-    };\
-    EndSuite_##__COUNTER__ endSuite_##__COUNTER__;\
-}
-*/
+#define END_SUITE() _END_SUITE(__COUNTER__)
 
 #endif

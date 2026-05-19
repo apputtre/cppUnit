@@ -54,19 +54,13 @@ public:
             numTests()
         ) << std::endl;
 
-        for (TestReport report : reports)
-        {
-            if (report.testPassed())
-                continue;
+        std::stringstream report_summaries(getSummaryNoHeader());
 
-            std::stringstream report_summary(report.getSummary());
-
-            std::string line;
-            for (std::getline(report_summary, line); !report_summary.eof(); std::getline(report_summary, line))
-                summary << '\t' << line << std::endl;
-            if (line.size() > 0)
-                summary << line << std::endl;
-        }
+        std::string line;
+        for (std::getline(report_summaries, line); !report_summaries.eof(); std::getline(report_summaries, line))
+            summary << '\t' << line << std::endl;
+        if (line.size() > 0)
+            summary << line << std::endl;
 
         summary.flush();
         return summary.str();

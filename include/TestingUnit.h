@@ -9,6 +9,9 @@
 
 class TestingUnit
 {
+private:
+    std::string file_name;
+
 public:
     class Suite
     {
@@ -35,7 +38,6 @@ public:
         }
     };
 
-    std::string file_name;
     Suite default_suite;
     std::vector<Suite> suites {};
 

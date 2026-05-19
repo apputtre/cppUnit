@@ -119,10 +119,30 @@ namespace YUNIT_CONCAT(Fixture_, id)
 #define FIXTURE() _FIXTURE(__COUNTER__)
 
 #define SETUP()\
-void foo()
+class FixtureSetUp : public std::remove_reference<decltype(*fixture)>::type\
+{\
+public:\
+    FixtureSetUp()\
+    {\
+        fixture->setSetUp(setUpImpl);\
+    }\
+    void setUpImpl();\
+};\
+FixtureSetUp fixtureSetUp;\
+void FixtureSetUp::setUpImpl()
 
 #define TEARDOWN()\
-void bar()\
+class FixtureTearDown : public std::remove_reference<decltype(*fixture)>::type\
+{\
+public:\
+    FixtureTearDown()\
+    {\
+        fixture->setTearDown(tearDownImpl);\
+    }\
+    void tearDownImpl();\
+};\
+FixtureTearDown fixtureTearDown;\
+void FixtureTearDown::tearDownImpl()
 
 #define _FTEST(name, id)\
 class YUNIT_CONCAT(FixtureTest_, id) : public std::remove_reference<decltype(*fixture)>::type\

@@ -1,2 +1,3 @@
-Assertion failure (file include/TestFixtures.h, line 22): "Two plus two does not equal five!"
-    4 == 5
+Test "First test" failed
+    Assertion failure (file include/TestFixtures.h, line 24): "Two plus two does not equal five!"
+        4 == 5

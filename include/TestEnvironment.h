@@ -14,6 +14,8 @@ class TestEnvironment
 private:
     std::vector<std::unique_ptr<TestReport>> reports;
     std::unique_ptr<TestReport> curr_test_report = nullptr;
+    void(TestEnvironment::*setUpFuncPtr)();
+    void(TestEnvironment::*tearDownFuncPtr)();
 
     struct Test
     {
@@ -25,7 +27,7 @@ private:
 
     void runTest(const Test& test)
     {
-        setUp();
+        callSetUp();
 
         if (test.name != "")
             beginTest(test.name);
@@ -34,7 +36,7 @@ private:
         (this->*test.func)();
         endTest();
 
-        tearDown();
+        callTearDown();
     }
 
     void beginTest(const std::string& test_name)
@@ -57,6 +59,16 @@ private:
     }
 
 protected:
+    void callSetUp()
+    {
+        (this->*setUpFuncPtr)();
+    }
+
+    void callTearDown()
+    {
+        (this->*tearDownFuncPtr)();
+    }
+
     void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)
@@ -208,10 +220,26 @@ protected:
     }
 
 public:
-    TestEnvironment() {}
+    TestEnvironment()
+    {
+        setSetUp(setUp);
+        setTearDown(tearDown);
+    }
 
     virtual void setUp() {}
     virtual void tearDown() {}
+
+    template<std::derived_from<TestEnvironment> TSubclass>
+    void setSetUp(void(TSubclass::*setUp)())
+    {
+        this->setUpFuncPtr = static_cast<void(TestEnvironment::*)()>(setUp);
+    }
+
+    template<std::derived_from<TestEnvironment> TSubclass>
+    void setTearDown(void(TSubclass::*tearDown)())
+    {
+        this->tearDownFuncPtr = static_cast<void(TestEnvironment::*)()>(tearDown);
+    }
 
     template<std::derived_from<TestEnvironment> TSubclass>
     void addTest(const std::string& name, void(TSubclass::*test)())

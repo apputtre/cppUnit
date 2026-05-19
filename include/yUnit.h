@@ -16,13 +16,20 @@ namespace yUnit
     {
         inline std::vector<std::pair<std::string, TestingUnit>> testing_units;
 
-        template<std::derived_from<TestEnvironment> T>
-        inline void registerTestEnvironment(const std::string& file_name, std::shared_ptr<T> p_tenv, const std::string& suite_name)
+        decltype(impl::testing_units)::iterator getTestingUnit(const std::string& file_name)
         {
-            auto it = std::find_if(testing_units.begin(), testing_units.end(), [file_name](auto& p)
+            auto it = std::find_if(impl::testing_units.begin(), impl::testing_units.end(), [file_name](auto& p)
             {
                 return (p.first == file_name);
             });
+
+            return it;
+        }
+
+        template<std::derived_from<TestEnvironment> T>
+        inline void registerTestEnvironment(const std::string& file_name, std::shared_ptr<T> p_tenv, const std::string& suite_name)
+        {
+            auto it = getTestingUnit(file_name);
 
             if (it != testing_units.end())
             {
@@ -57,10 +64,7 @@ namespace yUnit
 
     inline std::string getSummary(const std::string& file_name)
     {
-        auto it = std::find_if(impl::testing_units.begin(), impl::testing_units.end(), [file_name](auto& p)
-        {
-            return (p.first == file_name);
-        });
+        auto it = impl::getTestingUnit(file_name);
 
         if (it == impl::testing_units.end())
             throw std::runtime_error(std::format("File \"{}\" does not have any associated tests", file_name));

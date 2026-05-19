@@ -35,16 +35,13 @@ private:
         }
     };
 
-    std::string file_name;
     Suite default_suite;
     std::vector<Suite> suites {};
 
 public:
     TestingUnit(const std::string& file_name = "")
         : default_suite {""}
-    {
-        this->file_name = file_name;
-    }
+    {}
 
     void addTestEnvironment(std::shared_ptr<TestEnvironment> p_tenv, const std::string& suite_name)
     {
@@ -109,11 +106,6 @@ public:
         }
 
         return summary.str();
-    }
-
-    std::string getFileName()
-    {
-        return file_name;
     }
 };
 

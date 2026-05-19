@@ -14,23 +14,24 @@ namespace yUnit
 {
     namespace impl
     {
-        inline std::vector<TestingUnit> testing_units;
+        inline std::vector<std::pair<std::string, TestingUnit>> testing_units;
+
         template<std::derived_from<TestEnvironment> T>
         inline void registerTestEnvironment(const std::string& file_name, std::shared_ptr<T> p_tenv, const std::string& suite_name)
         {
-            auto it = std::find_if(testing_units.begin(), testing_units.end(), [file_name](TestingUnit& t)
+            auto it = std::find_if(testing_units.begin(), testing_units.end(), [file_name](auto& p)
             {
-                return (t.getFileName() == file_name);
+                return (p.first == file_name);
             });
 
             if (it != testing_units.end())
             {
-                it->addTestEnvironment(p_tenv, suite_name);
+                it->second.addTestEnvironment(p_tenv, suite_name);
             }
             else
             {
-                testing_units.emplace_back(TestingUnit {file_name});
-                testing_units.back().addTestEnvironment(p_tenv, suite_name);
+                testing_units.emplace_back(std::pair {file_name, TestingUnit {file_name}});
+                testing_units.back().second.addTestEnvironment(p_tenv, suite_name);
             }
         }
 
@@ -48,23 +49,23 @@ namespace yUnit
     {
         TestingUnit global_tu;
 
-        for (auto& tu : impl::testing_units)
-            global_tu.combineReports(tu);
+        for (auto& it : impl::testing_units)
+            global_tu.combineReports(it.second);
 
         return global_tu.getSummary();
     }
 
     inline std::string getSummary(const std::string& file_name)
     {
-        auto it = std::find_if(impl::testing_units.begin(), impl::testing_units.end(), [file_name](TestingUnit& tu)
+        auto it = std::find_if(impl::testing_units.begin(), impl::testing_units.end(), [file_name](auto& p)
         {
-            return (tu.getFileName() == file_name);
+            return (p.first == file_name);
         });
 
         if (it == impl::testing_units.end())
             throw std::runtime_error(std::format("File \"{}\" does not have any associated tests", file_name));
 
-        return it->getSummary();
+        return it->second.getSummary();
     }
 };
 

@@ -17,8 +17,8 @@ namespace yUnit_impl
 template<typename TParam1, typename TParam2>
 struct ComparisonFailureReport : AssertionFailureReport
 {
-    TParam1 x;
-    TParam2 y;
+    std::string x;
+    std::string y;
     std::string comparison_symbol;
 
     ComparisonFailureReport(
@@ -29,8 +29,25 @@ struct ComparisonFailureReport : AssertionFailureReport
         const std::string& comparison_symbol
     ) : AssertionFailureReport(location, msg)
     {
-        this->x = x;
-        this->y = y;
+        std::stringstream ss;
+
+        if constexpr (yUnit_impl::Printable<TParam1>)
+            ss << x;
+        else
+            ss << "<LHS>";
+
+        ss.flush();
+        this->x = ss.str();
+        ss.str("");
+
+        if constexpr (yUnit_impl::Printable<TParam2>)
+            ss << y;
+        else
+            ss << "<RHS>";
+
+        ss.flush();
+        this->y = ss.str();
+
         this->comparison_symbol = comparison_symbol;
     }
 
@@ -38,26 +55,10 @@ struct ComparisonFailureReport : AssertionFailureReport
     {
         std::stringstream summary;
 
-        summary << formatMessage(location, msg);
+        summary << formatMessage(location, msg) << std::endl;
+        summary << '\t' << std::format("{} {} {}", x, comparison_symbol, y) << std::endl;
 
-        summary << std::endl << '\t';
-
-        if constexpr (yUnit_impl::Printable<TParam1>)
-            summary << x;
-        else
-            summary << "<LHS>";
-        
-        summary << " " << comparison_symbol << " ";
-
-        if constexpr (yUnit_impl::Printable<TParam2>)
-            summary << y;
-        else
-            summary << "<RHS>";
-        
-        summary << std::endl;
-        
         summary.flush();
-
         return summary.str();
     }
 };

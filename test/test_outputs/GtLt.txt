@@ -1,27 +1,24 @@
-Test suite "assertGt" (1/5 passing tests)
-    Test "assertGt with printable arguments 1" failed
-        Assertion failure (file include/TestGtLt.h, line 21): "One is not greater than two!"
-            1 > 2
-    Test "assertGt with printable arguments 3" failed
-        Assertion failure (file include/TestGtLt.h, line 27)
-            2.5 > 3
-    Test "assertGt with non-printable arguments" failed
-        Assertion failure (file include/TestGtLt.h, line 30)
-            <LHS> > <RHS>
-    Test "assertGt with arguments with custom print operation" failed
-        Assertion failure (file include/TestGtLt.h, line 33)
-            ComparableAndPrintable(1) > ComparableAndPrintable(2)
-
-Test suite "assertLt" (1/5 passing tests)
-    Test "assertLt with printable arguments 1" failed
-        Assertion failure (file include/TestGtLt.h, line 38): "Two is not less than one!"
-            2 < 1
-    Test "assertLt with printable arguments 3" failed
-        Assertion failure (file include/TestGtLt.h, line 44)
-            3 < 2.5
-    Test "assertLt with non-printable arguments" failed
-        Assertion failure (file include/TestGtLt.h, line 47)
-            <LHS> < <RHS>
-    Test "assertLt with arguments with custom print operation" failed
-        Assertion failure (file include/TestGtLt.h, line 50)
-            ComparableAndPrintable(2) < ComparableAndPrintable(1)
+Test "assertGt with printable arguments 1" failed
+    Assertion failure (file include/TestGtLt.h, line 11): "One is not greater than two!"
+        1 > 2
+Test "assertGt with printable arguments 3" failed
+    Assertion failure (file include/TestGtLt.h, line 21)
+        2.5 > 3
+Test "assertGt with non-printable arguments" failed
+    Assertion failure (file include/TestGtLt.h, line 29)
+        <LHS> > <RHS>
+Test "assertGt with arguments with custom print operation" failed
+    Assertion failure (file include/TestGtLt.h, line 37)
+        ComparableAndPrintable(1) > ComparableAndPrintable(2)
+Test "assertLt with printable arguments 1" failed
+    Assertion failure (file include/TestGtLt.h, line 42): "Two is not less than one!"
+        2 < 1
+Test "assertLt with printable arguments 3" failed
+    Assertion failure (file include/TestGtLt.h, line 52)
+        3 < 2.5
+Test "assertLt with non-printable arguments" failed
+    Assertion failure (file include/TestGtLt.h, line 60)
+        <LHS> < <RHS>
+Test "assertLt with arguments with custom print operation" failed
+    Assertion failure (file include/TestGtLt.h, line 68)
+        ComparableAndPrintable(2) < ComparableAndPrintable(1)

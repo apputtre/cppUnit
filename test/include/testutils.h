@@ -75,7 +75,7 @@ namespace testutils
 
     std::string checkTestEnv(TestEnvironment& tenv, const std::string& expected_output_file)
     {
-        std::string summary = tenv.getSummary();
+        std::string summary = tenv.runTests()[0].getSummary();
         return checkOutput(summary, expected_output_file);
     }
 

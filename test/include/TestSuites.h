@@ -3,40 +3,40 @@
 
 #include <math.h>
 
-#include "TestEnvironment.h"
+#include "yUnit.h"
 
-TestEnvironment testSuites()
+SUITE("First suite")
 {
-    TestEnvironment tenv;
+    TEST("cos(0)=1?")
+    {
+        assert(std::cos(0) == 1, "Cos(0) is not 1!");
+    }
 
-    tenv.beginSuite("First suite");
+    TEST("2+2=5?")
+    {
+        assert(2 + 2 == 5, "Two plus two does not equal five!");
+    }
+}
 
-    tenv.beginTest("3^2+4^2=5^2?");
-    tenv.assert(3*3 + 4*4 == 5*5, "3^2 + 4^2 does not equal 5^2!");
+SUITE("Second suite")
+{
+    TEST("True is true?")
+    {
+        assert(true, "True is not true!");
+    }
+}
 
-    tenv.beginTest("sin(pi)=1?");
-    tenv.assert(std::cos(0) == 1, "Cos(0) is not 1!");
+SUITE("Third suite")
+{
+    TEST("War is Peace?")
+    {
+        assert(std::string("War") == std::string("Peace"), "War is not Peace!");
+    }
+}
 
-    tenv.beginTest("2+2=5?");
-    tenv.assert(2 + 2 == 5, "Two plus two does not equal five!");
-
-    tenv.beginSuite("Second suite");
-
-    tenv.beginTest("true?");
-    tenv.assert(true, "True is false!");
-
-    tenv.beginTest("1=1?");
-    tenv.assert(1 == 1, "One does not equal one!");
-
-    tenv.beginSuite("Third suite");
-
-    tenv.beginTest("Assertion without message");
-    tenv.assert(false);
-
-    tenv.beginTest("War is peace?");
-    tenv.assert(std::string("War") == std::string("Peace"), "War is not Peace!");
-
-    return tenv;
+TEST("Suiteless test")
+{
+    assert(false);
 }
 
 #endif

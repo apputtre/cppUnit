@@ -26,15 +26,17 @@ public:
     {
         reports.push_back(report);
 
-        if (report.testSkipped())
-        {
-            ++num_skipped_tests;
-        }
-        else if (!report.testPassed())
+        if (!report.testPassed())
         {
             passed = false;
             ++num_failing_reports;
         }
+    }
+
+    void log(std::vector<TestReport> reports)
+    {
+        for (auto report : reports)
+            log(report);
     }
 
     std::string getName()
@@ -80,7 +82,7 @@ public:
 
         for (TestReport report : reports)
         {
-            if (report.testPassed() || report.testSkipped())
+            if (report.testPassed())
                 continue;
 
             std::stringstream report_summary(report.getSummary());

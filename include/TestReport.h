@@ -13,7 +13,6 @@ struct TestReport
 private:
     std::vector<std::string> log;
     bool passed = true;
-    bool skipped = false;
     std::string test_name;
 
 public:
@@ -22,14 +21,9 @@ public:
         : test_name{test_name}
     {}
 
-    void skip()
+    std::string& getName()
     {
-        skipped = true;
-    }
-
-    bool testSkipped()
-    {
-        return skipped;
+        return test_name;
     }
 
     bool testPassed()

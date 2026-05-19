@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <regex>
+#include <source_location>
 
 #include "TestEnvironment.h"
 
@@ -12,111 +13,162 @@ namespace yUnit
 {
     namespace impl
     {
-        struct Suite
+        class Suite
         {
+        private:
+            std::unique_ptr<TestSuiteReport> report;
+
+        public:
             std::string name;
-            std::vector<std::unique_ptr<TestEnvironment>> tests {};
+            std::vector<std::shared_ptr<TestEnvironment>> tests {};
 
             Suite(const std::string& name)
             {
                 this->name = name;
             }
+
+            TestSuiteReport getReport()
+            {
+                report = std::make_unique<TestSuiteReport>(name);
+
+                for (auto& tenv : tests)
+                    report->log(tenv->runTests());
+
+                return TestSuiteReport(*report);
+            }
         };
 
-        inline std::vector<std::unique_ptr<TestEnvironment>> suitelessTests;
-        inline std::vector<Suite> suites;
-        inline bool in_suite = false;
-
-        inline TestEnvironment globalTestEnv;
-
-        template<std::derived_from<TestEnvironment> T>
-        inline void registerTestEnvironment(std::unique_ptr<T>& p_tenv)
+        struct TestingUnit
         {
-            std::cout << (in_suite ? "true" : "false") << std::endl;
+            std::string file_name;
+            Suite default_suite;
+            std::vector<Suite> suites {};
 
-            if (in_suite)
-                suites.back().tests.emplace_back(p_tenv.release());
-            else
-                suitelessTests.emplace_back(p_tenv.release());
-        }
-
-        inline void runTests()
-        {
-            for (auto& tenv : impl::suitelessTests)
+            TestingUnit(const std::string& file_name = "")
+                : default_suite {""}
             {
-                tenv->runTests();
-                impl::globalTestEnv.combineReports(*tenv);
+                this->file_name = file_name;
             }
 
-            for (auto& suite : impl::suites)
+            void addTestEnvironment(std::shared_ptr<TestEnvironment> p_tenv, const std::string& suite_name)
             {
-                for (auto& tenv : suite.tests)
+                if (suite_name == "")
                 {
-                    tenv->beginSuite(suite.name);
-                    tenv->runTests();
-                    globalTestEnv.combineReports(*tenv);
-                }
-            }
-        }
+                    default_suite.tests.emplace_back(p_tenv);
 
-        inline void clearTests()
+                    return;
+                }
+
+                for (auto& suite : suites)
+                {
+                    if (suite.name == suite_name)
+                    {
+                        suite.tests.emplace_back(p_tenv);
+
+                        return;
+                    }
+                }
+
+                suites.push_back(Suite(suite_name));
+                suites.back().tests.emplace_back(p_tenv);
+            }
+
+            void addSuite(Suite& suite)
+            {
+                for (auto& test : suite.tests)
+                    addTestEnvironment(test, suite.name);
+            }
+
+            std::string getSummary()
+            {
+                std::stringstream summary;
+
+                for (auto it = default_suite.tests.begin(); it != default_suite.tests.end(); ++it)
+                {
+                    TestEnvironment& tenv = **it;
+
+                    summary << tenv.getSummary();
+
+                    if (it == default_suite.tests.end() - 1)
+                    {
+                        if (suites.size() > 0)
+                            summary << std::endl;
+                    }
+                }
+
+                for (auto it = suites.begin(); it != suites.end(); ++it)
+                {
+                    Suite& suite = *it;
+
+                    if (suite.getReport().allTestsPassed())
+                        continue;
+
+                    summary << suite.getReport().getSummary();
+
+                    if (it != suites.end() - 1)
+                        summary << std::endl;
+                }
+
+                return summary.str();
+            }
+        };
+
+        inline std::vector<TestingUnit> testing_units;
+        template<std::derived_from<TestEnvironment> T>
+        inline void registerTestEnvironment(const std::string& file_name, std::shared_ptr<T> p_tenv, const std::string& suite_name)
         {
-            impl::suitelessTests.clear();
+            auto it = std::find_if(testing_units.begin(), testing_units.end(), [file_name](TestingUnit& t)
+            {
+                return (t.file_name == file_name);
+            });
+
+            if (it != testing_units.end())
+            {
+                it->addTestEnvironment(p_tenv, suite_name);
+            }
+            else
+            {
+                testing_units.emplace_back(TestingUnit {file_name});
+                testing_units.back().addTestEnvironment(p_tenv, suite_name);
+            }
         }
 
         template<std::derived_from<TestEnvironment> T>
         struct TestEnvironmentRegistrar
         {
-            TestEnvironmentRegistrar(std::unique_ptr<T>&& p_tenv)
+            TestEnvironmentRegistrar(const std::string& file_name, std::shared_ptr<T> p_tenv, const std::string& suite_name = "")
             {
-                registerTestEnvironment(p_tenv);
+                registerTestEnvironment(file_name, p_tenv, suite_name);
             }
-
-            TestEnvironmentRegistrar(std::unique_ptr<T>& p_tenv) : TestEnvironmentRegistrar(std::move(p_tenv))
-            {}
         };
-    }
-
-    inline TestEnvironment& getGlobalTestEnvironment()
-    {
-        return impl::globalTestEnv;
     }
 
     inline std::string getSummary()
     {
-        getGlobalTestEnvironment().clear();
-        impl::runTests();
-        return getGlobalTestEnvironment().getSummary();
+        impl::TestingUnit global_tu;
+
+        for (auto& tu : impl::testing_units)
+            for (auto& suite : tu.suites)
+                global_tu.addSuite(suite);
+
+        return global_tu.getSummary();
+    }
+
+    inline std::string getSummary(const std::string& file_name)
+    {
+        auto it = std::find_if(impl::testing_units.begin(), impl::testing_units.end(), [file_name](impl::TestingUnit& tu)
+        {
+            return (tu.file_name == file_name);
+        });
+
+        if (it == impl::testing_units.end())
+            throw std::runtime_error(std::format("File \"{}\" does not have any associated tests", file_name));
+
+        return it->getSummary();
     }
 };
 
-/*
-#define SUITE(suite_name, ...)\
-namespace yUnit\
-{\
-    class Suite_##suite_name : public TestEnvironment\
-    {\
-    public:\
-        Suite_##suite_name()\
-        {\
-            beginSuite(#suite_name);\
-            __VA_ARGS__\
-            endSuite();\
-            impl::logSuiteReport(getLastSuiteReport(), __FILE__);\
-        }\
-    };\
-    namespace impl\
-    {\
-        Suite_##suite_name suite_##suite_name;\
-    }\
-};
-*/
-
-/*
-#define __YUNIT_GET_UNIQUE_NAME(prefix, postfix) prefix##postfix
-#define _YUNIT_GET_UNIQUE_NAME(prefix, postfix) __YUNIT_GET_UNIQUE_NAME(prefix, postfix)
-#define YUNIT_GET_UNIQUE_NAME(prefix) _YUNIT_GET_UNIQUE_NAME(prefix, __COUNTER__)
-*/
+const std::string yunit_suite_name = "";
 
 #define YUNIT_CONCAT(prefix, postfix) prefix##postfix
 
@@ -132,42 +184,19 @@ namespace yUnit::impl\
         }\
         void test();\
     };\
-    TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::make_unique<YUNIT_CONCAT(Test_, id)>());\
+    ::yUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), std::make_shared<YUNIT_CONCAT(Test_, id)>(), yunit_suite_name);\
 }\
 void yUnit::impl::YUNIT_CONCAT(Test_, id)::test()
 
 #define TEST(name) _TEST(name, __COUNTER__)
 
-#define _BEGIN_SUITE(name, id)\
-namespace yUnit::impl\
+#define _SUITE(name, id)\
+namespace YUNIT_CONCAT(suite_, id)\
 {\
-    struct YUNIT_CONCAT(BeginSuite_, id)\
-    {\
-        YUNIT_CONCAT(BeginSuite_, id)()\
-        {\
-            yUnit::impl::in_suite = true;\
-            yUnit::impl::suites.push_back(yUnit::impl::Suite{name});\
-        }\
-    };\
-    YUNIT_CONCAT(BeginSuite_, id) YUNIT_CONCAT(beginSuite_, id);\
-}
+    const std::string yunit_suite_name = name;\
+}\
+namespace YUNIT_CONCAT(suite_, id)
 
-#define BEGIN_SUITE(name) _BEGIN_SUITE(name, __COUNTER__)
-
-#define _END_SUITE(id)
-namespace yUnit::impl\
-{\
-    struct YUNIT_CONCAT(EndSuite_, id)
-    {\
-        YUNIT_CONCAT(EndSuite_, id)()\
-        {\
-            yUnit::impl::in_suite = false;
-            std::cout << yUnit::impl::in_suite << std::endl;
-        }\
-    };\
-    YUNIT_CONCAT(EndSuite_, id) YUNIT_CONCAT(endSuite_, id);\
-}
-
-#define END_SUITE() _END_SUITE(__COUNTER__)
+#define SUITE(name) _SUITE(name, __COUNTER__)
 
 #endif

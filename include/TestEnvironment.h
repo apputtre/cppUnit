@@ -12,13 +12,8 @@
 class TestEnvironment
 {
 private:
-    std::vector<std::shared_ptr<TestSuiteReport>> suite_reports;
-    std::vector<std::unique_ptr<TestReport>> suiteless_tests;
-
-    std::unique_ptr<TestReport> curr_test_report;
-    std::shared_ptr<TestSuiteReport> curr_test_suite_report;
-
-    bool skip_tests = false;
+    std::vector<std::unique_ptr<TestReport>> reports;
+    std::unique_ptr<TestReport> curr_test_report = nullptr;
 
     struct Test
     {
@@ -28,144 +23,40 @@ private:
 
     std::vector<Test> tests;
 
-protected:
-    std::shared_ptr<TestSuiteReport> getLastSuiteReport()
+    void runTest(const Test& test)
     {
-        return suite_reports.back();
-    }
+        setUp();
 
-public:
-    TestEnvironment() {}
-
-    TestEnvironment(const TestEnvironment& other)
-    {
-        for (auto p : other.suite_reports)
-            this->suite_reports.push_back(std::make_shared<TestSuiteReport>(*p));
-
-        for (auto& p : other.suiteless_tests)
-            this->suiteless_tests.push_back(std::make_unique<TestReport>(*p));
-
-        if (other.curr_test_report)
-            this->curr_test_report = std::make_unique<TestReport>(*other.curr_test_report);
-        
-        if (other.curr_test_suite_report)
-            this->curr_test_suite_report = std::make_shared<TestSuiteReport>(*other.curr_test_suite_report);
-    }
-
-    virtual void setUp() {}
-
-    virtual void tearDown() {}
-
-    template<std::derived_from<TestEnvironment> TSubclass>
-    void addTest(const std::string& name, void(TSubclass::*test)())
-    {
-        tests.push_back(
-            Test {name, static_cast<void(TestEnvironment::*)()>(test)}
-        );
-    }
-
-    template<std::derived_from<TestEnvironment> TSubclass>
-    void addTest(void(TSubclass::*test)())
-    {
-        tests.push_back(
-            Test {"", static_cast<void(TestEnvironment::*)()>(test)}
-        );
-    }
-
-    void runTests()
-    {
-        for (auto test : tests)
-        {
-            setUp();
-
-            if (test.name != "")
-                beginTest(test.name);
-            else
-                beginTest();
-            (this->*test.func)();
-            endTest();
-
-            tearDown();
-        }
-    }
-
-    void beginSuite(const std::string& suite_name)
-    {
-        endSuite();
-        
-        suite_reports.emplace_back(std::make_shared<TestSuiteReport>(suite_name));
-        curr_test_suite_report = suite_reports.back();
-    }
-
-    void endSuite()
-    {
+        if (test.name != "")
+            beginTest(test.name);
+        else
+            beginTest();
+        (this->*test.func)();
         endTest();
 
-        curr_test_suite_report = nullptr;
-        skip_tests = false;
+        tearDown();
     }
 
     void beginTest(const std::string& test_name)
     {
         endTest();
-
         curr_test_report = std::make_unique<TestReport>(test_name);
-
-        if (skip_tests)
-            curr_test_report->skip();
     }
 
     void beginTest()
     {
-        if (curr_test_suite_report)
-            beginTest("Test " + std::to_string(curr_test_suite_report->numTests() + 1 + (curr_test_report ? 1 : 0)));
-        else
-            beginTest("Test " + std::to_string(suiteless_tests.size() + 1 + (curr_test_report ? 1 : 0)));
+        beginTest("Test " + std::to_string(reports.size() + 1 + (curr_test_report ? 1 : 0)));
     }
 
     void endTest()
     {
         if (curr_test_report)
-        {
-            if (curr_test_suite_report)
-                curr_test_suite_report->log(*curr_test_report);
-            else
-                suiteless_tests.emplace_back(curr_test_report.release());
-        }
+            reports.emplace_back(curr_test_report.release());
         
         curr_test_report = nullptr;
     }
 
-    void combineReports(const TestEnvironment& other)
-    {
-        TestEnvironment tenv(other);
-
-        tenv.endSuite();
-
-        for (auto& t : tenv.suiteless_tests)
-            suiteless_tests.push_back(std::make_unique<TestReport>(*t));
-
-        for (auto t : tenv.suite_reports)
-            suite_reports.push_back(std::make_shared<TestSuiteReport>(*t));
-    }
-
-    void clear()
-    {
-        suite_reports.clear();
-        suiteless_tests.clear();
-        curr_test_report.release();
-        curr_test_suite_report.reset();
-        skip_tests = false;
-    }
-
-    void skip()
-    {
-        if (curr_test_report)
-            curr_test_report->skip();
-        else 
-            skip_tests = true;
-    }
-
+protected:
     void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)
@@ -316,34 +207,81 @@ public:
         assertLtEq(x, y, "", location);
     }
 
+public:
+    TestEnvironment() {}
+
+    virtual void setUp() {}
+    virtual void tearDown() {}
+
+    template<std::derived_from<TestEnvironment> TSubclass>
+    void addTest(const std::string& name, void(TSubclass::*test)())
+    {
+        tests.push_back(
+            Test {name, static_cast<void(TestEnvironment::*)()>(test)}
+        );
+    }
+
+    template<std::derived_from<TestEnvironment> TSubclass>
+    void addTest(void(TSubclass::*test)())
+    {
+        tests.push_back(
+            Test {"", static_cast<void(TestEnvironment::*)()>(test)}
+        );
+    }
+
+    std::vector<TestReport> runTests()
+    {
+        reports.clear();
+
+        for (auto test : tests)
+            runTest(test);
+
+        std::vector<TestReport> ret;
+        for (auto& report : reports)
+            ret.emplace_back(*report);
+
+        return ret;
+    }
+
+    TestReport runTest(const std::string& name)
+    {
+        for (auto test : tests)
+        {
+            if (test.name == name)
+            {
+                reports.clear();
+                runTest(test);
+                return TestReport(*reports.begin()->get());
+            }
+        }
+
+        throw std::runtime_error(std::format("Attempted to run nonexistant test {}", name));
+    }
+
+    std::vector<std::string> getTests()
+    {
+        std::vector<std::string> ret;
+
+        for (auto test : tests)
+            ret.push_back(test.name);
+        
+        return ret;
+    }
+
     std::string getSummary()
     {
-        endTest();
+        runTests();
 
         std::stringstream summary;
 
-        for (auto it = suiteless_tests.begin(); it != suiteless_tests.end(); ++it)
+        for (auto& report : reports)
         {
-            if ((*it)->testPassed())
+            if (report->testPassed())
                 continue;
 
-            summary << (*it)->getSummary();
-
-            if (it == suiteless_tests.end() - 1 && suite_reports.size() > 0)
-                summary << std::endl;
+            summary << report->getSummary();
         }
 
-        for (auto it = suite_reports.begin(); it != suite_reports.end(); ++it)
-        {
-            if (!it->get()->allTestsPassed() || it->get()->numTestsSkipped() > 0)
-            {
-                summary << it->get()->getSummary();
-
-                if (it != suite_reports.end() - 1)
-                    summary << std::endl;
-            }
-        }
-        
         return summary.str();
     }
 };

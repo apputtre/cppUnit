@@ -1,9 +1,10 @@
-Test suite "First suite" (2/3 passing tests)
-    Test "2+2=5?" failed
-        Assertion failure (file include/TestSuites.h, line 21): "Two plus two does not equal five!"
+Test "Suiteless test" failed
+    Assertion failure (file include/TestSuites.h, line 39)
 
-Test suite "Third suite" (0/2 passing tests)
-    Test "Assertion without message" failed
-        Assertion failure (file include/TestSuites.h, line 34)
-    Test "War is peace?" failed
-        Assertion failure (file include/TestSuites.h, line 37): "War is not Peace!"
+Test suite "First suite" (1/2 passing tests)
+    Test "2+2=5?" failed
+        Assertion failure (file include/TestSuites.h, line 17): "Two plus two does not equal five!"
+
+Test suite "Third suite" (0/1 passing tests)
+    Test "War is Peace?" failed
+        Assertion failure (file include/TestSuites.h, line 33): "War is not Peace!"

@@ -20,7 +20,7 @@ namespace yUnit
         {
             auto it = std::find_if(testing_units.begin(), testing_units.end(), [file_name](TestingUnit& t)
             {
-                return (t.file_name == file_name);
+                return (t.getFileName() == file_name);
             });
 
             if (it != testing_units.end())
@@ -59,7 +59,7 @@ namespace yUnit
     {
         auto it = std::find_if(impl::testing_units.begin(), impl::testing_units.end(), [file_name](TestingUnit& tu)
         {
-            return (tu.file_name == file_name);
+            return (tu.getFileName() == file_name);
         });
 
         if (it == impl::testing_units.end())

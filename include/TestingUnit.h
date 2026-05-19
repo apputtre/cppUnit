@@ -106,6 +106,11 @@ public:
 
         return summary.str();
     }
+
+    std::string getFileName()
+    {
+        return file_name;
+    }
 };
 
 #endif

@@ -104,4 +104,15 @@ namespace YUNIT_CONCAT(suite_, id)
 
 #define SUITE(name) _SUITE(name, __COUNTER__)
 
+#define _FIXTURE(id)\
+namespace yUnit::impl\
+{\
+    class YUNIT_CONCAT(Fixture_, id) : public TestEnvironment\
+    {};\
+    ::yUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), std::make_shared<YUNIT_CONCAT(Fixture_, id)>(), yunit_suite_name);\
+}\
+void yUnit::impl::YUNIT_CONCAT(FIXTURE_, id)::test()
+
+#define FIXTURE() _FIXTURE(__COUNTER__)
+
 #endif

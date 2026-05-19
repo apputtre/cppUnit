@@ -105,14 +105,38 @@ namespace YUNIT_CONCAT(suite_, id)
 #define SUITE(name) _SUITE(name, __COUNTER__)
 
 #define _FIXTURE(id)\
-namespace yUnit::impl\
+namespace YUNIT_CONCAT(Fixture_, id)\
 {\
-    class YUNIT_CONCAT(Fixture_, id) : public TestEnvironment\
-    {};\
-    ::yUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), std::make_shared<YUNIT_CONCAT(Fixture_, id)>(), yunit_suite_name);\
+    namespace yUnit::impl\
+    {\
+        class YUNIT_CONCAT(Fixture_, id) : public TestEnvironment {};\
+    }\
+    std::shared_ptr<TestEnvironment> fixture = std::make_shared<yUnit::impl::YUNIT_CONCAT(Fixture_, id)>();\
+    ::yUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), fixture, yunit_suite_name);\
 }\
-void yUnit::impl::YUNIT_CONCAT(FIXTURE_, id)::test()
+namespace YUNIT_CONCAT(Fixture_, id)
 
 #define FIXTURE() _FIXTURE(__COUNTER__)
+
+#define SETUP()\
+void foo()
+
+#define TEARDOWN()\
+void bar()\
+
+#define _FTEST(name, id)\
+class YUNIT_CONCAT(FixtureTest_, id) : public std::remove_reference<decltype(*fixture)>::type\
+{\
+public:\
+    YUNIT_CONCAT(FixtureTest_, id)()\
+    {\
+        fixture->addTest(name, test);\
+    }\
+    void test();\
+};\
+YUNIT_CONCAT(FixtureTest_, id) YUNIT_CONCAT(fixtureTest_, id);\
+void YUNIT_CONCAT(FixtureTest_, id)::test()
+
+#define FTEST(name) _FTEST(name, __COUNTER__)
 
 #endif

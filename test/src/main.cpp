@@ -18,6 +18,7 @@
 #include "TestGtEqLtEq.h"
 #include "TestGtLt.h"
 #include "TestSuites.h"
+#include "TestFixtures.h"
 
 void runTest(const std::string& test_file, const std::string& expected_output_file);
 
@@ -29,6 +30,7 @@ int main()
     runTest("include/TestGtLt.h", "GtLt.txt");
     runTest("include/TestGtEqLtEq.h", "GtEqLtEq.txt");
     runTest("include/TestSuites.h", "Suites.txt");
+    runTest("include/TestFixtures.h", "Fixtures.txt");
 
     return 0;
 }

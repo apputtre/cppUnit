@@ -9,19 +9,19 @@ FIXTURE()
 
     SETUP()
     {
-        log += "setUp() "
+        log += "setUp() ";
     }
 
     TEARDOWN()
     {
-        log += "tearDown() "
+        log += "tearDown() ";
     }
 
     FTEST("First test")
     {
         assertEq(2+2, 5, "Two plus two does not equal five!");
 
-        log += "test_1 "
+        log += "test_1 ";
     }
 
     FTEST("Second test")

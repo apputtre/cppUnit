@@ -37,10 +37,9 @@ private:
 
     std::string file_name;
     Suite default_suite;
-
-public:
     std::vector<Suite> suites {};
 
+public:
     TestingUnit(const std::string& file_name = "")
         : default_suite {""}
     {

@@ -15,7 +15,6 @@ private:
     bool passed = true;
     std::vector<TestReport> reports;
     size_t num_failing_reports = 0;
-    size_t num_skipped_tests = 0;
 
 public:
     TestSuiteReport(const std::string& suite_name)
@@ -48,37 +47,12 @@ public:
     {
         std::stringstream summary;
 
-        if (numTestsSkipped() == numTests())
-        {
-            summary << std::format(
-                "Test suite \"{}\" was skipped ({} skipped tests)",
-                suite_name,
-                numTestsSkipped()
-            ) << std::endl;
-
-            summary.flush();
-
-            return summary.str();
-        }
-        else if (numTestsSkipped() > 0)
-        {
-            summary << std::format(
-                "Test suite \"{}\" ({}/{} passing tests, {} skipped)",
-                suite_name,
-                numTestsRan() - numFailingTests(),
-                numTestsRan(),
-                numTestsSkipped()
-            ) << std::endl;
-        }
-        else
-        {
-            summary << std::format(
-                "Test suite \"{}\" ({}/{} passing tests)",
-                suite_name,
-                numTestsRan() - numFailingTests(),
-                numTestsRan()
-            ) << std::endl;
-        }
+        summary << std::format(
+            "Test suite \"{}\" ({}/{} passing tests)",
+            suite_name,
+            numTests() - numFailingTests(),
+            numTests()
+        ) << std::endl;
 
         for (TestReport report : reports)
         {
@@ -109,24 +83,14 @@ public:
         return reports.size();
     }
 
-    size_t numTestsRan()
-    {
-        return numTests() - numTestsSkipped();
-    }
-
     size_t numFailingTests()
     {
         return num_failing_reports;
     }
 
-    size_t numTestsSkipped()
-    {
-        return num_skipped_tests;
-    }
-
     size_t numPassingTests()
     {
-        return numTests() - numFailingTests() - numTestsSkipped();
+        return numTests() - numFailingTests();
     }
 };
 

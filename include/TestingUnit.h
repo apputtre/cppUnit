@@ -10,8 +10,6 @@
 class TestingUnit
 {
 private:
-    std::string file_name;
-
     class Suite
     {
     private:
@@ -37,8 +35,10 @@ private:
         }
     };
 
-public:
+    std::string file_name;
     Suite default_suite;
+
+public:
     std::vector<Suite> suites {};
 
     TestingUnit(const std::string& file_name = "")
@@ -80,18 +80,12 @@ public:
     {
         std::stringstream summary;
 
-        for (auto it = default_suite.tests.begin(); it != default_suite.tests.end(); ++it)
-        {
-            TestEnvironment& tenv = **it;
+        TestSuiteReport default_suite_report = default_suite.getReport();
 
-            summary << tenv.getSummary();
+        summary << default_suite_report.getSummaryNoHeader();
 
-            if (it == default_suite.tests.end() - 1)
-            {
-                if (suites.size() > 0)
-                    summary << std::endl;
-            }
-        }
+        if (suites.size() > 0)
+            summary << std::endl;
 
         for (auto it = suites.begin(); it != suites.end(); ++it)
         {

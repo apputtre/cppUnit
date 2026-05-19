@@ -69,7 +69,24 @@ public:
         }
 
         summary.flush();
+        return summary.str();
+    }
 
+    std::string getSummaryNoHeader()
+    {
+        std::stringstream summary;
+
+        for (auto it = reports.begin(); it != reports.end(); ++it)
+        {
+            TestReport& report = *it;
+
+            if (report.testPassed())
+                continue;
+
+            summary << report.getSummary();
+        }
+
+        summary.flush();
         return summary.str();
     }
 

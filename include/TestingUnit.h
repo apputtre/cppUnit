@@ -70,10 +70,19 @@ public:
         suites.back().tests.emplace_back(p_tenv);
     }
 
-    void addSuite(Suite& suite)
+    void addSuite(const Suite& suite)
     {
         for (auto& test : suite.tests)
             addTestEnvironment(test, suite.name);
+    }
+
+    void combineReports(const TestingUnit& other)
+    {
+        for (auto test : other.default_suite.tests)
+            default_suite.tests.push_back(test);
+
+        for (auto& suite : other.suites)
+            addSuite(suite);
     }
 
     std::string getSummary()

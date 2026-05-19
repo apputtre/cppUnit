@@ -49,8 +49,7 @@ namespace yUnit
         TestingUnit global_tu;
 
         for (auto& tu : impl::testing_units)
-            for (auto& suite : tu.suites)
-                global_tu.addSuite(suite);
+            global_tu.combineReports(tu);
 
         return global_tu.getSummary();
     }

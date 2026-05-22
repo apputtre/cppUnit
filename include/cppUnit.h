@@ -1,5 +1,5 @@
-#ifndef YUNIT_H
-#define YUNIT_H
+#ifndef CPPUNIT_H
+#define CPPUNIT_H
 
 #include <vector>
 #include <sstream>
@@ -10,7 +10,7 @@
 #include "TestEnvironment.h"
 #include "TestingUnit.h"
 
-namespace yUnit
+namespace cppUnit
 {
     namespace impl
     {
@@ -78,7 +78,7 @@ const std::string yunit_suite_name = "";
 #define YUNIT_CONCAT(prefix, postfix) prefix##postfix
 
 #define _TEST(name, id)\
-namespace yUnit::impl\
+namespace cppUnit::impl\
 {\
     class YUNIT_CONCAT(Test_, id) : public TestEnvironment\
     {\
@@ -89,9 +89,9 @@ namespace yUnit::impl\
         }\
         void test();\
     };\
-    ::yUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), std::make_shared<YUNIT_CONCAT(Test_, id)>(), yunit_suite_name);\
+    ::cppUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), std::make_shared<YUNIT_CONCAT(Test_, id)>(), yunit_suite_name);\
 }\
-void yUnit::impl::YUNIT_CONCAT(Test_, id)::test()
+void cppUnit::impl::YUNIT_CONCAT(Test_, id)::test()
 
 #define TEST(name) _TEST(name, __COUNTER__)
 
@@ -107,12 +107,12 @@ namespace YUNIT_CONCAT(suite_, id)
 #define _FIXTURE(id)\
 namespace YUNIT_CONCAT(Fixture_, id)\
 {\
-    namespace yUnit::impl\
+    namespace cppUnit::impl\
     {\
         class YUNIT_CONCAT(Fixture_, id) : public TestEnvironment {};\
     }\
-    std::shared_ptr<TestEnvironment> fixture = std::make_shared<yUnit::impl::YUNIT_CONCAT(Fixture_, id)>();\
-    ::yUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), fixture, yunit_suite_name);\
+    std::shared_ptr<TestEnvironment> fixture = std::make_shared<cppUnit::impl::YUNIT_CONCAT(Fixture_, id)>();\
+    ::cppUnit::impl::TestEnvironmentRegistrar YUNIT_CONCAT(testRegistrar_, id)(std::source_location::current().file_name(), fixture, yunit_suite_name);\
 }\
 namespace YUNIT_CONCAT(Fixture_, id)
 

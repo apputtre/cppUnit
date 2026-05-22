@@ -1,7 +1,7 @@
 #ifndef TESTBASICASSERTIONS_H
 #define TESTBASICASSERTIONS_H
 
-#include "yUnit.h"
+#include "cppUnit.h"
 
 TEST("Basic assertions")
 {

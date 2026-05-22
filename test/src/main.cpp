@@ -10,7 +10,7 @@
 #include <ostream>
 
 #include "testutils.h"
-#include "yUnit.h"
+#include "cppUnit.h"
 
 #include "TestBasicAssertions.h"
 #include "TestSuites.h"
@@ -44,7 +44,7 @@ int main()
 
 void runTest(const std::string& test_file, const std::string& expected_output_file)
 {
-    std::string summary = yUnit::getSummary(test_file);
+    std::string summary = cppUnit::getSummary(test_file);
 
     std::string report = testutils::checkOutput(summary, expected_output_file);
 

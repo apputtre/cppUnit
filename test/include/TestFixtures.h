@@ -1,7 +1,7 @@
 #ifndef TESTFIXTURES_H
 #define TESTFIXTURES_H
 
-#include "yUnit.h"
+#include "cppUnit.h"
 
 FIXTURE()
 {

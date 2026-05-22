@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#include "yUnit.h"
+#include "cppUnit.h"
 
 SUITE("First suite")
 {

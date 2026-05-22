@@ -1,7 +1,7 @@
 #ifndef TESTEQNEQ_H
 #define TESTEQNEQ_H
 
-#include "yUnit.h"
+#include "cppUnit.h"
 #include "ComparableButNotPrintable.h"
 #include "ComparableAndPrintable.h"
 

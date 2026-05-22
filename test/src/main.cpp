@@ -20,10 +20,14 @@
 #include "TestSuites.h"
 #include "TestFixtures.h"
 
+bool all_tests_passed = true;
+
 void runTest(const std::string& test_file, const std::string& expected_output_file);
 
 int main()
 {
+    std::cout << "Running tests...\n";
+
     runTest("include/TestBasicAssertions.h", "BasicAssertions.txt");
     runTest("include/TestSuites.h", "Suites.txt");
     runTest("include/TestEqNeq.h", "EqNeq.txt");
@@ -31,6 +35,9 @@ int main()
     runTest("include/TestGtEqLtEq.h", "GtEqLtEq.txt");
     runTest("include/TestSuites.h", "Suites.txt");
     runTest("include/TestFixtures.h", "Fixtures.txt");
+
+    if (all_tests_passed)
+        std::cout << "All tests passed.\n";
 
     return 0;
 }
@@ -45,5 +52,7 @@ void runTest(const std::string& test_file, const std::string& expected_output_fi
     {
         std::cout << "Test " << test_file << " failed" << std::endl;;
         std::cout << report << std::endl;
+
+        all_tests_passed = false;
     }
 }

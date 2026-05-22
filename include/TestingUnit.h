@@ -40,7 +40,7 @@ private:
 
 public:
     TestingUnit(const std::string& file_name = "")
-        : default_suite {""}
+        : default_suite {file_name}
     {}
 
     void addTestEnvironment(std::shared_ptr<TestEnvironment> p_tenv, const std::string& suite_name)

@@ -1,19 +1,27 @@
-INCLUDE_DIRS=../include include
-BIN_PATH=bin
-SRC_PATH=src test
-OBJ_PATH=obj
+MAIN_TARGET_NAME = run_tests.exe
+SRC_DIRS = src
+INC_DIRS = include ../include
+CXXFLAGS = -Wno-unused-variable -Wno-unused-parameter -Wall -Wextra -Werror -g -std=c++20
 
-OBJ_FILES=main.o
+BIN_DIR = bin
+OBJ_DIR = obj
+SRC_FILES := $(shell find $(SRC_DIRS) -name "*.cpp")
+OBJ_FILES := $(patsubst $(SRC_DIRS)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
+DEPS := $(OBJ_FILES:.o=.d)
 
-VPATH = $(BIN_PATH) $(OBJ_PATH) $(SRC_PATH) $(INCLUDE_DIRS)
+CPPFLAGS := $(addprefix -I,$(INC_DIRS)) -MMD -MP
+LDFLAGS :=
 
-CXXFLAGS = -Wall -Wextra -Werror -g -std=c++20 $(foreach dir,$(INCLUDE_DIRS),$(patsubst %,-I%,$(dir)))
-CFLAGS = -g $(foreach dir,$(INCLUDE_DIRS),$(patsubst %,-I%,$(dir)))
+$(BIN_DIR)/$(MAIN_TARGET_NAME): $(OBJ_FILES)
+	mkdir -p $(BIN_DIR)
+	$(CXX) $^ -o $@ $(LDFLAGS)
 
-main.exe: main.cpp ../include/* test_outputs/* include/*
-	mkdir -p $(BIN_PATH)
-	$(CXX) $(CXXFLAGS) src/main.cpp -o $(BIN_PATH)/main.exe $(LDFLAGS)
+$(OBJ_DIR)/%.o: $(SRC_DIRS)/%.cpp
+	mkdir -p $(OBJ_DIR)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
-	rm -f $(BIN_PATH)/*
+	rm -f $(OBJ_DIR)/* $(BIN_DIR)/*
+
+-include $(DEPS)

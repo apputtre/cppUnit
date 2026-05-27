@@ -83,15 +83,9 @@ public:
 
     std::string getSummary()
     {
-        std::stringstream summary;
+        std::string default_suite_summary = default_suite.getReport().getSummaryNoHeader();
 
-        TestSuiteReport default_suite_report = default_suite.getReport();
-
-        summary << default_suite_report.getSummaryNoHeader();
-
-        if (suites.size() > 0)
-            summary << std::endl;
-
+        std::stringstream main_summary;
         for (auto it = suites.begin(); it != suites.end(); ++it)
         {
             Suite& suite = *it;
@@ -99,13 +93,24 @@ public:
             if (suite.getReport().allTestsPassed())
                 continue;
 
-            summary << suite.getReport().getSummary();
+            main_summary << suite.getReport().getSummary();
 
             if (it != suites.end() - 1)
-                summary << std::endl;
+                main_summary << std::endl;
         }
+        main_summary.flush();
 
-        return summary.str();
+        std::stringstream full_summary;
+
+        full_summary << default_suite_summary;
+
+        if (main_summary.str() != "")
+            full_summary << std::endl;
+        
+        full_summary << main_summary.str();
+        full_summary.flush();
+
+        return full_summary.str();
     }
 };
 

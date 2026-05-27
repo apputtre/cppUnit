@@ -19,6 +19,7 @@
 #include "TestGtLt.h"
 #include "TestSuites.h"
 #include "TestFixtures.h"
+#include "TestEmptySummary.h"
 
 bool all_tests_passed = true;
 
@@ -35,6 +36,7 @@ int main()
     runTest("include/TestGtEqLtEq.h", "GtEqLtEq.txt");
     runTest("include/TestSuites.h", "Suites.txt");
     runTest("include/TestFixtures.h", "Fixtures.txt");
+    runTest("include/TestEmptySummary.h", "EmptySummary.txt");
 
     if (all_tests_passed)
         std::cout << "All tests passed.\n";

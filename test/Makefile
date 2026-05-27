@@ -13,6 +13,7 @@ CPPFLAGS := $(addprefix -I,$(INC_DIRS)) -MMD -MP
 LDFLAGS :=
 
 $(BIN_DIR)/$(MAIN_TARGET_NAME): $(OBJ_FILES)
+	$(INC_FILES)
 	mkdir -p $(BIN_DIR)
 	$(CXX) $^ -o $@ $(LDFLAGS)
 

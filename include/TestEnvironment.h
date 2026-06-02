@@ -69,6 +69,16 @@ protected:
         (this->*tearDownFuncPtr)();
     }
 
+public:
+    TestEnvironment()
+    {
+        setSetUp(setUp);
+        setTearDown(tearDown);
+    }
+
+    virtual void setUp() {}
+    virtual void tearDown() {}
+
     void assert(bool statement, const std::string& msg, const std::source_location location = std::source_location::current())
     {
         if (!curr_test_report)
@@ -219,15 +229,6 @@ protected:
         assertLtEq(x, y, "", location);
     }
 
-public:
-    TestEnvironment()
-    {
-        setSetUp(setUp);
-        setTearDown(tearDown);
-    }
-
-    virtual void setUp() {}
-    virtual void tearDown() {}
 
     template<std::derived_from<TestEnvironment> TSubclass>
     void setSetUp(void(TSubclass::*setUp)())

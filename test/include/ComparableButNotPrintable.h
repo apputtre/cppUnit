@@ -36,6 +36,8 @@ struct ComparableButNotPrintable
     {
         return x <= other.x;
     }
+
+    static_assert(std::totally_ordered<ComparableButNotPrintable>);
 };
 
 #endif
